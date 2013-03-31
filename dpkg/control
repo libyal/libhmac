@@ -1,0 +1,29 @@
+Source: libhmac
+Section: unknown
+Priority: extra
+Maintainer: Joachim Metz <joachim.metz@gmail.com>
+Build-Depends: debhelper (>= 7), autotools-dev
+Standards-Version: 3.8.3
+Homepage: https://code.google.com/p/libhmac/
+
+Package: libhmac
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Library to support various Hash-based Message Authentication Codes (HMAC)
+ libhmac is a library to support various Hash-based Message Authentication Codes (HMAC).
+
+Package: libhmac-dev
+Section: libdevel
+Architecture: any
+Depends: libhmac (= ${Source-Version})
+Description: Header files and libraries for developing applications for libhmac
+ Header files and libraries for developing applications for libhmac.
+
+Package: libhmac-tools
+Section: utils
+Architecture: any
+Depends: libhmac (= ${Source-Version}), ${shlibs:Depends}
+Description: Several tools for calculating Hash-based Message Authentication Codes (HMAC)
+ Several tools for calculating Hash-based Message Authentication Codes (HMAC).
+

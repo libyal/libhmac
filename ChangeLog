@@ -1,0 +1,98 @@
+TODO
+* print number of bytes processed
+
+* just read input if size is 0 ?
+
+* hmac support
+  - use functions to determine block size
+  - add tests
+* detect wincrypt, allow to compile without it
+* update manuals
+* add msvscpp files
+* add codegear files
+* configure add libuna detection
+
+Spec file:
+* add tools
+* add support for libhmac_spec_requires_libuna
+* add support for openssl
+
+PC file:
+* add support for openssl
+
+20130331
+* 2013 update
+* updated dependencies
+* changes for project move
+
+20121217
+* updated dependencies
+
+20120824
+* tools fix for cygwin compilation
+* added initial version of msvscpp files
+* worked on adding control over process buffer size
+* using libcfile to determine the file size
+  - check if this works on windows devices
+* fixes for MinGW build
+* email update
+
+20120807
+* updated dependencies
+
+20120630
+* updated dependencies
+
+20120509
+* updated dependencies
+
+20120102
+* 2012 update
+
+20111231
+* updated libcstring, libuna
+
+20111224
+* updated libcstring, libsystem, libuna
+
+20111113
+* code clean up
+* updated libcstring, libsystem
+
+20111031
+* updated libcstring, libsystem, libuna
+
+20111030
+* updated configure.ac and m4 files
+* updated common, libsystem, libuna
+* worked on manuals
+* worked on HMAC support
+
+20111008
+* updated README files
+
+20111007
+* updated configure.ac and m4 files
+
+20110830
+* updated configure, libuna
+
+20110820
+* code clean up
+
+20110806
+* fix for openssl/sha.h include in sha1 and sha256
+* fix for SHA_CTX in sha1
+
+20110801
+* bug fix in MD5 transform clean up
+* updated configure
+
+20110724
+* worked on SHA-1 support
+* worked on test programs
+* bug fix for test scenarios
+
+20110723
+* Initial version based on earlier work
+

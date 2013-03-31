@@ -1,0 +1,63 @@
+Name: libhmac
+Version: @VERSION@
+Release: 1
+Summary: Library to support various Hash-based Message Authentication Codes (HMAC)
+Group: System Environment/Libraries
+License: LGPL
+Source: %{name}-%{version}.tar.gz
+URL: https://code.google.com/p/libhmac/
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+@libhmac_spec_requires@ @ax_libcerror_spec_requires@ @ax_libcstring_spec_requires@
+@libhmac_spec_build_requires@ @ax_libcerror_spec_build_requires@ @ax_libcstring_spec_build_requires@
+
+%description
+libhmac is a library to support various Hash-based Message Authentication Codes (HMAC)
+
+%package devel
+Summary: Header files and libraries for developing applications for libhmac
+Group: Development/Libraries
+Requires: libhmac = %{version}-%{release}
+
+%description devel
+Header files and libraries for developing applications for libhmac.
+
+%prep
+%setup -q
+
+%build
+%configure --prefix=/usr --libdir=%{_libdir} --mandir=%{_mandir}
+make %{?_smp_mflags}
+
+%install
+rm -rf ${RPM_BUILD_ROOT}
+make DESTDIR=${RPM_BUILD_ROOT} install
+
+%clean
+rm -rf ${RPM_BUILD_ROOT}
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
+%files
+%defattr(644,root,root,755)
+%doc AUTHORS COPYING NEWS README
+%attr(755,root,root) %{_libdir}/*.so.*
+
+%files devel
+%defattr(644,root,root,755)
+%doc AUTHORS COPYING NEWS README README.macosx ChangeLog
+%{_libdir}/*.a
+%{_libdir}/*.la
+%{_libdir}/*.so
+%{_libdir}/pkgconfig/libhmac.pc
+%{_includedir}/*
+%{_mandir}/man3/*
+
+### Exclude expirimental files ###
+%exclude %{_bindir}/hmacsum
+
+%changelog
+* @SPEC_DATE@ Joachim Metz <joachim.metz@gmail.com> @VERSION@-1
+- Auto-generated
+

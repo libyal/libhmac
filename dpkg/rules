@@ -1,0 +1,76 @@
+#!/usr/bin/make -f
+# debian/rules that uses debhelper >= 7.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+
+%:
+	dh  $@
+
+install_libhmac:
+	# Set up libhmac package directories and files
+	mkdir -p debian/libhmac/usr/lib
+	install -p -m755 debian/tmp/usr/lib/lib*.so.*.*.* debian/libhmac/usr/lib
+
+install_libhmac_dev:
+	# Set up libhmac-dev package directories and files
+	mkdir -p debian/libhmac-dev/usr/include
+	mkdir -p debian/libhmac-dev/usr/include/libhmac
+	mkdir -p debian/libhmac-dev/usr/lib
+	mkdir -p debian/libhmac-dev/usr/lib/pkgconfig
+	mkdir -p debian/libhmac-dev/usr/share/man/man3
+	install -p -m755 debian/tmp/usr/include/*.h debian/libhmac-dev/usr/include
+	install -p -m755 debian/tmp/usr/include/libhmac/*.h debian/libhmac-dev/usr/include/libhmac
+	install -p -m755 debian/tmp/usr/lib/*.la debian/libhmac-dev/usr/lib
+	install -p -m755 debian/tmp/usr/lib/lib*.a debian/libhmac-dev/usr/lib
+	install -p -m755 debian/tmp/usr/lib/lib*.so debian/libhmac-dev/usr/lib
+	install -p -m755 debian/tmp/usr/lib/pkgconfig/* debian/libhmac-dev/usr/lib/pkgconfig
+	install -p -m755 debian/tmp/usr/share/man/man3/* debian/libhmac-dev/usr/share/man/man3
+
+install_libhmac_tools:
+	# Set up libhmac-tools package directories and files
+	mkdir -p debian/libhmac-tools/usr/bin
+	mkdir -p debian/libhmac-tools/usr/share/man/man1
+	install -p -m755 debian/tmp/usr/bin/* debian/libhmac-tools/usr/bin
+	install -p -m755 debian/tmp/usr/share/man/man1/* debian/libhmac-tools/usr/share/man/man1
+
+override_dh_auto_test:
+
+override_dh_installinit: install_libhmac install_libhmac_dev install_libhmac_tools
+
+override_dh_installmenu:
+
+override_dh_installmime:
+
+override_dh_installmodules:
+
+override_dh_installlogcheck:
+
+override_dh_installlogrotate:
+
+override_dh_installpam:
+
+override_dh_installppp:
+
+override_dh_installudev:
+
+override_dh_installwm:
+
+override_dh_installxfonts:
+
+override_dh_gconf:
+
+override_dh_icons:
+
+override_dh_perl:
+
+override_dh_shlibdeps:
+	dh_shlibdeps -Llibhmac -l${PWD}/debian/tmp/usr/lib
+
+override_dh_makeshlibs:
+	dh_makeshlibs -Xlibhmac-dev
+
