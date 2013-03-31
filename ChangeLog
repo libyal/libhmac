@@ -1,5 +1,7 @@
 TODO
-* print number of bytes processed
+* hmacsum
+  - print number of bytes processed
+  - add man page (update spec file)
 
 * just read input if size is 0 ?
 
@@ -8,12 +10,9 @@ TODO
   - add tests
 * detect wincrypt, allow to compile without it
 * update manuals
-* add msvscpp files
-* add codegear files
 * configure add libuna detection
 
 Spec file:
-* add tools
 * add support for libhmac_spec_requires_libuna
 * add support for openssl
 
@@ -24,6 +23,7 @@ PC file:
 * 2013 update
 * updated dependencies
 * changes for project move
+* updated spec file
 
 20121217
 * updated dependencies

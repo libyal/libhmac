@@ -7,6 +7,7 @@ AM_CPPFLAGS = \
 lib_LTLIBRARIES = libhmac.la
 
 libhmac_la_SOURCES = \
+	libhmac.c \
 	libhmac_byte_stream.h \
 	libhmac_definitions.h \
 	libhmac_extern.h \
@@ -16,7 +17,8 @@ libhmac_la_SOURCES = \
 	libhmac_sha1.c libhmac_sha1.h \
 	libhmac_sha256.c libhmac_sha256.h \
 	libhmac_support.c libhmac_support.h \
-	libhmac_types.h
+	libhmac_types.h \
+	libhmac_unused.h
 
 libhmac_la_LIBADD = \
 	@LIBCSTRING_LIBADD@ \

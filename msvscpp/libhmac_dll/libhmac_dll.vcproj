@@ -170,6 +170,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\libhmac\libhmac.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\libhmac\libhmac_error.c"
 				>
 			</File>
@@ -233,6 +237,10 @@
 			</File>
 			<File
 				RelativePath="..\..\libhmac\libhmac_types.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libhmac\libhmac_unused.h"
 				>
 			</File>
 		</Filter>

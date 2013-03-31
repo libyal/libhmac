@@ -21,6 +21,15 @@ Requires: libhmac = %{version}-%{release}
 %description devel
 Header files and libraries for developing applications for libhmac.
 
+%package tools
+Summary: Several tools for accessing optical disc table of contents (TOC) files
+Group: Applications/System
+Requires: libhmac = %{version}-%{release} @ax_libcsystem_spec_requires@
+@libhmac_spec_tools_build_requires@ @ax_libcsystem_spec_build_requires@
+
+%description tools
+Several tools for calculating Hash-based Message Authentication Codes (HMAC)
+
 %prep
 %setup -q
 
@@ -54,8 +63,11 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_includedir}/*
 %{_mandir}/man3/*
 
-### Exclude expirimental files ###
-%exclude %{_bindir}/hmacsum
+%files tools
+%defattr(644,root,root,755)
+%doc AUTHORS COPYING NEWS README
+%attr(755,root,root) %{_bindir}/hmacsum
+#%{_mandir}/man1/*
 
 %changelog
 * @SPEC_DATE@ Joachim Metz <joachim.metz@gmail.com> @VERSION@-1
