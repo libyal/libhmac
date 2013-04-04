@@ -1,3 +1,7 @@
+dnl Functions for libhmac
+dnl
+dnl Version: 20120509
+
 dnl Function to detect if libhmac dependencies are available
 AC_DEFUN([AX_LIBHMAC_CHECK_LOCAL],
  [ac_cv_libhmac_md5=no

@@ -419,8 +419,8 @@ on_error:
 
 #endif /* !defined( LIBHMAC_HAVE_MD5_SUPPORT ) */
 
-/* Initializes the MD5 context
- * The context must point to a NULL pointer to be allocated
+/* Creates a MD5 context
+ * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
 int libhmac_md5_initialize(
@@ -607,7 +607,7 @@ on_error:
 	return( -1 );
 }
 
-/* Free the MD5 context and its values
+/* Frees a MD5 context
  * Returns 1 if successful or -1 on error
  */
 int libhmac_md5_free(

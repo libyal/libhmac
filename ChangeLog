@@ -19,6 +19,11 @@ Spec file:
 PC file:
 * add support for openssl
 
+20130404
+* textual changes
+* updated dependencies
+* added libhmac_unused.h
+
 20130331
 * 2013 update
 * updated dependencies

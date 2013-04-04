@@ -493,8 +493,8 @@ on_error:
 
 #endif /* !defined( LIBHMAC_HAVE_SHA1_SUPPORT ) */
 
-/* Initializes the SHA1 context
- * The context must point to a NULL pointer to be allocated
+/* Creates a SHA1 context
+ * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
 int libhmac_sha1_initialize(
@@ -681,7 +681,7 @@ on_error:
 	return( -1 );
 }
 
-/* Free the SHA1 context and its values
+/* Frees a SHA1 context
  * Returns 1 if successful or -1 on error
  */
 int libhmac_sha1_free(

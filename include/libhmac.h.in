@@ -48,7 +48,7 @@ const char *libhmac_get_version(
  * Error functions
  * ------------------------------------------------------------------------- */
 
-/* Frees the error including elements
+/* Frees an error
  */
 LIBHMAC_EXTERN \
 void libhmac_error_free(
@@ -94,8 +94,8 @@ int libhmac_error_backtrace_sprint(
  * MD5 functions
  * ------------------------------------------------------------------------- */
 
-/* Initializes the MD5 context
- * The context must point to a NULL pointer to be allocated
+/* Creates a MD5 context
+ * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -103,7 +103,7 @@ int libhmac_md5_initialize(
      libhmac_md5_context_t **context,
      libhmac_error_t **error );
 
-/* Free the MD5 context and its values
+/* Frees a MD5 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -159,8 +159,8 @@ int libhmac_md5_calculate_hmac(
  * SHA1 functions
  * ------------------------------------------------------------------------- */
 
-/* Initializes the SHA1 context
- * The context must point to a NULL pointer to be allocated
+/* Creates a SHA1 context
+ * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -168,7 +168,7 @@ int libhmac_sha1_initialize(
      libhmac_sha1_context_t **context,
      libhmac_error_t **error );
 
-/* Free the SHA1 context and its values
+/* Frees a SHA1 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -224,8 +224,8 @@ int libhmac_sha1_calculate_hmac(
  * SHA-256 functions
  * ------------------------------------------------------------------------- */
 
-/* Initializes the SHA256 context
- * The context must point to a NULL pointer to be allocated
+/* Creates a SHA256 context
+ * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -233,7 +233,7 @@ int libhmac_sha256_initialize(
      libhmac_sha256_context_t **context,
      libhmac_error_t **error );
 
-/* Free the SHA256 context and its values
+/* Frees a SHA256 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \

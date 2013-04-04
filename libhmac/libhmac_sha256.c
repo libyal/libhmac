@@ -452,8 +452,8 @@ on_error:
 
 #endif /* !defined( LIBHMAC_HAVE_SHA256_SUPPORT ) */
 
-/* Initializes the SHA256 context
- * The context must point to a NULL pointer to be allocated
+/* Creates a SHA256 context
+ * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
 int libhmac_sha256_initialize(
@@ -640,7 +640,7 @@ on_error:
 	return( -1 );
 }
 
-/* Free the SHA256 context and its values
+/* Frees a SHA256 context
  * Returns 1 if successful or -1 on error
  */
 int libhmac_sha256_free(

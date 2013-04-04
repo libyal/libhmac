@@ -33,7 +33,8 @@
 #include "hmactools_libcstring.h"
 #include "sum_handle.h"
 
-/* Initializes the sum handle
+/* Creates a sum handle
+ * Make sure the value sum_handle is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
 int sum_handle_initialize(
@@ -120,7 +121,7 @@ on_error:
 	return( -1 );
 }
 
-/* Frees the sum handle and its elements
+/* Frees a sum handle
  * Returns 1 if successful or -1 on error
  */
 int sum_handle_free(
