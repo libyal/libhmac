@@ -78,7 +78,8 @@
 
 #if !defined( LIBCSYSTEM_HAVE_GLOB )
 
-/* Initializes a new glob
+/* Creates a glob
+ * Make sure the value glob is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
 int libcsystem_glob_initialize(
@@ -150,7 +151,7 @@ on_error:
 	return( -1 );
 }
 
-/* Frees memory of a glob
+/* Frees a glob
  * Returns 1 if successful or -1 on error
  */
 int libcsystem_glob_free(
