@@ -19,6 +19,9 @@ Spec file:
 PC file:
 * add support for openssl
 
+20130704
+* textual changes
+
 20130404
 * textual changes
 * updated dependencies

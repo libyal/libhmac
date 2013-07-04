@@ -1331,7 +1331,7 @@ int libhmac_sha1_calculate(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable initialize context.",
+		 "%s: unable to initialize context.",
 		 function );
 
 		goto on_error;
@@ -1346,7 +1346,7 @@ int libhmac_sha1_calculate(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable update context.",
+		 "%s: unable to update context.",
 		 function );
 
 		goto on_error;
@@ -1361,7 +1361,7 @@ int libhmac_sha1_calculate(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable finalize context.",
+		 "%s: unable to finalize context.",
 		 function );
 
 		goto on_error;
@@ -1374,7 +1374,7 @@ int libhmac_sha1_calculate(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable finalize context.",
+		 "%s: unable to free context.",
 		 function );
 
 		goto on_error;
@@ -1502,7 +1502,7 @@ int libhmac_sha1_calculate_hmac(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-			 "%s: unable initialize context.",
+			 "%s: unable to initialize context.",
 			 function );
 
 			goto on_error;
@@ -1517,7 +1517,7 @@ int libhmac_sha1_calculate_hmac(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-			 "%s: unable update context.",
+			 "%s: unable to update context.",
 			 function );
 
 			goto on_error;
@@ -1532,7 +1532,7 @@ int libhmac_sha1_calculate_hmac(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable finalize context.",
+			 "%s: unable to finalize context.",
 			 function );
 
 			goto on_error;
@@ -1545,7 +1545,7 @@ int libhmac_sha1_calculate_hmac(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable finalize context.",
+			 "%s: unable to free context.",
 			 function );
 
 			goto on_error;
@@ -1670,7 +1670,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable initialize context.",
+		 "%s: unable to initialize context.",
 		 function );
 
 		goto on_error;
@@ -1685,7 +1685,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable update context.",
+		 "%s: unable to update context.",
 		 function );
 
 		goto on_error;
@@ -1700,7 +1700,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable update context.",
+		 "%s: unable to update context.",
 		 function );
 
 		goto on_error;
@@ -1715,7 +1715,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable finalize context.",
+		 "%s: unable to finalize context.",
 		 function );
 
 		goto on_error;
@@ -1728,7 +1728,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable finalize context.",
+		 "%s: unable to free context.",
 		 function );
 
 		goto on_error;
@@ -1741,7 +1741,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable initialize context.",
+		 "%s: unable to initialize context.",
 		 function );
 
 		goto on_error;
@@ -1756,7 +1756,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable update context.",
+		 "%s: unable to update context.",
 		 function );
 
 		goto on_error;
@@ -1771,7 +1771,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable update context.",
+		 "%s: unable to update context.",
 		 function );
 
 		goto on_error;
@@ -1786,7 +1786,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable finalize context.",
+		 "%s: unable to finalize context.",
 		 function );
 
 		goto on_error;
@@ -1799,7 +1799,7 @@ int libhmac_sha1_calculate_hmac(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable finalize context.",
+		 "%s: unable to free context.",
 		 function );
 
 		goto on_error;
