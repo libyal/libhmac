@@ -58,7 +58,7 @@ void usage_fprint(
 	fprintf( stream, "\tsource: the source file\n\n" );
 
 	fprintf( stream, "\t-d:     calculate digest (hash) types option: md5 (default), sha1,\n"
-	                 "\t        sha256 (multiple types can be combined with a ,)\n" );
+	                 "\t        sha256, sha512 (multiple types can be combined with a ,)\n" );
 	fprintf( stream, "\t-p:     specify the process buffer size (default is 32768 bytes)\n" );
 	fprintf( stream, "\t-h:     shows this help\n" );
 	fprintf( stream, "\t-v:     verbose output to stderr\n" );
@@ -71,7 +71,7 @@ void hmacsum_signal_handler(
       libcsystem_signal_t signal LIBCSYSTEM_ATTRIBUTE_UNUSED )
 {
 	libcerror_error_t *error = NULL;
-	static char *function   = "hmacsum_signal_handler";
+	static char *function    = "hmacsum_signal_handler";
 
 	LIBCSYSTEM_UNREFERENCED_PARAMETER( signal )
 

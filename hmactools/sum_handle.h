@@ -90,6 +90,22 @@ struct sum_handle
 	 */
 	libcstring_system_character_t *calculated_sha256_hash_string;
 
+	/* Value to indicate if the SHA512 digest hash should be calculated
+	 */
+	uint8_t calculate_sha512;
+
+	/* The SHA512 digest context
+	 */
+	libhmac_sha512_context_t *sha512_context;
+
+	/* Value to indicate the SHA512 digest context was initialized
+	 */
+	uint8_t sha512_context_initialized;
+
+	/* The calculated SHA512 digest hash string
+	 */
+	libcstring_system_character_t *calculated_sha512_hash_string;
+
 	/* The process buffer size
 	 */
 	size_t process_buffer_size;

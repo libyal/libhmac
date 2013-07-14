@@ -1,7 +1,8 @@
 TESTS = \
 	test_md5sum.sh \
 	test_sha1sum.sh \
-	test_sha256sum.sh
+	test_sha256sum.sh \
+	test_sha512sum.sh
 
 TESTS_INPUT = \
 	input/empty \
@@ -17,7 +18,8 @@ TESTS_INPUT = \
 check_SCRIPTS = \
 	test_md5sum.sh \
 	test_sha1sum.sh \
-	test_sha256sum.sh
+	test_sha256sum.sh \
+	test_sha512sum.sh
 
 EXTRA_DIST = \
 	$(check_SCRIPTS) \

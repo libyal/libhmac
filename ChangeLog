@@ -1,4 +1,7 @@
 TODO
+* SHA512
+  - local version
+  - wincrypt version
 * hmacsum
   - print number of bytes processed
   - add man page (update spec file)
@@ -18,6 +21,9 @@ Spec file:
 
 PC file:
 * add support for openssl
+
+20130714
+* worked on SHA512 support
 
 20130704
 * textual changes

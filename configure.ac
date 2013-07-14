@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libhmac],
- [20130704],
+ [20130714],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -181,6 +181,7 @@ Building:
    MD5 support:                               $ac_cv_libhmac_md5
    SHA1 support:                              $ac_cv_libhmac_sha1
    SHA256 support:                            $ac_cv_libhmac_sha256
+   SHA512 support:                            $ac_cv_libhmac_sha512
    libclocale support:                        $ac_cv_libclocale
    libcnotify support:                        $ac_cv_libcnotify
    libcsplit support:                         $ac_cv_libcsplit

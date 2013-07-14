@@ -33,6 +33,11 @@
 #include "hmactools_libcstring.h"
 #include "sum_handle.h"
 
+#define MD5_STRING_SIZE		33
+#define SHA1_STRING_SIZE	41
+#define SHA256_STRING_SIZE	65
+#define SHA512_STRING_SIZE	129
+
 /* Creates a sum handle
  * Make sure the value sum_handle is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
@@ -206,6 +211,27 @@ int sum_handle_free(
 		{
 			memory_free(
 			 ( *sum_handle )->calculated_sha256_hash_string );
+		}
+		if( ( *sum_handle )->sha512_context != NULL )
+		{
+			if( libhmac_sha512_free(
+			     &( ( *sum_handle )->sha512_context ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+				 "%s: unable to free SHA512 context.",
+				 function );
+
+				result = -1;
+			}
+		}
+		if( ( *sum_handle )->calculated_sha512_hash_string != NULL )
+		{
+			memory_free(
+			 ( *sum_handle )->calculated_sha512_hash_string );
 		}
 		if( libcfile_file_free(
 		     &( ( *sum_handle )->input_handle ),
@@ -472,6 +498,23 @@ int sum_handle_initialize_integrity_hash(
 		}
 		sum_handle->sha256_context_initialized = 1;
 	}
+	if( sum_handle->calculate_sha512 != 0 )
+	{
+		if( libhmac_sha512_initialize(
+		     &( sum_handle->sha512_context ),
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			 "%s: unable to initialize SHA512 context.",
+			 function );
+
+			goto on_error;
+		}
+		sum_handle->sha512_context_initialized = 1;
+	}
 	return( 1 );
 
 on_error:
@@ -589,6 +632,24 @@ int sum_handle_update_integrity_hash(
 			return( -1 );
 		}
 	}
+	if( sum_handle->calculate_sha512 != 0 )
+	{
+		if( libhmac_sha512_update(
+		     sum_handle->sha512_context,
+		     buffer,
+		     buffer_size,
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+			 "%s: unable to update SHA512 digest hash.",
+			 function );
+
+			return( -1 );
+		}
+	}
 	return( 1 );
 }
 
@@ -602,6 +663,7 @@ int sum_handle_finalize_integrity_hash(
 	uint8_t calculated_md5_hash[ LIBHMAC_MD5_HASH_SIZE ];
 	uint8_t calculated_sha1_hash[ LIBHMAC_SHA1_HASH_SIZE ];
 	uint8_t calculated_sha256_hash[ LIBHMAC_SHA256_HASH_SIZE ];
+	uint8_t calculated_sha512_hash[ LIBHMAC_SHA512_HASH_SIZE ];
 
 	static char *function = "sum_handle_finalize_integrity_hash";
 
@@ -648,7 +710,7 @@ int sum_handle_finalize_integrity_hash(
 		     calculated_md5_hash,
 		     LIBHMAC_MD5_HASH_SIZE,
 		     sum_handle->calculated_md5_hash_string,
-		     33,
+		     MD5_STRING_SIZE,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
@@ -693,7 +755,7 @@ int sum_handle_finalize_integrity_hash(
 		     calculated_sha1_hash,
 		     LIBHMAC_SHA1_HASH_SIZE,
 		     sum_handle->calculated_sha1_hash_string,
-		     41,
+		     SHA1_STRING_SIZE,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
@@ -738,7 +800,7 @@ int sum_handle_finalize_integrity_hash(
 		     calculated_sha256_hash,
 		     LIBHMAC_SHA256_HASH_SIZE,
 		     sum_handle->calculated_sha256_hash_string,
-		     65,
+		     SHA256_STRING_SIZE,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
@@ -746,6 +808,51 @@ int sum_handle_finalize_integrity_hash(
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
 			 "%s: unable to create calculated SHA256 hash string.",
+			 function );
+
+			return( -1 );
+		}
+	}
+	if( sum_handle->calculate_sha512 != 0 )
+	{
+		if( sum_handle->calculated_sha512_hash_string == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
+			 "%s: invalid sum handle - missing calculated SHA512 hash string.",
+			 function );
+
+			return( -1 );
+		}
+		if( libhmac_sha512_finalize(
+		     sum_handle->sha512_context,
+		     calculated_sha512_hash,
+		     LIBHMAC_SHA512_HASH_SIZE,
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+			 "%s: unable to finalize SHA512 hash.",
+			 function );
+
+			return( -1 );
+		}
+		if( digest_hash_copy_to_string(
+		     calculated_sha512_hash,
+		     LIBHMAC_SHA512_HASH_SIZE,
+		     sum_handle->calculated_sha512_hash_string,
+		     SHA512_STRING_SIZE,
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			 "%s: unable to create calculated SHA512 hash string.",
 			 function );
 
 			return( -1 );
@@ -934,6 +1041,7 @@ int sum_handle_set_digest_types(
 	uint8_t calculate_md5                            = 0;
 	uint8_t calculate_sha1                           = 0;
 	uint8_t calculate_sha256                         = 0;
+	uint8_t calculate_sha512                         = 0;
 	int number_of_segments                           = 0;
 	int segment_index                                = 0;
 	int result                                       = 0;
@@ -1127,6 +1235,20 @@ int sum_handle_set_digest_types(
 			{
 				calculate_sha256 = 1;
 			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "sha512" ),
+			          6 ) == 0 )
+			{
+				calculate_sha512 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "SHA512" ),
+			          6 ) == 0 )
+			{
+				calculate_sha512 = 1;
+			}
 		}
 		else if( string_segment_size == 8 )
 		{
@@ -1158,13 +1280,41 @@ int sum_handle_set_digest_types(
 			{
 				calculate_sha256 = 1;
 			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "sha-512" ),
+			          7 ) == 0 )
+			{
+				calculate_sha512 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "sha_512" ),
+			          7 ) == 0 )
+			{
+				calculate_sha512 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "SHA-512" ),
+			          7 ) == 0 )
+			{
+				calculate_sha512 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "SHA_512" ),
+			          7 ) == 0 )
+			{
+				calculate_sha512 = 1;
+			}
 		}
 	}
 	if( ( calculate_md5 != 0 )
 	 && ( sum_handle->calculate_md5 == 0 ) )
 	{
 		sum_handle->calculated_md5_hash_string = libcstring_system_string_allocate(
-		                                          33 );
+		                                          MD5_STRING_SIZE );
 
 		if( sum_handle->calculated_md5_hash_string == NULL )
 		{
@@ -1183,7 +1333,7 @@ int sum_handle_set_digest_types(
 	 && ( sum_handle->calculate_sha1 == 0 ) )
 	{
 		sum_handle->calculated_sha1_hash_string = libcstring_system_string_allocate(
-		                                           41 );
+		                                           SHA1_STRING_SIZE );
 
 		if( sum_handle->calculated_sha1_hash_string == NULL )
 		{
@@ -1202,7 +1352,7 @@ int sum_handle_set_digest_types(
 	 && ( sum_handle->calculate_sha256 == 0 ) )
 	{
 		sum_handle->calculated_sha256_hash_string = libcstring_system_string_allocate(
-		                                             65 );
+		                                             SHA256_STRING_SIZE );
 
 		if( sum_handle->calculated_sha256_hash_string == NULL )
 		{
@@ -1216,6 +1366,25 @@ int sum_handle_set_digest_types(
 			goto on_error;
 		}
 		sum_handle->calculate_sha256 = 1;
+	}
+	if( ( calculate_sha512 != 0 )
+	 && ( sum_handle->calculate_sha512 == 0 ) )
+	{
+		sum_handle->calculated_sha512_hash_string = libcstring_system_string_allocate(
+		                                             SHA512_STRING_SIZE );
+
+		if( sum_handle->calculated_sha512_hash_string == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_MEMORY,
+			 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+			 "%s: unable to create calculated SHA512 digest hash string.",
+			 function );
+
+			goto on_error;
+		}
+		sum_handle->calculate_sha512 = 1;
 	}
 #if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
 	if( libcsplit_wide_split_string_free(
@@ -1364,6 +1533,13 @@ int sum_handle_hash_values_fprint(
 		 stream,
 		 "SHA256 hash calculated over data:\t%" PRIs_LIBCSTRING_SYSTEM "\n",
 		 sum_handle->calculated_sha256_hash_string );
+	}
+	if( sum_handle->calculate_sha512 != 0 )
+	{
+		fprintf(
+		 stream,
+		 "SHA512 hash calculated over data:\t%" PRIs_LIBCSTRING_SYSTEM "\n",
+		 sum_handle->calculated_sha512_hash_string );
 	}
 	return( 1 );
 }

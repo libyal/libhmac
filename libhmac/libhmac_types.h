@@ -37,11 +37,13 @@
 typedef struct libhmac_md5_context {}		libhmac_md5_context_t;
 typedef struct libhmac_sha1_context {}		libhmac_sha1_context_t;
 typedef struct libhmac_sha256_context {}	libhmac_sha256_context_t;
+typedef struct libhmac_sha512_context {}	libhmac_sha512_context_t;
 
 #else
 typedef intptr_t libhmac_md5_context_t;
 typedef intptr_t libhmac_sha1_context_t;
 typedef intptr_t libhmac_sha256_context_t;
+typedef intptr_t libhmac_sha512_context_t;
 
 #endif
 
