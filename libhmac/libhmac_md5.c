@@ -31,6 +31,7 @@
 #include <openssl/md5.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H )
+#include <openssl/err.h>
 #include <openssl/evp.h>
 
 #endif
@@ -574,6 +575,8 @@ int libhmac_md5_initialize(
 
 		EVP_MD_CTX_cleanup(
 		 &( internal_context->evp_md_context ) );
+		ERR_remove_thread_state(
+		 NULL );
 
 		goto on_error;
 	}
@@ -661,6 +664,10 @@ int libhmac_md5_free(
 			 "%s: unable to clean up context.",
 			 function );
 		}
+		/* Make sure the error state is removed otherwise openssl will leak memory
+		 */
+		ERR_remove_thread_state(
+		 NULL );
 
 #else
 		/* No additional clean up necessary

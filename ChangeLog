@@ -24,6 +24,7 @@ PC file:
 
 20130831
 * fixed missing libcrypto in .pc and .spec
+* fixed issue not freeing error state memory allocated by EVP
 
 20130714
 * worked on SHA512 support
