@@ -7,6 +7,6 @@ Name: libhmac
 Description: Library to support various Hash-based Message Authentication Codes (HMAC)
 Version: @VERSION@
 Libs: -L${libdir} -lhmac
-Libs.private: @ax_libcerror_pc_libs_private@ @ax_libcstring_pc_libs_private@
+Libs.private: @ax_libcerror_pc_libs_private@ @ax_libcrypto_pc_libs_private@ @ax_libcstring_pc_libs_private@
 Cflags: -I${includedir}
 

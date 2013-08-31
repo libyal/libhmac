@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libhmac],
- [20130714],
+ [20130831],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -104,7 +104,7 @@ CFLAGS="$CFLAGS -Wall";
 
 dnl Check if requires and build requires should be set in spec file
 AS_IF(
- [test "x$ac_cv_libcstring" = xyes || test "x$ac_cv_libcerror" = xyes],
+ [test "x$ac_cv_libcstring" = xyes || test "x$ac_cv_libcerror" = xyes || test "x$ac_cv_libcrypto" = xyes],
  [AC_SUBST(
   [libhmac_spec_requires],
   [Requires:])

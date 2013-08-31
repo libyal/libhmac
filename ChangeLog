@@ -22,6 +22,9 @@ Spec file:
 PC file:
 * add support for openssl
 
+20130831
+* fixed missing libcrypto in .pc and .spec
+
 20130714
 * worked on SHA512 support
 
