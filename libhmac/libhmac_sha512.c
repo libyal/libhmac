@@ -1604,7 +1604,7 @@ int libhmac_sha512_calculate_hmac(
 			if( memory_copy(
 			     key_data,
 			     key_hash,
-			     block_size ) == NULL )
+			     LIBHMAC_SHA512_HASH_SIZE ) == NULL )
 			{
 				libcerror_error_set(
 				 error,

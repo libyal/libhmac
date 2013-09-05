@@ -38,9 +38,14 @@ test_sha512sum()
 { 
 	INPUT_FILE=$1;
 
-	SUM=`${HMACSUM} -d sha512 ${INPUT_FILE} | ${GREP} "SHA512" | ${SED} 's/^[^:]*[:][\t][\t]*//'`;
+	rm -rf tmp;
+	mkdir tmp;
+
+	SUM=`${TEST_RUNNER} ${HMACSUM} -d sha512 ${INPUT_FILE} | ${GREP} "SHA512" | ${SED} 's/^[^:]*[:][\t][\t]*//'`;
 
 	RESULT=$?;
+
+	rm -rf tmp;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
@@ -84,6 +89,20 @@ then
 	echo "No ${INPUT} directory found, to test hmacsum create ${INPUT} directory and place test files in directory.";
 
 	exit ${EXIT_IGNORE};
+fi
+
+TEST_RUNNER="tests/test_runner.sh";
+
+if ! test -x ${TEST_RUNNER};
+then
+	TEST_RUNNER="./test_runner.sh";
+fi
+
+if ! test -x ${TEST_RUNNER};
+then
+	echo "Missing test runner: ${TEST_RUNNER}";
+
+	exit ${EXIT_FAILURE};
 fi
 
 EXIT_RESULT=${EXIT_IGNORE};

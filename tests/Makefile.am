@@ -17,6 +17,7 @@ TESTS_INPUT = \
 
 check_SCRIPTS = \
 	test_md5sum.sh \
+	test_runner.sh \
 	test_sha1sum.sh \
 	test_sha256sum.sh \
 	test_sha512sum.sh

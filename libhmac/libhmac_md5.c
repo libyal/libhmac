@@ -1515,7 +1515,7 @@ int libhmac_md5_calculate_hmac(
 			if( memory_copy(
 			     key_data,
 			     key_hash,
-			     block_size ) == NULL )
+			     LIBHMAC_MD5_HASH_SIZE ) == NULL )
 			{
 				libcerror_error_set(
 				 error,

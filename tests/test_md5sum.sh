@@ -38,9 +38,14 @@ test_md5sum()
 { 
 	INPUT_FILE=$1;
 
-	SUM=`${HMACSUM} -d md5 ${INPUT_FILE} | ${GREP} "MD5" | ${SED} 's/^[^:]*[:][\t][\t]*//'`;
+	rm -rf tmp;
+	mkdir tmp;
+
+	SUM=`${TEST_RUNNER} ${HMACSUM} -d md5 ${INPUT_FILE} | ${GREP} "MD5" | ${SED} 's/^[^:]*[:][\t][\t]*//'`;
 
 	RESULT=$?;
+
+	rm -rf tmp;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
@@ -75,6 +80,20 @@ fi
 if ! test -x ${HMACSUM};
 then
 	echo "Missing executable: ${HMACSUM}";
+
+	exit ${EXIT_FAILURE};
+fi
+
+TEST_RUNNER="tests/test_runner.sh";
+
+if ! test -x ${TEST_RUNNER};
+then
+	TEST_RUNNER="./test_runner.sh";
+fi
+
+if ! test -x ${TEST_RUNNER};
+then
+	echo "Missing test runner: ${TEST_RUNNER}";
 
 	exit ${EXIT_FAILURE};
 fi
