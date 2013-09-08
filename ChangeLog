@@ -15,12 +15,13 @@ TODO
 * update manuals
 * configure add libuna detection
 
-Spec file:
-* add support for libhmac_spec_requires_libuna
-* add support for openssl
+Tests:
+* add HMAC tests
+* add SHA512 tests
 
-PC file:
-* add support for openssl
+20130908
+* bug fixes
+* updated .spec.in file
 
 20130905
 * worked on tests

@@ -1532,22 +1532,8 @@ int libhmac_sha256_calculate_hmac(
 
 			goto on_error;
 		}
-		if( block_size <= LIBHMAC_SHA256_HASH_SIZE )
+		if( block_size > LIBHMAC_SHA256_HASH_SIZE )
 		{
-			if( memory_copy(
-			     key_data,
-			     key_hash,
-			     LIBHMAC_SHA256_HASH_SIZE ) == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-				 "%s: unable to copy key hash data.",
-				 function );
-
-				goto on_error;
-			}
 			if( memory_set(
 			     &( key_data[ LIBHMAC_SHA256_HASH_SIZE ] ),
 			     0,
@@ -1563,22 +1549,19 @@ int libhmac_sha256_calculate_hmac(
 				goto on_error;
 			}
 		}
-		else
+		if( memory_copy(
+		     key_data,
+		     key_hash,
+		     LIBHMAC_SHA256_HASH_SIZE ) == NULL )
 		{
-			if( memory_copy(
-			     key_data,
-			     key_hash,
-			     LIBHMAC_SHA256_HASH_SIZE ) == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-				 "%s: unable to copy key hash data.",
-				 function );
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_MEMORY,
+			 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+			 "%s: unable to copy key hash data.",
+			 function );
 
-				goto on_error;
-			}
+			goto on_error;
 		}
 	}
 	inner_padding = (uint8_t *) memory_allocate(
