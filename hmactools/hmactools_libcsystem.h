@@ -2,7 +2,7 @@
  * Library for system independent implementation of functionality
  * for programs
  *
- * Copyright (c) 2011-2013, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (c) 2011-2014, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -20,8 +20,8 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LNKTOOLS_LIBCSYSTEM_H )
-#define _LNKTOOLS_LIBCSYSTEM_H
+#if !defined( _HMACTOOLS_LIBCSYSTEM_H )
+#define _HMACTOOLS_LIBCSYSTEM_H
 
 /* Define HAVE_LOCAL_LIBCSYSTEM for local use of libcsystem
  */

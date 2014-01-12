@@ -1,7 +1,7 @@
 /*
  * The internal libcnotify header
  *
- * Copyright (c) 2010-2013, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (c) 2011-2014, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -19,8 +19,8 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LNKTOOLS_LIBCNOTIFY_H )
-#define _LNKTOOLS_LIBCNOTIFY_H
+#if !defined( _HMACTOOLS_LIBCNOTIFY_H )
+#define _HMACTOOLS_LIBCNOTIFY_H
 
 #include <common.h>
 

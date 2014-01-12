@@ -1,6 +1,6 @@
 # Files to ignore by git
 #
-# Version: 20130831
+# Version: 20130922
 
 # Generic auto-generated build files
 *~
@@ -102,6 +102,7 @@ stamp-h1
 /libhmac/libhmac.rc
 /libhmac/libhmac_definitions.h
 /hmactools/hmacsum
+/tests/tmp
 
 # Local library dependencies specific files
 /libcerror

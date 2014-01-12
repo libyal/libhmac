@@ -1,7 +1,7 @@
 /*
  * The internal libcstring header
  *
- * Copyright (c) 2011-2013, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (c) 2011-2014, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -19,8 +19,8 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LNKTOOLS_LIBCSTRING_H )
-#define _LNKTOOLS_LIBCSTRING_H
+#if !defined( _HMACTOOLS_LIBCSTRING_H )
+#define _HMACTOOLS_LIBCSTRING_H
 
 #include <common.h>
 
