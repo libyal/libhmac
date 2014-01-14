@@ -19,6 +19,9 @@ Tests:
 * add HMAC tests
 * add SHA512 tests
 
+20140114
+* added hmacsum.1 man page
+
 20140112
 * 2014 update
 * updated dependencies

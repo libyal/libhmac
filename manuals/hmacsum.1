@@ -1,0 +1,67 @@
+.Dd January 14, 2014
+.Dt hmacsum
+.Os libhmac
+.Sh NAME
+.Nm hmacsum
+.Nd calculates Hash-based Message Authentication Codes (HMACs) of the data in a file.
+.Sh SYNOPSIS
+.Nm hmacsum
+.Op Fl d Ar digest_type
+.Op Fl p Ar process_buffer_size
+.Op Fl hvV
+.Ar hmac_files
+.Sh DESCRIPTION
+.Nm hmacsum
+is a utility to calculate Hash-based Message Authentication Codes (HMACs) of the data in a file.
+.Pp
+.Nm hmacsum
+is part of the
+.Nm libhmac
+package.
+.Nm libhmac
+is a library to support various Hash-based Message Authentication Codes (HMAC)
+.Pp
+.Ar source
+the source file.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl d Ar digest_type
+calculate digest (hash) types option: md5 (default), sha1, sha256, sha512 (multiple types can be combined with a ,)
+.It Fl h
+shows this help
+.It Fl p Ar process_buffer_size
+specify the process buffer size (default is 32768 bytes)
+.It Fl v
+verbose output to stderr
+.It Fl V
+print version
+.El
+.Sh ENVIRONMENT
+None
+.Sh FILES
+None
+.Sh EXAMPLES
+.Bd -literal
+# hmacsum \-d md5,sha1,sha256 file.dat
+hmacsum 20140112
+
+MD5 hash calculated over data:		dd05dd0a66337ba6ad12e07779b8f36e
+SHA1 hash calculated over data:		55f9b57af542db0ed668eaa647837f106282c244
+SHA256 hash calculated over data:	0a794e4172209147eb8ce21fc447591a2cb443dbbb1df71d7bef1a536bf2b552
+
+.Ed
+.Sh DIAGNOSTICS
+Errors, verbose and debug output are printed to stderr when verbose output \-v is enabled. Verbose and debug output are only printed when enabled at compilation.
+.Sh BUGS
+Please report bugs of any kind to <joachim.metz@gmail.com> or on the project website:
+http://code.google.com/p/libhmac/
+.Sh AUTHOR
+.Pp
+These man pages were written by Joachim Metz.
+.Sh COPYRIGHT
+.Pp
+Copyright 2011-2014, Joachim Metz <joachim.metz@gmail.com>.
+.Pp
+This is free software; see the source for copying conditions. There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+.Sh SEE ALSO
