@@ -10,8 +10,16 @@ Package: libhmac
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: libhmac-dbg
 Description: Library to support various Hash-based Message Authentication Codes (HMAC)
  libhmac is a library to support various Hash-based Message Authentication Codes (HMAC).
+
+Package: libhmac-dbg
+Architecture: any
+Section: debug
+Depends: libhmac (= ${Source-Version}), ${misc:Depends}
+Description: Debugging symbols for libhmac
+ Debugging symbols for libhmac.
 
 Package: libhmac-dev
 Section: libdevel
