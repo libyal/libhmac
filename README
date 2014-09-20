@@ -1,4 +1,6 @@
-See:
-* http://code.google.com/p/libhmac/wiki/Building
-* README.macosx
+libhmac is a library to support various Hash-based Message Authentication Codes (HMAC).
+
+For more information see:
+* Project documentation: https://github.com/libyal/libhmac/wiki/Home
+* How to build from source: https://github.com/libyal/libhmac/wiki/Building
 

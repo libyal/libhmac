@@ -28,7 +28,7 @@ BEGIN
       VALUE "OriginalFilename",		"libhmac.dll\0"
       VALUE "ProductName",		"libhmac\0"
       VALUE "ProductVersion",		"@VERSION@" "\0"
-      VALUE "Comments",			"For more information visit http://code.google.com/p/libhmac/\0"
+      VALUE "Comments",			"For more information visit https://github.com/libyal/libhmac/\0"
     END
   END
   BLOCK "VarFileInfo"
