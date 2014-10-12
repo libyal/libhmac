@@ -19,6 +19,9 @@ Tests:
 * add HMAC tests
 * add SHA512 tests
 
+20141012
+* worked on utility scripts
+
 20140505
 * updated libcsystem
 * fixes to build static library with mingw and cygwin

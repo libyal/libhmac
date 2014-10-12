@@ -1,5 +1,9 @@
 libhmac is a library to support various Hash-based Message Authentication Codes (HMAC).
 
+Project information:
+* Status: alpha
+* Licence: LGPLv3+
+
 For more information see:
 * Project documentation: https://github.com/libyal/libhmac/wiki/Home
 * How to build from source: https://github.com/libyal/libhmac/wiki/Building
