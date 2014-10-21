@@ -8,7 +8,7 @@ MSVSCPP_FILES = \
 	libcsplit/libcsplit.vcproj \
 	libcstring/libcstring.vcproj \
 	libcsystem/libcsystem.vcproj \
-	libhmac_dll/libhmac_dll.vcproj \
+	libhmac/libhmac.vcproj \
 	libuna/libuna.vcproj \
 	libhmac.sln
 

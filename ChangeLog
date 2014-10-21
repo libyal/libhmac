@@ -19,6 +19,10 @@ Tests:
 * add HMAC tests
 * add SHA512 tests
 
+20141021
+* changes for deployment
+* updated msvscpp files
+
 20141018
 * changes for deployment
 

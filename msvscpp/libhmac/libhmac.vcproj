@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="libhmac_dll"
-	ProjectGUID="{B5225323-AC67-411D-8FBA-199E9467FAB5}"
+	Name="libhmac"
+	ProjectGUID="{17E6D2AC-3A79-4280-B860-C9123D24049F}"
 	RootNamespace="libhmac"
 	TargetFrameworkVersion="131072"
 	>
@@ -57,11 +57,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="advapi32.lib"
-				OutputFile="$(OutDir)\libhmac.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)\libhmac.lib"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
+				TargetMachine="1"
+				ImportLibrary="$(OutDir)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -131,12 +132,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="advapi32.lib"
-				OutputFile="$(OutDir)\libhmac.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;"
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)\libhmac.lib"
+				DataExecutionPrevention="1"
+				TargetMachine="1"
+				ImportLibrary="$(OutDir)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
