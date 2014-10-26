@@ -24,6 +24,10 @@
 #include <memory.h>
 #include <types.h>
 
+#if defined( HAVE_UNISTD_H )
+#include <unistd.h>
+#endif
+
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
 #include <stdlib.h>
 #endif
