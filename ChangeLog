@@ -1,4 +1,6 @@
 TODO
+* SHA384
+  - add support
 * SHA512
   - local version
   - wincrypt version
@@ -12,12 +14,13 @@ TODO
   - use functions to determine block size
   - add tests
 * detect wincrypt, allow to compile without it
-* update manuals
-* configure add libuna detection
 
 Tests:
 * add HMAC tests
-* add SHA512 tests
+
+20141205
+* worked on SHA224 support
+* updated msvscpp files
 
 20141026
 * changes for deployment

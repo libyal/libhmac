@@ -203,6 +203,7 @@ typedef int64_t off64_t;
  */
 typedef intptr_t libhmac_md5_context_t;
 typedef intptr_t libhmac_sha1_context_t;
+typedef intptr_t libhmac_sha224_context_t;
 typedef intptr_t libhmac_sha256_context_t;
 typedef intptr_t libhmac_sha512_context_t;
 

@@ -35,6 +35,7 @@
 
 #define MD5_STRING_SIZE		33
 #define SHA1_STRING_SIZE	41
+#define SHA224_STRING_SIZE	57
 #define SHA256_STRING_SIZE	65
 #define SHA512_STRING_SIZE	129
 
@@ -190,6 +191,27 @@ int sum_handle_free(
 		{
 			memory_free(
 			 ( *sum_handle )->calculated_sha1_hash_string );
+		}
+		if( ( *sum_handle )->sha224_context != NULL )
+		{
+			if( libhmac_sha224_free(
+			     &( ( *sum_handle )->sha224_context ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+				 "%s: unable to free SHA224 context.",
+				 function );
+
+				result = -1;
+			}
+		}
+		if( ( *sum_handle )->calculated_sha224_hash_string != NULL )
+		{
+			memory_free(
+			 ( *sum_handle )->calculated_sha224_hash_string );
 		}
 		if( ( *sum_handle )->sha256_context != NULL )
 		{
@@ -481,6 +503,23 @@ int sum_handle_initialize_integrity_hash(
 		}
 		sum_handle->sha1_context_initialized = 1;
 	}
+	if( sum_handle->calculate_sha224 != 0 )
+	{
+		if( libhmac_sha224_initialize(
+		     &( sum_handle->sha224_context ),
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			 "%s: unable to initialize SHA224 context.",
+			 function );
+
+			goto on_error;
+		}
+		sum_handle->sha224_context_initialized = 1;
+	}
 	if( sum_handle->calculate_sha256 != 0 )
 	{
 		if( libhmac_sha256_initialize(
@@ -614,6 +653,24 @@ int sum_handle_update_integrity_hash(
 			return( -1 );
 		}
 	}
+	if( sum_handle->calculate_sha224 != 0 )
+	{
+		if( libhmac_sha224_update(
+		     sum_handle->sha224_context,
+		     buffer,
+		     buffer_size,
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+			 "%s: unable to update SHA224 digest hash.",
+			 function );
+
+			return( -1 );
+		}
+	}
 	if( sum_handle->calculate_sha256 != 0 )
 	{
 		if( libhmac_sha256_update(
@@ -662,6 +719,7 @@ int sum_handle_finalize_integrity_hash(
 {
 	uint8_t calculated_md5_hash[ LIBHMAC_MD5_HASH_SIZE ];
 	uint8_t calculated_sha1_hash[ LIBHMAC_SHA1_HASH_SIZE ];
+	uint8_t calculated_sha224_hash[ LIBHMAC_SHA224_HASH_SIZE ];
 	uint8_t calculated_sha256_hash[ LIBHMAC_SHA256_HASH_SIZE ];
 	uint8_t calculated_sha512_hash[ LIBHMAC_SHA512_HASH_SIZE ];
 
@@ -763,6 +821,51 @@ int sum_handle_finalize_integrity_hash(
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
 			 "%s: unable to create calculated SHA1 hash string.",
+			 function );
+
+			return( -1 );
+		}
+	}
+	if( sum_handle->calculate_sha224 != 0 )
+	{
+		if( sum_handle->calculated_sha224_hash_string == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
+			 "%s: invalid sum handle - missing calculated SHA224 hash string.",
+			 function );
+
+			return( -1 );
+		}
+		if( libhmac_sha224_finalize(
+		     sum_handle->sha224_context,
+		     calculated_sha224_hash,
+		     LIBHMAC_SHA224_HASH_SIZE,
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+			 "%s: unable to finalize SHA224 hash.",
+			 function );
+
+			return( -1 );
+		}
+		if( digest_hash_copy_to_string(
+		     calculated_sha224_hash,
+		     LIBHMAC_SHA224_HASH_SIZE,
+		     sum_handle->calculated_sha224_hash_string,
+		     SHA224_STRING_SIZE,
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			 "%s: unable to create calculated SHA224 hash string.",
 			 function );
 
 			return( -1 );
@@ -1040,6 +1143,7 @@ int sum_handle_set_digest_types(
 	size_t string_segment_size                       = 0;
 	uint8_t calculate_md5                            = 0;
 	uint8_t calculate_sha1                           = 0;
+	uint8_t calculate_sha224                         = 0;
 	uint8_t calculate_sha256                         = 0;
 	uint8_t calculate_sha512                         = 0;
 	int number_of_segments                           = 0;
@@ -1223,8 +1327,22 @@ int sum_handle_set_digest_types(
 		{
 			if( libcstring_system_string_compare(
 			     string_segment,
-			     _LIBCSTRING_SYSTEM_STRING( "sha256" ),
+			     _LIBCSTRING_SYSTEM_STRING( "sha224" ),
 			     6 ) == 0 )
+			{
+				calculate_sha224 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "SHA224" ),
+			          6 ) == 0 )
+			{
+				calculate_sha224 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "sha256" ),
+			          6 ) == 0 )
 			{
 				calculate_sha256 = 1;
 			}
@@ -1254,8 +1372,36 @@ int sum_handle_set_digest_types(
 		{
 			if( libcstring_system_string_compare(
 			     string_segment,
-			     _LIBCSTRING_SYSTEM_STRING( "sha-256" ),
+			     _LIBCSTRING_SYSTEM_STRING( "sha-224" ),
 			     7 ) == 0 )
+			{
+				calculate_sha224 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "sha_224" ),
+			          7 ) == 0 )
+			{
+				calculate_sha224 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "SHA-224" ),
+			          7 ) == 0 )
+			{
+				calculate_sha224 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "SHA_224" ),
+			          7 ) == 0 )
+			{
+				calculate_sha224 = 1;
+			}
+			else if( libcstring_system_string_compare(
+			          string_segment,
+			          _LIBCSTRING_SYSTEM_STRING( "sha-256" ),
+			          7 ) == 0 )
 			{
 				calculate_sha256 = 1;
 			}
@@ -1347,6 +1493,25 @@ int sum_handle_set_digest_types(
 			goto on_error;
 		}
 		sum_handle->calculate_sha1 = 1;
+	}
+	if( ( calculate_sha224 != 0 )
+	 && ( sum_handle->calculate_sha224 == 0 ) )
+	{
+		sum_handle->calculated_sha224_hash_string = libcstring_system_string_allocate(
+		                                             SHA224_STRING_SIZE );
+
+		if( sum_handle->calculated_sha224_hash_string == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_MEMORY,
+			 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+			 "%s: unable to create calculated SHA224 digest hash string.",
+			 function );
+
+			goto on_error;
+		}
+		sum_handle->calculate_sha224 = 1;
 	}
 	if( ( calculate_sha256 != 0 )
 	 && ( sum_handle->calculate_sha256 == 0 ) )
@@ -1526,6 +1691,13 @@ int sum_handle_hash_values_fprint(
 		 stream,
 		 "SHA1 hash calculated over data:\t\t%" PRIs_LIBCSTRING_SYSTEM "\n",
 		 sum_handle->calculated_sha1_hash_string );
+	}
+	if( sum_handle->calculate_sha224 != 0 )
+	{
+		fprintf(
+		 stream,
+		 "SHA224 hash calculated over data:\t%" PRIs_LIBCSTRING_SYSTEM "\n",
+		 sum_handle->calculated_sha224_hash_string );
 	}
 	if( sum_handle->calculate_sha256 != 0 )
 	{

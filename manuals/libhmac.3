@@ -1,4 +1,4 @@
-.Dd January 12, 2014
+.Dd December 5, 2014
 .Dt libhmac 3
 .Os libhmac
 .Sh NAME
@@ -52,6 +52,20 @@ SHA1 functions
 .Fn libhmac_sha1_calculate "const uint8_t *buffer, size_t size, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
 .Ft int
 .Fn libhmac_sha1_calculate_hmac "const uint8_t *key, size_t key_size, const uint8_t *buffer, size_t size, uint8_t *hmac, size_t hmac_size, libhmac_error_t **error"
+.Pp
+SHA224 functions
+.Ft int
+.Fn libhmac_sha224_initialize "libhmac_sha224_t **sha224, libhmac_error_t **error"
+.Ft int
+.Fn libhmac_sha224_free "libhmac_sha224_t **sha224, libhmac_error_t **error"
+.Ft int
+.Fn libhmac_sha224_update "libhmac_sha224_context_t *context, const uint8_t *buffer, size_t size, libhmac_error_t **error"
+.Ft int
+.Fn libhmac_sha224_finalize "libhmac_sha224_context_t *context, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Ft int
+.Fn libhmac_sha224_calculate "const uint8_t *buffer, size_t size, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Ft int
+.Fn libhmac_sha224_calculate_hmac "const uint8_t *key, size_t key_size, const uint8_t *buffer, size_t size, uint8_t *hmac, size_t hmac_size, libhmac_error_t **error"
 .Pp
 SHA256 functions
 .Ft int

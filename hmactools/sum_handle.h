@@ -74,6 +74,22 @@ struct sum_handle
 	 */
 	libcstring_system_character_t *calculated_sha1_hash_string;
 
+	/* Value to indicate if the SHA224 digest hash should be calculated
+	 */
+	uint8_t calculate_sha224;
+
+	/* The SHA224 digest context
+	 */
+	libhmac_sha224_context_t *sha224_context;
+
+	/* Value to indicate the SHA224 digest context was initialized
+	 */
+	uint8_t sha224_context_initialized;
+
+	/* The calculated SHA224 digest hash string
+	 */
+	libcstring_system_character_t *calculated_sha224_hash_string;
+
 	/* Value to indicate if the SHA256 digest hash should be calculated
 	 */
 	uint8_t calculate_sha256;
