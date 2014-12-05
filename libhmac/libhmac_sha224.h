@@ -71,7 +71,9 @@ struct libhmac_internal_sha224_context
 	HCRYPTHASH hash;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA224_DIGEST_LENGTH )
-	SHA224_CTX sha224_context;
+	/* The SHA-224 functions use the SHA-256 context
+	 */
+	SHA256_CTX sha224_context;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA224 )
 	EVP_MD_CTX evp_md_context;
