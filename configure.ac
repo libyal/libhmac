@@ -201,6 +201,7 @@ Building:
    libcerror support:                         $ac_cv_libcerror
    MD5 support:                               $ac_cv_libhmac_md5
    SHA1 support:                              $ac_cv_libhmac_sha1
+   SHA224 support:                            $ac_cv_libhmac_sha224
    SHA256 support:                            $ac_cv_libhmac_sha256
    SHA512 support:                            $ac_cv_libhmac_sha512
    libclocale support:                        $ac_cv_libclocale
