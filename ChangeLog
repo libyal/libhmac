@@ -1,4 +1,7 @@
 TODO
+* macosx replacement for libcrypto
+* SHA224
+  - fix unknown type name 'SHA224_CTX' on mac os x
 * SHA384
   - add support
 * SHA512
@@ -12,7 +15,6 @@ TODO
 
 * hmac support
   - use functions to determine block size
-  - add tests
 * detect wincrypt, allow to compile without it
 
 Tests:
