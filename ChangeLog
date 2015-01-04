@@ -20,6 +20,9 @@ TODO
 Tests:
 * add HMAC tests
 
+20150104
+* 2015 update
+
 20141205
 * worked on SHA224 support
 * updated msvscpp files

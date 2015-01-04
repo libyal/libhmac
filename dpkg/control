@@ -1,13 +1,12 @@
 Source: libhmac
-Section: unknown
+Section: libs
 Priority: extra
 Maintainer: Joachim Metz <joachim.metz@gmail.com>
 Build-Depends: debhelper (>= 7), autotools-dev, libssl-dev
-Standards-Version: 3.8.3
+Standards-Version: 3.9.5
 Homepage: https://github.com/libyal/libhmac/
 
 Package: libhmac
-Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: libhmac-dbg
@@ -17,21 +16,21 @@ Description: Library to support various Hash-based Message Authentication Codes 
 Package: libhmac-dbg
 Architecture: any
 Section: debug
-Depends: libhmac (= ${Source-Version}), ${misc:Depends}
+Depends: libhmac (= ${binary:Version}), ${misc:Depends}
 Description: Debugging symbols for libhmac
  Debugging symbols for libhmac.
 
 Package: libhmac-dev
 Section: libdevel
 Architecture: any
-Depends: libhmac (= ${Source-Version})
+Depends: libhmac (= ${binary:Version}), ${misc:Depends}
 Description: Header files and libraries for developing applications for libhmac
  Header files and libraries for developing applications for libhmac.
 
 Package: libhmac-tools
 Section: utils
 Architecture: any
-Depends: libhmac (= ${Source-Version}), ${shlibs:Depends}
+Depends: libhmac (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: Several tools for calculating Hash-based Message Authentication Codes (HMAC)
  Several tools for calculating Hash-based Message Authentication Codes (HMAC).
 
