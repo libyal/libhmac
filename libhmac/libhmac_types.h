@@ -47,9 +47,9 @@ typedef intptr_t libhmac_sha224_context_t;
 typedef intptr_t libhmac_sha256_context_t;
 typedef intptr_t libhmac_sha512_context_t;
 
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) && !defined( WINAPI ) */
 
-#endif
+#endif /* defined( HAVE_LOCAL_LIBHMAC ) */
 
-#endif
+#endif /* !defined( _LIBHMAC_INTERNAL_TYPES_H ) */
 

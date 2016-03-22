@@ -20,9 +20,8 @@
  */
 
 #include <common.h>
+#include <file_stream.h>
 #include <types.h>
-
-#include <stdio.h>
 
 #include "libhmac_error.h"
 #include "libhmac_libcerror.h"
@@ -92,5 +91,5 @@ int libhmac_error_backtrace_sprint(
 	         size ) );
 }
 
-#endif
+#endif /* !defined( HAVE_LOCAL_LIBHMAC ) */
 

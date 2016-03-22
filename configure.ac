@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libhmac],
- [20160128],
+ [20160322],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
