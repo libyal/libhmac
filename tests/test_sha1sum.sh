@@ -39,7 +39,7 @@ test_callback()
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`openssl sha1 ${INPUT_FILE} | sed 's/^[=]*=//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha1 ${INPUT_FILE} | sed 's/^[^=]*=//'`;
 		else
 			VERIFICATION_DIGEST_HASH=`sha1sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi

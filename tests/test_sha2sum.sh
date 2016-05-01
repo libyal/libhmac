@@ -39,7 +39,7 @@ test_callback()
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`openssl sha224 ${INPUT_FILE} | sed 's/^[=]*=//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha224 ${INPUT_FILE} | sed 's/^[^=]*=//'`;
 		else
 			VERIFICATION_DIGEST_HASH=`sha224sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
@@ -55,7 +55,7 @@ test_callback()
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`openssl sha256 ${INPUT_FILE} | sed 's/^[=]*=//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha256 ${INPUT_FILE} | sed 's/^[^=]*=//'`;
 		else
 			VERIFICATION_DIGEST_HASH=`sha256sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
@@ -71,7 +71,7 @@ test_callback()
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`openssl sha512 ${INPUT_FILE} | sed 's/^[=]*=//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha512 ${INPUT_FILE} | sed 's/^[^=]*=//'`;
 		else
 			VERIFICATION_DIGEST_HASH=`sha512sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
