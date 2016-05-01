@@ -112,6 +112,21 @@ int sum_handle_initialize(
 
 		goto on_error;
 	}
+	( *sum_handle )->calculated_md5_hash_string = libcstring_system_string_allocate(
+	                                               MD5_STRING_SIZE );
+
+	if( ( *sum_handle )->calculated_md5_hash_string == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 "%s: unable to create calculated MD5 digest hash string.",
+		 function );
+
+		goto on_error;
+	}
+	( *sum_handle )->calculate_md5       = 1;
 	( *sum_handle )->process_buffer_size = 32768;
 
 	return( 1 );

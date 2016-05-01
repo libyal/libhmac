@@ -20,6 +20,9 @@ TODO
 Tests:
 * add HMAC tests
 
+20160501
+* hmacsum fixed missing MD5 hash default
+
 20160107
 * 2016 update
 
