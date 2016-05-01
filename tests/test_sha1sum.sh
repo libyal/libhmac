@@ -30,18 +30,18 @@ test_callback()
 	shift 5;
 	local ARGUMENTS=$@;
 
-	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" -d sha1 ${INPUT_FILE} | ${GREP} "SHA1" | ${SED} 's/^[^:]*[:][\t][\t]*//' > ${TMPDIR}/sha1;
+	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" -d sha1 ${INPUT_FILE} > ${TMPDIR}/hmacsum;
 	local RESULT=$?;
 
-	DIGEST_HASH=`cat ${TMPDIR}/sha1`;
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA1" | sed 's/^[^:]*[:][\t][\t]*//'`;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`sha1 ${INPUT_FILE} | ${SED} 's/[ ][ ]*[^ ][^ ]*$//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha1 ${INPUT_FILE} | sed 's/^[=]*=//'`;
 		else
-			VERIFICATION_DIGEST_HASH=`sha1sum ${INPUT_FILE} | ${SED} 's/[ ][ ]*[^ ][^ ]*$//'`;
+			VERIFICATION_DIGEST_HASH=`sha1sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
 		if test ${DIGEST_HASH} != ${VERIFICATION_DIGEST_HASH};
 		then
@@ -101,7 +101,7 @@ source ${TEST_RUNNER};
 
 if test "${PLATFORM}" = "Darwin";
 then
-	assert_availability_binary sha1;
+	assert_availability_binary openssl;
 else
 	assert_availability_binary sha1sum;
 fi

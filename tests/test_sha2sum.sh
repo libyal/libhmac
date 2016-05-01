@@ -30,18 +30,50 @@ test_callback()
 	shift 5;
 	local ARGUMENTS=$@;
 
-	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" -d sha512 ${INPUT_FILE} | ${GREP} "SHA512" | ${SED} 's/^[^:]*[:][\t][\t]*//' > ${TMPDIR}/sha512;
+	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" -d sha224,sha256,sha512 ${INPUT_FILE} > ${TMPDIR}/hmacsum;
 	local RESULT=$?;
 
-	DIGEST_HASH=`cat ${TMPDIR}/sha512`;
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA224" | sed 's/^[^:]*[:][\t][\t]*//'`;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`sha512 ${INPUT_FILE} | ${SED} 's/[ ][ ]*[^ ][^ ]*$//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha224 ${INPUT_FILE} | sed 's/^[=]*=//'`;
 		else
-			VERIFICATION_DIGEST_HASH=`sha512sum ${INPUT_FILE} | ${SED} 's/[ ][ ]*[^ ][^ ]*$//'`;
+			VERIFICATION_DIGEST_HASH=`sha224sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
+		fi
+		if test ${DIGEST_HASH} != ${VERIFICATION_DIGEST_HASH};
+		then
+			RESULT=${EXIT_FAILURE};
+		fi
+	fi
+
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA256" | sed 's/^[^:]*[:][\t][\t]*//'`;
+
+	if test ${RESULT} -eq ${EXIT_SUCCESS};
+	then
+		if test "${PLATFORM}" = "Darwin";
+		then
+			VERIFICATION_DIGEST_HASH=`openssl sha256 ${INPUT_FILE} | sed 's/^[=]*=//'`;
+		else
+			VERIFICATION_DIGEST_HASH=`sha256sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
+		fi
+		if test ${DIGEST_HASH} != ${VERIFICATION_DIGEST_HASH};
+		then
+			RESULT=${EXIT_FAILURE};
+		fi
+	fi
+
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA512" | sed 's/^[^:]*[:][\t][\t]*//'`;
+
+	if test ${RESULT} -eq ${EXIT_SUCCESS};
+	then
+		if test "${PLATFORM}" = "Darwin";
+		then
+			VERIFICATION_DIGEST_HASH=`openssl sha512 ${INPUT_FILE} | sed 's/^[=]*=//'`;
+		else
+			VERIFICATION_DIGEST_HASH=`sha512sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
 		if test ${DIGEST_HASH} != ${VERIFICATION_DIGEST_HASH};
 		then
@@ -51,7 +83,7 @@ test_callback()
 
 	echo "";
 
-	echo -n "Testing ${TEST_PROFILE} -d sha512 of input: ${INPUT_FILE} ";
+	echo -n "Testing ${TEST_PROFILE} -d sha224,sha256,sha512 of input: ${INPUT_FILE} ";
 
 	if test ${RESULT} -ne ${EXIT_SUCCESS};
 	then
@@ -101,9 +133,9 @@ source ${TEST_RUNNER};
 
 if test "${PLATFORM}" = "Darwin";
 then
-	assert_availability_binary sha512;
+	assert_availability_binary openssl;
 else
-	assert_availability_binary sha512sum;
+	assert_availability_binary sha256sum;
 fi
 
 run_test_on_input_directory "${TEST_PROFILE}" "${TEST_DESCRIPTION}" "with_callback" "${OPTION_SETS}" "${TEST_EXECUTABLE}" "${INPUT_DIRECTORY}" "${INPUT_GLOB}";

@@ -9,8 +9,7 @@ TESTS = \
 	test_api_functions.sh \
 	test_md5sum.sh \
 	test_sha1sum.sh \
-	test_sha256sum.sh \
-	test_sha512sum.sh
+	test_sha2sum.sh
 
 TESTS_INPUT = \
 	input/empty \
@@ -28,8 +27,7 @@ check_SCRIPTS = \
 	test_md5sum.sh \
 	test_runner.sh \
 	test_sha1sum.sh \
-	test_sha256sum.sh \
-	test_sha512sum.sh
+	test_sha2sum.sh
 
 check_PROGRAMS = \
 	hmac_test_get_version

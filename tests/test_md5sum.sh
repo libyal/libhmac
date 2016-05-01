@@ -30,18 +30,18 @@ test_callback()
 	shift 5;
 	local ARGUMENTS=$@;
 
-	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" -d md5 ${INPUT_FILE} | ${GREP} "MD5" | ${SED} 's/^[^:]*[:][\t][\t]*//' > ${TMPDIR}/md5;
+	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" -d md5 ${INPUT_FILE} > ${TMPDIR}/hmacsum;
 	local RESULT=$?;
 
-	DIGEST_HASH=`cat ${TMPDIR}/md5`;
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "MD5" | sed 's/^[^:]*[:][\t][\t]*//'`;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`md5 ${INPUT_FILE} | ${SED} 's/[ ][ ]*[^ ][^ ]*$//'`;
+			VERIFICATION_DIGEST_HASH=`md5 ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		else
-			VERIFICATION_DIGEST_HASH=`md5sum ${INPUT_FILE} | ${SED} 's/[ ][ ]*[^ ][^ ]*$//'`;
+			VERIFICATION_DIGEST_HASH=`md5sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
 		if test ${DIGEST_HASH} != ${VERIFICATION_DIGEST_HASH};
 		then
