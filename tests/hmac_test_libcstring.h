@@ -1,5 +1,5 @@
 /*
- * The internal libcfile header
+ * The internal libcstring header
  *
  * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,32 +19,33 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _HMACTOOLS_LIBCFILE_H )
-#define _HMACTOOLS_LIBCFILE_H
+#if !defined( _HMAC_TEST_LIBCSTRING_H )
+#define _HMAC_TEST_LIBCSTRING_H
 
 #include <common.h>
 
-/* Define HAVE_LOCAL_LIBCFILE for local use of libcfile
+/* Define HAVE_LOCAL_LIBCSTRING for local use of libcstring
  */
-#if defined( HAVE_LOCAL_LIBCFILE )
+#if defined( HAVE_LOCAL_LIBCSTRING )
 
-#include <libcfile_definitions.h>
-#include <libcfile_file.h>
-#include <libcfile_support.h>
-#include <libcfile_types.h>
+#include <libcstring_definitions.h>
+#include <libcstring_narrow_string.h>
+#include <libcstring_system_string.h>
+#include <libcstring_types.h>
+#include <libcstring_wide_string.h>
 
 #else
 
-/* If libtool DLL support is enabled set LIBCFILE_DLL_IMPORT
- * before including libcfile.h
+/* If libtool DLL support is enabled set LIBCSTRING_DLL_IMPORT
+ * before including libcstring.h
  */
 #if defined( _WIN32 ) && defined( DLL_IMPORT )
-#define LIBCFILE_DLL_IMPORT
+#define LIBCSTRING_DLL_IMPORT
 #endif
 
-#include <libcfile.h>
+#include <libcstring.h>
 
-#endif /* defined( HAVE_LOCAL_LIBCFILE ) */
+#endif /* defined( HAVE_LOCAL_LIBCSTRING ) */
 
-#endif /* !defined( _HMACTOOLS_LIBCFILE_H ) */
+#endif /* !defined( _HMAC_TEST_LIBCSTRING_H ) */
 

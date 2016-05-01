@@ -1,4 +1,5 @@
 MSVSCPP_FILES = \
+	hmac_test_get_version/hmac_test_get_version.vcproj \
 	hmacsum/hmacsum.vcproj \
 	libcerror/libcerror.vcproj \
 	libcfile/libcfile.vcproj \

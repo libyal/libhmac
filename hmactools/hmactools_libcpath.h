@@ -42,7 +42,7 @@
 
 #include <libcpath.h>
 
-#endif
+#endif /* defined( HAVE_LOCAL_LIBCPATH ) */
 
-#endif
+#endif /* !defined( _HMACTOOLS_LIBCPATH_H ) */
 

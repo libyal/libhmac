@@ -1,5 +1,5 @@
 /*
- * The internal libcfile header
+ * The internal libcerror header
  *
  * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,32 +19,32 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _HMACTOOLS_LIBCFILE_H )
-#define _HMACTOOLS_LIBCFILE_H
+#if !defined( _HMAC_TEST_LIBCERROR_H )
+#define _HMAC_TEST_LIBCERROR_H
 
 #include <common.h>
 
-/* Define HAVE_LOCAL_LIBCFILE for local use of libcfile
+/* Define HAVE_LOCAL_LIBCERROR for local use of libcerror
  */
-#if defined( HAVE_LOCAL_LIBCFILE )
+#if defined( HAVE_LOCAL_LIBCERROR )
 
-#include <libcfile_definitions.h>
-#include <libcfile_file.h>
-#include <libcfile_support.h>
-#include <libcfile_types.h>
+#include <libcerror_definitions.h>
+#include <libcerror_error.h>
+#include <libcerror_system.h>
+#include <libcerror_types.h>
 
 #else
 
-/* If libtool DLL support is enabled set LIBCFILE_DLL_IMPORT
- * before including libcfile.h
+/* If libtool DLL support is enabled set LIBCERROR_DLL_IMPORT
+ * before including libcerror.h
  */
 #if defined( _WIN32 ) && defined( DLL_IMPORT )
-#define LIBCFILE_DLL_IMPORT
+#define LIBCERROR_DLL_IMPORT
 #endif
 
-#include <libcfile.h>
+#include <libcerror.h>
 
-#endif /* defined( HAVE_LOCAL_LIBCFILE ) */
+#endif /* defined( HAVE_LOCAL_LIBCERROR ) */
 
-#endif /* !defined( _HMACTOOLS_LIBCFILE_H ) */
+#endif /* !defined( _HMAC_TEST_LIBCERROR_H ) */
 

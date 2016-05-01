@@ -1,5 +1,5 @@
 /*
- * The internal libcfile header
+ * The internal libhmac header
  *
  * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,32 +19,19 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _HMACTOOLS_LIBCFILE_H )
-#define _HMACTOOLS_LIBCFILE_H
+#if !defined( _HMAC_TEST_LIBHMAC_H )
+#define _HMAC_TEST_LIBHMAC_H
 
 #include <common.h>
 
-/* Define HAVE_LOCAL_LIBCFILE for local use of libcfile
+/* If Cygwin libtool DLL support is enabled and do not want to create static
+ * executables set LIBHMAC_DLL_IMPORT before including libhmac.h
  */
-#if defined( HAVE_LOCAL_LIBCFILE )
-
-#include <libcfile_definitions.h>
-#include <libcfile_file.h>
-#include <libcfile_support.h>
-#include <libcfile_types.h>
-
-#else
-
-/* If libtool DLL support is enabled set LIBCFILE_DLL_IMPORT
- * before including libcfile.h
- */
-#if defined( _WIN32 ) && defined( DLL_IMPORT )
-#define LIBCFILE_DLL_IMPORT
+#if defined( _WIN32 ) && defined( DLL_EXPORT ) && !defined( HAVE_STATIC_EXECUTABLES )
+#define LIBHMAC_DLL_IMPORT
 #endif
 
-#include <libcfile.h>
+#include <libhmac.h>
 
-#endif /* defined( HAVE_LOCAL_LIBCFILE ) */
-
-#endif /* !defined( _HMACTOOLS_LIBCFILE_H ) */
+#endif /* !defined( _HMAC_TEST_LIBHMAC_H ) */
 

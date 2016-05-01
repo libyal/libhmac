@@ -1,57 +1,49 @@
 #!/bin/bash
+# Sum tool testing script
 #
-# hmacsum -d sha1 testing script
-#
-# Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
-#
-# Refer to AUTHORS for acknowledgements.
-#
-# This software is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This software is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with this software.  If not, see <http://www.gnu.org/licenses/>.
-#
+# Version: 20160411
 
 EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
 EXIT_IGNORE=77;
 
-INPUT="input";
-TMP="tmp";
+TEST_PREFIX=`dirname ${PWD}`;
+TEST_PREFIX=`basename ${TEST_PREFIX} | sed 's/^lib\([^-]*\).*$/\1/'`;
+TEST_SUFFIX="sum";
 
-GREP="grep";
-LS="ls";
-SED="sed";
-SHA1SUM="sha1sum";
-TR="tr";
-WC="wc";
+TEST_PROFILE="${TEST_PREFIX}${TEST_SUFFIX}";
+TEST_DESCRIPTION="${TEST_PREFIX}${TEST_SUFFIX}";
+OPTION_SETS="";
 
-test_sha1sum()
-{ 
-	INPUT_FILE=$1;
+TEST_TOOL_DIRECTORY="../${TEST_PREFIX}tools";
+TEST_TOOL="${TEST_PREFIX}${TEST_SUFFIX}";
+INPUT_DIRECTORY="input";
+INPUT_GLOB="*";
 
-	rm -rf tmp;
-	mkdir tmp;
+test_callback()
+{
+	local TMPDIR=$1;
+	local TEST_SET_DIRECTORY=$2;
+	local TEST_OUTPUT=$3;
+	local TEST_EXECUTABLE=$4;
+	local TEST_INPUT=$5;
+	shift 5;
+	local ARGUMENTS=$@;
 
-	SUM=`${TEST_RUNNER} ${HMACSUM} -d sha1 ${INPUT_FILE} | ${GREP} "SHA1" | ${SED} 's/^[^:]*[:][\t][\t]*//'`;
+	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" -d sha1 ${INPUT_FILE} | ${GREP} "SHA1" | ${SED} 's/^[^:]*[:][\t][\t]*//' > ${TMPDIR}/sha1;
+	local RESULT=$?;
 
-	rm -rf tmp;
-
-	RESULT=$?;
+	DIGEST_HASH=`cat ${TMPDIR}/sha1`;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
-		SUM_CHECK=`${SHA1SUM} ${INPUT_FILE} | ${SED} 's/[ ][ ]*[^ ][^ ]*$//'`;
-
-		if test ${SUM} != ${SUM_CHECK};
+		if test "${PLATFORM}" = "Darwin";
+		then
+			VERIFICATION_DIGEST_HASH=`sha1 ${INPUT_FILE} | ${SED} 's/[ ][ ]*[^ ][^ ]*$//'`;
+		else
+			VERIFICATION_DIGEST_HASH=`sha1sum ${INPUT_FILE} | ${SED} 's/[ ][ ]*[^ ][^ ]*$//'`;
+		fi
+		if test ${DIGEST_HASH} != ${VERIFICATION_DIGEST_HASH};
 		then
 			RESULT=${EXIT_FAILURE};
 		fi
@@ -59,7 +51,7 @@ test_sha1sum()
 
 	echo "";
 
-	echo -n "Testing hmacsum -d sha1 of input: ${INPUT_FILE} ";
+	echo -n "Testing ${TEST_PROFILE} -d sha1 of input: ${INPUT_FILE} ";
 
 	if test ${RESULT} -ne ${EXIT_SUCCESS};
 	then
@@ -70,62 +62,52 @@ test_sha1sum()
 	return ${RESULT};
 }
 
-HMACSUM="../hmactools/hmacsum";
-
-if ! test -x ${HMACSUM};
+if ! test -z ${SKIP_TOOLS_TESTS};
 then
-	HMACSUM="../hmactools/hmacsum.exe";
+	exit ${EXIT_IGNORE};
 fi
 
-if ! test -x ${HMACSUM};
+TEST_EXECUTABLE="${TEST_TOOL_DIRECTORY}/${TEST_TOOL}";
+
+if ! test -x "${TEST_EXECUTABLE}";
 then
-	echo "Missing executable: ${HMACSUM}";
+	TEST_EXECUTABLE="${TEST_TOOL_DIRECTORY}/${TEST_TOOL}.exe";
+fi
+
+if ! test -x "${TEST_EXECUTABLE}";
+then
+	echo "Missing test executable: ${TEST_EXECUTABLE}";
 
 	exit ${EXIT_FAILURE};
 fi
 
 TEST_RUNNER="tests/test_runner.sh";
 
-if ! test -x ${TEST_RUNNER};
+if ! test -f "${TEST_RUNNER}";
 then
 	TEST_RUNNER="./test_runner.sh";
 fi
 
-if ! test -x ${TEST_RUNNER};
+if ! test -f "${TEST_RUNNER}";
 then
 	echo "Missing test runner: ${TEST_RUNNER}";
 
 	exit ${EXIT_FAILURE};
 fi
 
-if ! test -d ${INPUT};
-then
-	echo "No ${INPUT} directory found, to test hmacsum create ${INPUT} directory and place test files in directory.";
+PLATFORM=`uname -s`;
 
-	exit ${EXIT_IGNORE};
+source ${TEST_RUNNER};
+
+if test "${PLATFORM}" = "Darwin";
+then
+	assert_availability_binary sha1;
+else
+	assert_availability_binary sha1sum;
 fi
 
-EXIT_RESULT=${EXIT_IGNORE};
+run_test_on_input_directory "${TEST_PROFILE}" "${TEST_DESCRIPTION}" "with_callback" "${OPTION_SETS}" "${TEST_EXECUTABLE}" "${INPUT_DIRECTORY}" "${INPUT_GLOB}";
+RESULT=$?;
 
-if test -d ${INPUT};
-then
-	RESULT=`${LS} ${INPUT}/* | ${TR} ' ' '\n' | ${WC} -l`;
-
-	if test ${RESULT} -eq 0;
-	then
-		echo "No files found in ${INPUT} directory, to test hmacsum place test files in directory.";
-	else
-		for FILENAME in `${LS} ${INPUT}/* | ${TR} ' ' '\n'`;
-		do
-			if ! test_sha1sum "${FILENAME}";
-			then
-				exit ${EXIT_FAILURE};
-			fi
-		done
-
-		EXIT_RESULT=${EXIT_SUCCESS};
-	fi
-fi
-
-exit ${EXIT_RESULT};
+exit ${RESULT};
 
