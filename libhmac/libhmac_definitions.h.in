@@ -50,15 +50,15 @@
 
 #endif
 
-#if defined( WINAPI )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT )
 
 #if !defined( PROV_RSA_AES )
 #define PROV_RSA_AES			24
 #endif
 
-#endif /* defined( WINAPI ) */
+#endif /* defined( WINAPI ) && defined( HAVE_WINCRYPT ) */
 
 #define LIBHMAC_UNFOLLED_LOOPS
 
-#endif
+#endif /* !defined( LIBHMAC_INTERNAL_DEFINITIONS_H ) */
 

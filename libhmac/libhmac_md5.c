@@ -24,7 +24,7 @@
 #include <memory.h>
 #include <types.h>
 
-#if defined( WINAPI )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT )
 #include <wincrypt.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H )
@@ -484,7 +484,7 @@ int libhmac_md5_initialize(
 
 		return( -1 );
 	}
-#if defined( WINAPI ) && defined( CALG_MD5 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_MD5 )
 	/* Request the AES crypt provider, fail back to the RSA crypt provider
 	*/
 	if( CryptAcquireContext(
@@ -636,7 +636,7 @@ int libhmac_md5_free(
 		internal_context = (libhmac_internal_md5_context_t *) *context;
 		*context         = NULL;
 
-#if defined( WINAPI ) && defined( CALG_MD5 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_MD5 )
 		if( internal_context->crypt_provider != 0 )
 		{
 			CryptReleaseContext(
@@ -710,7 +710,7 @@ int libhmac_md5_update(
 	}
 	internal_context = (libhmac_internal_md5_context_t *) context;
 
-#if defined( WINAPI ) && defined( CALG_MD5 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_MD5 )
 	if( internal_context->hash == 0 )
 	{
 		libcerror_error_set(
@@ -734,7 +734,7 @@ int libhmac_md5_update(
 
 		return( -1 );
 	}
-#if defined( WINAPI ) && defined( CALG_MD5 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_MD5 )
 #if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
 	if( size > (size_t) UINT32_MAX )
 	{
@@ -950,7 +950,7 @@ int libhmac_md5_finalize(
 	libhmac_internal_md5_context_t *internal_context = NULL;
 	static char *function                            = "libhmac_md5_finalize";
 
-#if defined( WINAPI ) && defined( CALG_MD5 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_MD5 )
 	DWORD safe_hash_size                             = 0;
 
 #elif defined( HAVE_LIBCRYPTO ) && !defined( HAVE_OPENSSL_MD5_H ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_MD5 )
@@ -981,7 +981,7 @@ int libhmac_md5_finalize(
 	}
 	internal_context = (libhmac_internal_md5_context_t *) context;
 
-#if defined( WINAPI ) && defined( CALG_MD5 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_MD5 )
 	if( internal_context->hash == 0 )
 	{
 		libcerror_error_set(
@@ -1016,7 +1016,7 @@ int libhmac_md5_finalize(
 
 		return( -1 );
 	}
-#if defined( WINAPI ) && defined( CALG_MD5 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_MD5 )
 #if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
 	if( hash_size > (size_t) UINT32_MAX )
 	{

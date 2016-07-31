@@ -211,5 +211,5 @@ typedef intptr_t libhmac_sha512_context_t;
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBHMAC_TYPES_H ) */
 

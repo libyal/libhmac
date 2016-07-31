@@ -25,7 +25,7 @@
 #include <common.h>
 #include <types.h>
 
-#if defined( WINAPI )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT )
 #include <wincrypt.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H )
@@ -44,7 +44,7 @@
 extern "C" {
 #endif
 
-#if defined( WINAPI ) && defined( CALG_MD5 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_MD5 )
 #define LIBHMAC_HAVE_MD5_SUPPORT
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
@@ -63,7 +63,7 @@ typedef struct libhmac_internal_md5_context libhmac_internal_md5_context_t;
 
 struct libhmac_internal_md5_context
 {
-#if defined( WINAPI ) && defined( CALG_MD5 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_MD5 )
 	HCRYPTPROV crypt_provider;
 	HCRYPTHASH hash;
 
@@ -93,12 +93,14 @@ struct libhmac_internal_md5_context
 };
 
 #if !defined( LIBHMAC_HAVE_MD5_SUPPORT )
+
 ssize_t libhmac_md5_transform(
          libhmac_internal_md5_context_t *internal_context,
          const uint8_t *buffer,
          size_t size,
          libcerror_error_t **error );
-#endif
+
+#endif /* !defined( LIBHMAC_HAVE_MD5_SUPPORT ) */
 
 LIBHMAC_EXTERN \
 int libhmac_md5_initialize(
@@ -146,5 +148,5 @@ int libhmac_md5_calculate_hmac(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBHMAC_MD5_H ) */
 

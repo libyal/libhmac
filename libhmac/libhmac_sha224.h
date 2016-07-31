@@ -25,7 +25,7 @@
 #include <common.h>
 #include <types.h>
 
-#if defined( WINAPI )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT )
 #include <wincrypt.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H )
@@ -47,7 +47,7 @@ extern "C" {
 /* Make sure the WINAPI version is Vista or later otherwise
  * a cross compilation will contain broken SHA-224 support
  */
-#if defined( WINAPI ) && defined( CALG_SHA_224 ) && ( WINVER >= 0x0600 )
+#if defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( HAVE_WINCRYPT ) && defined( CALG_SHA_224 )
 #define LIBHMAC_HAVE_SHA224_SUPPORT
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA224_DIGEST_LENGTH )
@@ -66,7 +66,7 @@ typedef struct libhmac_internal_sha224_context libhmac_internal_sha224_context_t
 
 struct libhmac_internal_sha224_context
 {
-#if defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_224 )
+#if defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( HAVE_WINCRYPT ) && defined( CALG_SHA_224 )
 	HCRYPTPROV crypt_provider;
 	HCRYPTHASH hash;
 
@@ -98,12 +98,14 @@ struct libhmac_internal_sha224_context
 };
 
 #if !defined( LIBHMAC_HAVE_SHA224_SUPPORT )
+
 ssize_t libhmac_sha224_transform(
          libhmac_internal_sha224_context_t *internal_context,
          const uint8_t *buffer,
          size_t size,
          libcerror_error_t **error );
-#endif
+
+#endif /* !defined( LIBHMAC_HAVE_SHA224_SUPPORT ) */
 
 LIBHMAC_EXTERN \
 int libhmac_sha224_initialize(
@@ -151,5 +153,5 @@ int libhmac_sha224_calculate_hmac(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBHMAC_SHA224_H ) */
 

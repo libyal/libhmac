@@ -25,7 +25,7 @@
 #include <common.h>
 #include <types.h>
 
-#if defined( WINAPI )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT )
 #include <wincrypt.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H )
@@ -44,7 +44,7 @@
 extern "C" {
 #endif
 
-#if defined( WINAPI ) && defined( CALG_SHA1 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_SHA1 )
 #define LIBHMAC_HAVE_SHA1_SUPPORT
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA_DIGEST_LENGTH )
@@ -63,7 +63,7 @@ typedef struct libhmac_internal_sha1_context libhmac_internal_sha1_context_t;
 
 struct libhmac_internal_sha1_context
 {
-#if defined( WINAPI ) && defined( CALG_SHA1 )
+#if defined( WINAPI ) && defined( HAVE_WINCRYPT ) && defined( CALG_SHA1 )
 	HCRYPTPROV crypt_provider;
 	HCRYPTHASH hash;
 
@@ -93,12 +93,14 @@ struct libhmac_internal_sha1_context
 };
 
 #if !defined( LIBHMAC_HAVE_SHA1_SUPPORT )
+
 ssize_t libhmac_sha1_transform(
          libhmac_internal_sha1_context_t *internal_context,
          const uint8_t *buffer,
          size_t size,
          libcerror_error_t **error );
-#endif
+
+#endif /* !defined( LIBHMAC_HAVE_SHA1_SUPPORT ) */
 
 LIBHMAC_EXTERN \
 int libhmac_sha1_initialize(
@@ -146,5 +148,5 @@ int libhmac_sha1_calculate_hmac(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBHMAC_SHA1_H ) */
 
