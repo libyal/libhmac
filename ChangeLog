@@ -20,6 +20,12 @@ TODO
 Tests:
 * add HMAC tests
 
+20160802
+* worked on WINCRYPT support
+
+20160731
+* added WINCRYPT support
+
 20160501
 * hmacsum fixed missing MD5 hash default
 
