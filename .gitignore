@@ -120,6 +120,7 @@ stamp-h[1-9]
 /libhmac/libhmac.rc
 /libhmac/libhmac_definitions.h
 /hmactools/hmacsum
+/tests/hmac_test_error
 /tests/hmac_test_get_version
 /tests/tmp*
 

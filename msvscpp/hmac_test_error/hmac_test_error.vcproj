@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="hmac_test_get_version"
-	ProjectGUID="{1BA36FAB-49ED-4E72-912C-F461E97304CB}"
-	RootNamespace="hmac_test_get_version"
+	Name="hmac_test_error"
+	ProjectGUID="{B30CD67E-2D97-4170-8D62-9D66DB770E13}"
+	RootNamespace="hmac_test_error"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -176,7 +176,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\tests\hmac_test_get_version.c"
+				RelativePath="..\..\tests\hmac_test_error.c"
 				>
 			</File>
 		</Filter>

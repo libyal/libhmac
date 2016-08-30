@@ -1,6 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hmac_test_error", "hmac_test_error\hmac_test_error.vcproj", "{B30CD67E-2D97-4170-8D62-9D66DB770E13}"
+	ProjectSection(ProjectDependencies) = postProject
+		{17E6D2AC-3A79-4280-B860-C9123D24049F} = {17E6D2AC-3A79-4280-B860-C9123D24049F}
+		{20FFC4C9-F44C-45F6-A827-4819B4DF3C9F} = {20FFC4C9-F44C-45F6-A827-4819B4DF3C9F}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hmac_test_get_version", "hmac_test_get_version\hmac_test_get_version.vcproj", "{1BA36FAB-49ED-4E72-912C-F461E97304CB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{17E6D2AC-3A79-4280-B860-C9123D24049F} = {17E6D2AC-3A79-4280-B860-C9123D24049F}
@@ -91,6 +97,10 @@ Global
 		VSDebug|Win32 = VSDebug|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B30CD67E-2D97-4170-8D62-9D66DB770E13}.Release|Win32.ActiveCfg = Release|Win32
+		{B30CD67E-2D97-4170-8D62-9D66DB770E13}.Release|Win32.Build.0 = Release|Win32
+		{B30CD67E-2D97-4170-8D62-9D66DB770E13}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{B30CD67E-2D97-4170-8D62-9D66DB770E13}.VSDebug|Win32.Build.0 = VSDebug|Win32
 		{1BA36FAB-49ED-4E72-912C-F461E97304CB}.Release|Win32.ActiveCfg = Release|Win32
 		{1BA36FAB-49ED-4E72-912C-F461E97304CB}.Release|Win32.Build.0 = Release|Win32
 		{1BA36FAB-49ED-4E72-912C-F461E97304CB}.VSDebug|Win32.ActiveCfg = VSDebug|Win32

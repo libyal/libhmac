@@ -30,12 +30,25 @@ check_SCRIPTS = \
 	test_sha2sum.sh
 
 check_PROGRAMS = \
+	hmac_test_error \
 	hmac_test_get_version
+
+hmac_test_error_SOURCES = \
+	hmac_test_error.c \
+	hmac_test_libcstring.h \
+	hmac_test_libhmac.h \
+	hmac_test_macros.h \
+	hmac_test_unused.h
+
+hmac_test_error_LDADD = \
+	../libhmac/libhmac.la \
+	@LIBCSTRING_LIBADD@
 
 hmac_test_get_version_SOURCES = \
 	hmac_test_get_version.c \
 	hmac_test_libcstring.h \
 	hmac_test_libhmac.h \
+	hmac_test_macros.h \
 	hmac_test_unused.h
 
 hmac_test_get_version_LDADD = \
