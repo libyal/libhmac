@@ -7,6 +7,7 @@ AM_CPPFLAGS = \
 
 TESTS = \
 	test_api_functions.sh \
+	test_api_types.sh \
 	test_md5sum.sh \
 	test_sha1sum.sh \
 	test_sha2sum.sh
@@ -24,6 +25,7 @@ TESTS_INPUT = \
 
 check_SCRIPTS = \
 	test_api_functions.sh \
+	test_api_types.sh \
 	test_md5sum.sh \
 	test_runner.sh \
 	test_sha1sum.sh \
@@ -31,7 +33,12 @@ check_SCRIPTS = \
 
 check_PROGRAMS = \
 	hmac_test_error \
-	hmac_test_get_version
+	hmac_test_get_version \
+	hmac_test_md5_context \
+	hmac_test_sha1_context \
+	hmac_test_sha224_context \
+	hmac_test_sha256_context \
+	hmac_test_sha512_context
 
 hmac_test_error_SOURCES = \
 	hmac_test_error.c \
@@ -53,6 +60,76 @@ hmac_test_get_version_SOURCES = \
 
 hmac_test_get_version_LDADD = \
 	../libhmac/libhmac.la \
+	@LIBCSTRING_LIBADD@
+
+hmac_test_md5_context_SOURCES = \
+	hmac_test_libhmac.h \
+	hmac_test_libcerror.h \
+	hmac_test_libcstring.h \
+	hmac_test_macros.h \
+	hmac_test_memory.c hmac_test_memory.h \
+	hmac_test_md5_context.c \
+	hmac_test_unused.h
+
+hmac_test_md5_context_LDADD = \
+	../libhmac/libhmac.la \
+	@LIBCERROR_LIBADD@ \
+	@LIBCSTRING_LIBADD@
+
+hmac_test_sha1_context_SOURCES = \
+	hmac_test_libhmac.h \
+	hmac_test_libcerror.h \
+	hmac_test_libcstring.h \
+	hmac_test_macros.h \
+	hmac_test_memory.c hmac_test_memory.h \
+	hmac_test_sha1_context.c \
+	hmac_test_unused.h
+
+hmac_test_sha1_context_LDADD = \
+	../libhmac/libhmac.la \
+	@LIBCERROR_LIBADD@ \
+	@LIBCSTRING_LIBADD@
+
+hmac_test_sha224_context_SOURCES = \
+	hmac_test_libhmac.h \
+	hmac_test_libcerror.h \
+	hmac_test_libcstring.h \
+	hmac_test_macros.h \
+	hmac_test_memory.c hmac_test_memory.h \
+	hmac_test_sha224_context.c \
+	hmac_test_unused.h
+
+hmac_test_sha224_context_LDADD = \
+	../libhmac/libhmac.la \
+	@LIBCERROR_LIBADD@ \
+	@LIBCSTRING_LIBADD@
+
+hmac_test_sha256_context_SOURCES = \
+	hmac_test_libhmac.h \
+	hmac_test_libcerror.h \
+	hmac_test_libcstring.h \
+	hmac_test_macros.h \
+	hmac_test_memory.c hmac_test_memory.h \
+	hmac_test_sha256_context.c \
+	hmac_test_unused.h
+
+hmac_test_sha256_context_LDADD = \
+	../libhmac/libhmac.la \
+	@LIBCERROR_LIBADD@ \
+	@LIBCSTRING_LIBADD@
+
+hmac_test_sha512_context_SOURCES = \
+	hmac_test_libhmac.h \
+	hmac_test_libcerror.h \
+	hmac_test_libcstring.h \
+	hmac_test_macros.h \
+	hmac_test_memory.c hmac_test_memory.h \
+	hmac_test_sha512_context.c \
+	hmac_test_unused.h
+
+hmac_test_sha512_context_LDADD = \
+	../libhmac/libhmac.la \
+	@LIBCERROR_LIBADD@ \
 	@LIBCSTRING_LIBADD@
 
 EXTRA_DIST = \

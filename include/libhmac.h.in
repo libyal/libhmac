@@ -419,5 +419,5 @@ int libhmac_sha512_calculate_hmac(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBHMAC_H ) */
 
