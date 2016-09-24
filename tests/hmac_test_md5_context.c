@@ -48,7 +48,7 @@ int hmac_test_md5_initialize(
 	          &md5_context,
 	          &error );
 
-	HMAC_TEST_ASSERT_EQUAL(
+	HMAC_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
 	 1 );
@@ -65,7 +65,7 @@ int hmac_test_md5_initialize(
 	          &md5_context,
 	          &error );
 
-	HMAC_TEST_ASSERT_EQUAL(
+	HMAC_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
 	 1 );
@@ -84,7 +84,7 @@ int hmac_test_md5_initialize(
 	          NULL,
 	          &error );
 
-	HMAC_TEST_ASSERT_EQUAL(
+	HMAC_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
 	 -1 );
@@ -102,7 +102,7 @@ int hmac_test_md5_initialize(
 	          &md5_context,
 	          &error );
 
-	HMAC_TEST_ASSERT_EQUAL(
+	HMAC_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
 	 -1 );
@@ -132,7 +132,7 @@ int hmac_test_md5_initialize(
 	}
 	else
 	{
-		HMAC_TEST_ASSERT_EQUAL(
+		HMAC_TEST_ASSERT_EQUAL_INT(
 		 "result",
 		 result,
 		 -1 );
@@ -162,7 +162,7 @@ int hmac_test_md5_initialize(
 	}
 	else
 	{
-		HMAC_TEST_ASSERT_EQUAL(
+		HMAC_TEST_ASSERT_EQUAL_INT(
 		 "result",
 		 result,
 		 -1 );
@@ -212,7 +212,7 @@ int hmac_test_md5_free(
 	          NULL,
 	          &error );
 
-	HMAC_TEST_ASSERT_EQUAL(
+	HMAC_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
 	 -1 );
