@@ -21,7 +21,10 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "byte_size_string.h"
 #include "digest_hash.h"
@@ -30,8 +33,8 @@
 #include "hmactools_libcfile.h"
 #include "hmactools_libcpath.h"
 #include "hmactools_libcsplit.h"
-#include "hmactools_libcstring.h"
 #include "sum_handle.h"
+#include "system_split_string.h"
 
 #define MD5_STRING_SIZE		33
 #define SHA1_STRING_SIZE	41
@@ -112,7 +115,7 @@ int sum_handle_initialize(
 
 		goto on_error;
 	}
-	( *sum_handle )->calculated_md5_hash_string = libcstring_system_string_allocate(
+	( *sum_handle )->calculated_md5_hash_string = system_string_allocate(
 	                                               MD5_STRING_SIZE );
 
 	if( ( *sum_handle )->calculated_md5_hash_string == NULL )
@@ -321,7 +324,7 @@ int sum_handle_signal_abort(
  */
 int sum_handle_open_input(
      sum_handle_t *sum_handle,
-     const libcstring_system_character_t *filename,
+     const system_character_t *filename,
      libcerror_error_t **error )
 {
 	static char *function = "sum_handle_open_input";
@@ -337,7 +340,7 @@ int sum_handle_open_input(
 
 		return( -1 );
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 	if( libcfile_file_open_wide(
 	     sum_handle->input_handle,
 	     filename,
@@ -1149,27 +1152,22 @@ on_error:
  */
 int sum_handle_set_digest_types(
      sum_handle_t *sum_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error )
 {
-	libcstring_system_character_t *string_segment    = NULL;
-	static char *function                            = "sum_handle_set_digest_types";
-	size_t string_length                             = 0;
-	size_t string_segment_size                       = 0;
-	uint8_t calculate_md5                            = 0;
-	uint8_t calculate_sha1                           = 0;
-	uint8_t calculate_sha224                         = 0;
-	uint8_t calculate_sha256                         = 0;
-	uint8_t calculate_sha512                         = 0;
-	int number_of_segments                           = 0;
-	int segment_index                                = 0;
-	int result                                       = 0;
-
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	libcsplit_wide_split_string_t *string_elements   = NULL;
-#else
-	libcsplit_narrow_split_string_t *string_elements = NULL;
-#endif
+	system_character_t *string_segment     = NULL;
+	system_split_string_t *string_elements = NULL;
+	static char *function                  = "sum_handle_set_digest_types";
+	size_t string_length                   = 0;
+	size_t string_segment_size             = 0;
+	uint8_t calculate_md5                  = 0;
+	uint8_t calculate_sha1                 = 0;
+	uint8_t calculate_sha224               = 0;
+	uint8_t calculate_sha256               = 0;
+	uint8_t calculate_sha512               = 0;
+	int number_of_segments                 = 0;
+	int segment_index                      = 0;
+	int result                             = 0;
 
 	if( sum_handle == NULL )
 	{
@@ -1182,24 +1180,15 @@ int sum_handle_set_digest_types(
 
 		return( -1 );
 	}
-	string_length = libcstring_system_string_length(
+	string_length = system_string_length(
 	                 string );
 
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( libcsplit_wide_string_split(
-	     string,
-	     string_length + 1,
-	     (wchar_t) ',',
-	     &string_elements,
-	     error ) != 1 )
-#else
-	if( libcsplit_narrow_string_split(
+	if( system_string_split(
 	     string,
 	     string_length + 1,
 	     ',',
 	     &string_elements,
 	     error ) != 1 )
-#endif
 	{
 		libcerror_error_set(
 		 error,
@@ -1210,17 +1199,10 @@ int sum_handle_set_digest_types(
 
 		goto on_error;
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( libcsplit_wide_split_string_get_number_of_segments(
+	if( system_split_string_get_number_of_segments(
 	     string_elements,
 	     &number_of_segments,
 	     error ) != 1 )
-#else
-	if( libcsplit_narrow_split_string_get_number_of_segments(
-	     string_elements,
-	     &number_of_segments,
-	     error ) != 1 )
-#endif
 	{
 		libcerror_error_set(
 		 error,
@@ -1235,21 +1217,12 @@ int sum_handle_set_digest_types(
 	     segment_index < number_of_segments;
 	     segment_index++ )
 	{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-		if( libcsplit_wide_split_string_get_segment_by_index(
+		if( system_split_string_get_segment_by_index(
 		     string_elements,
 		     segment_index,
 		     &string_segment,
 		     &string_segment_size,
 		     error ) != 1 )
-#else
-		if( libcsplit_narrow_split_string_get_segment_by_index(
-		     string_elements,
-		     segment_index,
-		     &string_segment,
-		     &string_segment_size,
-		     error ) != 1 )
-#endif
 		{
 			libcerror_error_set(
 			 error,
@@ -1275,16 +1248,16 @@ int sum_handle_set_digest_types(
 		}
 		if( string_segment_size == 4 )
 		{
-			if( libcstring_system_string_compare(
+			if( system_string_compare(
 			     string_segment,
-			     _LIBCSTRING_SYSTEM_STRING( "md5" ),
+			     _SYSTEM_STRING( "md5" ),
 			     4 ) == 0 )
 			{
 				calculate_md5 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "MD5" ),
+			          _SYSTEM_STRING( "MD5" ),
 			          4 ) == 0 )
 			{
 				calculate_md5 = 1;
@@ -1292,16 +1265,16 @@ int sum_handle_set_digest_types(
 		}
 		else if( string_segment_size == 5 )
 		{
-			if( libcstring_system_string_compare(
+			if( system_string_compare(
 			     string_segment,
-			     _LIBCSTRING_SYSTEM_STRING( "sha1" ),
+			     _SYSTEM_STRING( "sha1" ),
 			     4 ) == 0 )
 			{
 				calculate_sha1 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA1" ),
+			          _SYSTEM_STRING( "SHA1" ),
 			          4 ) == 0 )
 			{
 				calculate_sha1 = 1;
@@ -1309,30 +1282,30 @@ int sum_handle_set_digest_types(
 		}
 		else if( string_segment_size == 6 )
 		{
-			if( libcstring_system_string_compare(
+			if( system_string_compare(
 			     string_segment,
-			     _LIBCSTRING_SYSTEM_STRING( "sha-1" ),
+			     _SYSTEM_STRING( "sha-1" ),
 			     5 ) == 0 )
 			{
 				calculate_sha1 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "sha_1" ),
+			          _SYSTEM_STRING( "sha_1" ),
 			          5 ) == 0 )
 			{
 				calculate_sha1 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA-1" ),
+			          _SYSTEM_STRING( "SHA-1" ),
 			          5 ) == 0 )
 			{
 				calculate_sha1 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA_1" ),
+			          _SYSTEM_STRING( "SHA_1" ),
 			          5 ) == 0 )
 			{
 				calculate_sha1 = 1;
@@ -1340,44 +1313,44 @@ int sum_handle_set_digest_types(
 		}
 		else if( string_segment_size == 7 )
 		{
-			if( libcstring_system_string_compare(
+			if( system_string_compare(
 			     string_segment,
-			     _LIBCSTRING_SYSTEM_STRING( "sha224" ),
+			     _SYSTEM_STRING( "sha224" ),
 			     6 ) == 0 )
 			{
 				calculate_sha224 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA224" ),
+			          _SYSTEM_STRING( "SHA224" ),
 			          6 ) == 0 )
 			{
 				calculate_sha224 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "sha256" ),
+			          _SYSTEM_STRING( "sha256" ),
 			          6 ) == 0 )
 			{
 				calculate_sha256 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA256" ),
+			          _SYSTEM_STRING( "SHA256" ),
 			          6 ) == 0 )
 			{
 				calculate_sha256 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "sha512" ),
+			          _SYSTEM_STRING( "sha512" ),
 			          6 ) == 0 )
 			{
 				calculate_sha512 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA512" ),
+			          _SYSTEM_STRING( "SHA512" ),
 			          6 ) == 0 )
 			{
 				calculate_sha512 = 1;
@@ -1385,86 +1358,86 @@ int sum_handle_set_digest_types(
 		}
 		else if( string_segment_size == 8 )
 		{
-			if( libcstring_system_string_compare(
+			if( system_string_compare(
 			     string_segment,
-			     _LIBCSTRING_SYSTEM_STRING( "sha-224" ),
+			     _SYSTEM_STRING( "sha-224" ),
 			     7 ) == 0 )
 			{
 				calculate_sha224 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "sha_224" ),
+			          _SYSTEM_STRING( "sha_224" ),
 			          7 ) == 0 )
 			{
 				calculate_sha224 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA-224" ),
+			          _SYSTEM_STRING( "SHA-224" ),
 			          7 ) == 0 )
 			{
 				calculate_sha224 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA_224" ),
+			          _SYSTEM_STRING( "SHA_224" ),
 			          7 ) == 0 )
 			{
 				calculate_sha224 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "sha-256" ),
+			          _SYSTEM_STRING( "sha-256" ),
 			          7 ) == 0 )
 			{
 				calculate_sha256 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "sha_256" ),
+			          _SYSTEM_STRING( "sha_256" ),
 			          7 ) == 0 )
 			{
 				calculate_sha256 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA-256" ),
+			          _SYSTEM_STRING( "SHA-256" ),
 			          7 ) == 0 )
 			{
 				calculate_sha256 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA_256" ),
+			          _SYSTEM_STRING( "SHA_256" ),
 			          7 ) == 0 )
 			{
 				calculate_sha256 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "sha-512" ),
+			          _SYSTEM_STRING( "sha-512" ),
 			          7 ) == 0 )
 			{
 				calculate_sha512 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "sha_512" ),
+			          _SYSTEM_STRING( "sha_512" ),
 			          7 ) == 0 )
 			{
 				calculate_sha512 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA-512" ),
+			          _SYSTEM_STRING( "SHA-512" ),
 			          7 ) == 0 )
 			{
 				calculate_sha512 = 1;
 			}
-			else if( libcstring_system_string_compare(
+			else if( system_string_compare(
 			          string_segment,
-			          _LIBCSTRING_SYSTEM_STRING( "SHA_512" ),
+			          _SYSTEM_STRING( "SHA_512" ),
 			          7 ) == 0 )
 			{
 				calculate_sha512 = 1;
@@ -1474,7 +1447,7 @@ int sum_handle_set_digest_types(
 	if( ( calculate_md5 != 0 )
 	 && ( sum_handle->calculate_md5 == 0 ) )
 	{
-		sum_handle->calculated_md5_hash_string = libcstring_system_string_allocate(
+		sum_handle->calculated_md5_hash_string = system_string_allocate(
 		                                          MD5_STRING_SIZE );
 
 		if( sum_handle->calculated_md5_hash_string == NULL )
@@ -1493,7 +1466,7 @@ int sum_handle_set_digest_types(
 	if( ( calculate_sha1 != 0 )
 	 && ( sum_handle->calculate_sha1 == 0 ) )
 	{
-		sum_handle->calculated_sha1_hash_string = libcstring_system_string_allocate(
+		sum_handle->calculated_sha1_hash_string = system_string_allocate(
 		                                           SHA1_STRING_SIZE );
 
 		if( sum_handle->calculated_sha1_hash_string == NULL )
@@ -1512,7 +1485,7 @@ int sum_handle_set_digest_types(
 	if( ( calculate_sha224 != 0 )
 	 && ( sum_handle->calculate_sha224 == 0 ) )
 	{
-		sum_handle->calculated_sha224_hash_string = libcstring_system_string_allocate(
+		sum_handle->calculated_sha224_hash_string = system_string_allocate(
 		                                             SHA224_STRING_SIZE );
 
 		if( sum_handle->calculated_sha224_hash_string == NULL )
@@ -1531,7 +1504,7 @@ int sum_handle_set_digest_types(
 	if( ( calculate_sha256 != 0 )
 	 && ( sum_handle->calculate_sha256 == 0 ) )
 	{
-		sum_handle->calculated_sha256_hash_string = libcstring_system_string_allocate(
+		sum_handle->calculated_sha256_hash_string = system_string_allocate(
 		                                             SHA256_STRING_SIZE );
 
 		if( sum_handle->calculated_sha256_hash_string == NULL )
@@ -1550,7 +1523,7 @@ int sum_handle_set_digest_types(
 	if( ( calculate_sha512 != 0 )
 	 && ( sum_handle->calculate_sha512 == 0 ) )
 	{
-		sum_handle->calculated_sha512_hash_string = libcstring_system_string_allocate(
+		sum_handle->calculated_sha512_hash_string = system_string_allocate(
 		                                             SHA512_STRING_SIZE );
 
 		if( sum_handle->calculated_sha512_hash_string == NULL )
@@ -1566,15 +1539,9 @@ int sum_handle_set_digest_types(
 		}
 		sum_handle->calculate_sha512 = 1;
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( libcsplit_wide_split_string_free(
+	if( system_split_string_free(
 	     &string_elements,
 	     error ) != 1 )
-#else
-	if( libcsplit_narrow_split_string_free(
-	     &string_elements,
-	     error ) != 1 )
-#endif
 	{
 		libcerror_error_set(
 		 error,
@@ -1590,15 +1557,9 @@ int sum_handle_set_digest_types(
 on_error:
 	if( string_elements != NULL )
 	{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-		libcsplit_wide_split_string_free(
+		system_split_string_free(
 		 &string_elements,
 		 NULL );
-#else
-		libcsplit_narrow_split_string_free(
-		 &string_elements,
-		 NULL );
-#endif
 	}
 	return( -1 );
 }
@@ -1608,7 +1569,7 @@ on_error:
  */
 int sum_handle_set_process_buffer_size(
      sum_handle_t *sum_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error )
 {
 	static char *function  = "sum_handle_set_process_buffer_size";
@@ -1627,7 +1588,7 @@ int sum_handle_set_process_buffer_size(
 
 		return( -1 );
 	}
-	string_length = libcstring_system_string_length(
+	string_length = system_string_length(
 	                 string );
 
 	result = byte_size_string_convert(
@@ -1697,35 +1658,35 @@ int sum_handle_hash_values_fprint(
 	{
 		fprintf(
 		 stream,
-		 "MD5 hash calculated over data:\t\t%" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "MD5 hash calculated over data:\t\t%" PRIs_SYSTEM "\n",
 		 sum_handle->calculated_md5_hash_string );
 	}
 	if( sum_handle->calculate_sha1 != 0 )
 	{
 		fprintf(
 		 stream,
-		 "SHA1 hash calculated over data:\t\t%" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "SHA1 hash calculated over data:\t\t%" PRIs_SYSTEM "\n",
 		 sum_handle->calculated_sha1_hash_string );
 	}
 	if( sum_handle->calculate_sha224 != 0 )
 	{
 		fprintf(
 		 stream,
-		 "SHA224 hash calculated over data:\t%" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "SHA224 hash calculated over data:\t%" PRIs_SYSTEM "\n",
 		 sum_handle->calculated_sha224_hash_string );
 	}
 	if( sum_handle->calculate_sha256 != 0 )
 	{
 		fprintf(
 		 stream,
-		 "SHA256 hash calculated over data:\t%" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "SHA256 hash calculated over data:\t%" PRIs_SYSTEM "\n",
 		 sum_handle->calculated_sha256_hash_string );
 	}
 	if( sum_handle->calculate_sha512 != 0 )
 	{
 		fprintf(
 		 stream,
-		 "SHA512 hash calculated over data:\t%" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "SHA512 hash calculated over data:\t%" PRIs_SYSTEM "\n",
 		 sum_handle->calculated_sha512_hash_string );
 	}
 	return( 1 );

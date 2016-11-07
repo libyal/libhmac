@@ -27,7 +27,6 @@
 
 #include "hmactools_libcfile.h"
 #include "hmactools_libcerror.h"
-#include "hmactools_libcstring.h"
 #include "hmactools_libhmac.h"
 
 #if defined( __cplusplus )
@@ -56,7 +55,7 @@ struct sum_handle
 
 	/* The calculated MD5 digest hash string
 	 */
-	libcstring_system_character_t *calculated_md5_hash_string;
+	system_character_t *calculated_md5_hash_string;
 
 	/* Value to indicate if the SHA1 digest hash should be calculated
 	 */
@@ -72,7 +71,7 @@ struct sum_handle
 
 	/* The calculated SHA1 digest hash string
 	 */
-	libcstring_system_character_t *calculated_sha1_hash_string;
+	system_character_t *calculated_sha1_hash_string;
 
 	/* Value to indicate if the SHA224 digest hash should be calculated
 	 */
@@ -88,7 +87,7 @@ struct sum_handle
 
 	/* The calculated SHA224 digest hash string
 	 */
-	libcstring_system_character_t *calculated_sha224_hash_string;
+	system_character_t *calculated_sha224_hash_string;
 
 	/* Value to indicate if the SHA256 digest hash should be calculated
 	 */
@@ -104,7 +103,7 @@ struct sum_handle
 
 	/* The calculated SHA256 digest hash string
 	 */
-	libcstring_system_character_t *calculated_sha256_hash_string;
+	system_character_t *calculated_sha256_hash_string;
 
 	/* Value to indicate if the SHA512 digest hash should be calculated
 	 */
@@ -120,7 +119,7 @@ struct sum_handle
 
 	/* The calculated SHA512 digest hash string
 	 */
-	libcstring_system_character_t *calculated_sha512_hash_string;
+	system_character_t *calculated_sha512_hash_string;
 
 	/* The process buffer size
 	 */
@@ -145,7 +144,7 @@ int sum_handle_signal_abort(
 
 int sum_handle_open_input(
      sum_handle_t *sum_handle,
-     const libcstring_system_character_t *filename,
+     const system_character_t *filename,
      libcerror_error_t **error );
 
 int sum_handle_close(
@@ -178,12 +177,12 @@ int sum_handle_process_input(
 
 int sum_handle_set_digest_types(
      sum_handle_t *sum_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int sum_handle_set_process_buffer_size(
      sum_handle_t *sum_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int sum_handle_hash_values_fprint(
@@ -195,5 +194,5 @@ int sum_handle_hash_values_fprint(
 }
 #endif
 
-#endif
+#endif /* !defined( _SUM_HANDLE_H ) */
 

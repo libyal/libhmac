@@ -20,6 +20,8 @@
  */
 
 #include <common.h>
+#include <file_stream.h>
+#include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
 #include <stdlib.h>
@@ -108,7 +110,7 @@ int hmac_test_error_backtrace_sprint(
 
 /* The main program
  */
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 int wmain(
      int argc HMAC_TEST_ATTRIBUTE_UNUSED,
      wchar_t * const argv[] HMAC_TEST_ATTRIBUTE_UNUSED )
@@ -123,23 +125,23 @@ int main(
 
 	HMAC_TEST_RUN(
 	 "libhmac_error_free",
-	 hmac_test_error_free() )
+	 hmac_test_error_free );
 
 	HMAC_TEST_RUN(
 	 "libhmac_error_fprint",
-	 hmac_test_error_fprint() )
+	 hmac_test_error_fprint );
 
 	HMAC_TEST_RUN(
 	 "libhmac_error_sprint",
-	 hmac_test_error_sprint() )
+	 hmac_test_error_sprint );
 
 	HMAC_TEST_RUN(
 	 "libhmac_error_backtrace_fprint",
-	 hmac_test_error_backtrace_fprint() )
+	 hmac_test_error_backtrace_fprint );
 
 	HMAC_TEST_RUN(
 	 "libhmac_error_backtrace_sprint",
-	 hmac_test_error_backtrace_sprint() )
+	 hmac_test_error_backtrace_sprint );
 
 	return( EXIT_SUCCESS );
 

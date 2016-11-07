@@ -20,13 +20,14 @@
  */
 
 #include <common.h>
+#include <file_stream.h>
+#include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
 #include <stdlib.h>
 #endif
 
 #include "hmac_test_libcerror.h"
-#include "hmac_test_libcstring.h"
 #include "hmac_test_libhmac.h"
 #include "hmac_test_macros.h"
 #include "hmac_test_memory.h"
@@ -237,7 +238,7 @@ on_error:
 
 /* The main program
  */
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 int wmain(
      int argc HMAC_TEST_ATTRIBUTE_UNUSED,
      wchar_t * const argv[] HMAC_TEST_ATTRIBUTE_UNUSED )
@@ -252,11 +253,11 @@ int main(
 
 	HMAC_TEST_RUN(
 	 "libhmac_sha224_initialize",
-	 hmac_test_sha224_initialize() )
+	 hmac_test_sha224_initialize );
 
 	HMAC_TEST_RUN(
 	 "libhmac_sha224_free",
-	 hmac_test_sha224_free() )
+	 hmac_test_sha224_free );
 
 	return( EXIT_SUCCESS );
 

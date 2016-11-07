@@ -1,7 +1,6 @@
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCLOCALE_CPPFLAGS@ \
 	@LIBCNOTIFY_CPPFLAGS@ \
@@ -28,11 +27,11 @@ hmacsum_SOURCES = \
 	hmactools_libcnotify.h \
 	hmactools_libcpath.h \
 	hmactools_libcsplit.h \
-	hmactools_libcstring.h \
 	hmactools_libcsystem.h \
 	hmactools_libhmac.h \
 	hmactools_libuna.h \
-	sum_handle.c sum_handle.h
+	sum_handle.c sum_handle.h \
+	system_split_string.h
 
 hmacsum_LDADD = \
 	@LIBCSYSTEM_LIBADD@ \
@@ -44,7 +43,6 @@ hmacsum_LDADD = \
 	@LIBCNOTIFY_LIBADD@ \
 	@LIBCLOCALE_LIBADD@ \
 	@LIBCERROR_LIBADD@ \
-	@LIBCSTRING_LIBADD@ \
 	@LIBINTL@
 
 MAINTAINERCLEANFILES = \

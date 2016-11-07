@@ -22,7 +22,10 @@
 #include <common.h>
 #include <file_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
 #include <stdlib.h>
@@ -36,7 +39,6 @@
 #include "hmactools_libcerror.h"
 #include "hmactools_libclocale.h"
 #include "hmactools_libcnotify.h"
-#include "hmactools_libcstring.h"
 #include "hmactools_libcsystem.h"
 #include "hmactools_libhmac.h"
 #include "hmactools_libuna.h"
@@ -62,7 +64,7 @@ void hmacoutput_copyright_fprint(
  */
 void hmacoutput_version_fprint(
       FILE *stream,
-      const libcstring_system_character_t *program )
+      const system_character_t *program )
 {
 	if( stream == NULL )
 	{
@@ -74,7 +76,7 @@ void hmacoutput_version_fprint(
 	}
 	fprintf(
 	 stream,
-	 "%" PRIs_LIBCSTRING_SYSTEM " %s\n\n",
+	 "%" PRIs_SYSTEM " %s\n\n",
 	 program,
 	 LIBHMAC_VERSION_STRING );
 }
@@ -83,7 +85,7 @@ void hmacoutput_version_fprint(
  */
 void hmacoutput_version_detailed_fprint(
       FILE *stream,
-      const libcstring_system_character_t *program )
+      const system_character_t *program )
 {
 	if( stream == NULL )
 	{
@@ -95,7 +97,7 @@ void hmacoutput_version_detailed_fprint(
 	}
 	fprintf(
 	 stream,
-	 "%" PRIs_LIBCSTRING_SYSTEM " %s (libhmac %s",
+	 "%" PRIs_SYSTEM " %s (libhmac %s",
 	 program,
 	 LIBHMAC_VERSION_STRING,
 	 LIBHMAC_VERSION_STRING );

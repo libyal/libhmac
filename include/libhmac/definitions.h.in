@@ -38,5 +38,5 @@
 #define LIBHMAC_SHA256_HASH_SIZE	32
 #define LIBHMAC_SHA512_HASH_SIZE	64
 
-#endif
+#endif /* !defined( _LIBHMAC_DEFINITIONS_H ) */
 

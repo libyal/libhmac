@@ -4,7 +4,7 @@
 # Version: 20160912
 
 GIT_URL_PREFIX="https://github.com/libyal";
-LOCAL_LIBS="libcerror libcfile libclocale libcnotify libcpath libcsplit libcstring libcsystem libuna";
+LOCAL_LIBS="libcerror libcfile libclocale libcnotify libcpath libcsplit libcsystem libuna";
 
 OLDIFS=$IFS;
 IFS=" ";

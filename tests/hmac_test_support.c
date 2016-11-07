@@ -1,5 +1,5 @@
 /*
- * Library get version test program
+ * Library support functions test program
  *
  * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -20,17 +20,19 @@
  */
 
 #include <common.h>
+#include <file_stream.h>
+#include <narrow_string.h>
+#include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
 #include <stdlib.h>
 #endif
 
-#include "hmac_test_libcstring.h"
 #include "hmac_test_libhmac.h"
 #include "hmac_test_macros.h"
 #include "hmac_test_unused.h"
 
-/* Tests retrieving the library version
+/* Tests the libhmac_get_version function
  * Returns 1 if successful or 0 if not
  */
 int hmac_test_get_version(
@@ -41,7 +43,7 @@ int hmac_test_get_version(
 
 	version_string = libhmac_get_version();
 
-	result = libcstring_narrow_string_compare(
+	result = narrow_string_compare(
 	          version_string,
 	          LIBHMAC_VERSION_STRING,
 	          9 );
@@ -59,7 +61,7 @@ on_error:
 
 /* The main program
  */
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 int wmain(
      int argc HMAC_TEST_ATTRIBUTE_UNUSED,
      wchar_t * const argv[] HMAC_TEST_ATTRIBUTE_UNUSED )
@@ -74,7 +76,7 @@ int main(
 
 	HMAC_TEST_RUN(
 	 "libhmac_get_version",
-	 hmac_test_get_version() )
+	 hmac_test_get_version );
 
 	return( EXIT_SUCCESS );
 

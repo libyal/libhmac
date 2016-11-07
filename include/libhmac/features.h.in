@@ -34,5 +34,5 @@
 #endif
 #endif
 
-#endif
+#endif /* !defined( _LIBHMAC_FEATURES_H ) */
 

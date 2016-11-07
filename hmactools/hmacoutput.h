@@ -26,8 +26,6 @@
 #include <file_stream.h>
 #include <types.h>
 
-#include "hmactools_libcstring.h"
-
 #if defined( __cplusplus )
 extern "C" {
 #endif
@@ -37,15 +35,15 @@ void hmacoutput_copyright_fprint(
 
 void hmacoutput_version_fprint(
       FILE *stream,
-      const libcstring_system_character_t *program );
+      const system_character_t *program );
 
 void hmacoutput_version_detailed_fprint(
       FILE *stream,
-      const libcstring_system_character_t *program );
+      const system_character_t *program );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif
+#endif /* !defined( _HMACOUTPUT_H ) */
 

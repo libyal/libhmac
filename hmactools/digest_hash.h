@@ -26,7 +26,6 @@
 #include <types.h>
 
 #include "hmactools_libcerror.h"
-#include "hmactools_libcstring.h"
 
 #if defined( __cplusplus )
 extern "C" {
@@ -35,7 +34,7 @@ extern "C" {
 int digest_hash_copy_to_string(
      const uint8_t *digest_hash,
      size_t digest_hash_size,
-     libcstring_system_character_t *string,
+     system_character_t *string,
      size_t string_size,
      libcerror_error_t **error );
 
@@ -43,5 +42,5 @@ int digest_hash_copy_to_string(
 }
 #endif
 
-#endif
+#endif /* !defined( _DIGEST_HASH_H ) */
 
