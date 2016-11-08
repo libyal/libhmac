@@ -30,8 +30,8 @@ hmacsum_SOURCES = \
 	hmactools_libcsystem.h \
 	hmactools_libhmac.h \
 	hmactools_libuna.h \
-	sum_handle.c sum_handle.h \
-	system_split_string.h
+	hmactools_system_split_string.h \
+	sum_handle.c sum_handle.h
 
 hmacsum_LDADD = \
 	@LIBCSYSTEM_LIBADD@ \

@@ -33,8 +33,8 @@
 #include "hmactools_libcfile.h"
 #include "hmactools_libcpath.h"
 #include "hmactools_libcsplit.h"
+#include "hmactools_system_split_string.h"
 #include "sum_handle.h"
-#include "system_split_string.h"
 
 #define MD5_STRING_SIZE		33
 #define SHA1_STRING_SIZE	41

@@ -250,11 +250,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\hmactools\sum_handle.h"
+				RelativePath="..\..\hmactools\hmactools_system_split_string.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\hmactools\system_split_string.h"
+				RelativePath="..\..\hmactools\sum_handle.h"
 				>
 			</File>
 		</Filter>
