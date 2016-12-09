@@ -33,5 +33,5 @@
 
 #include <libhmac.h>
 
-#endif
+#endif /* !defined( _HMACTOOLS_LIBHMAC_H ) */
 

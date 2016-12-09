@@ -157,5 +157,5 @@ extern "C" {
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBHMAC_BYTE_STREAM_H ) */
 

@@ -43,5 +43,5 @@ const char *libhmac_get_version(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBHMAC_SUPPORT_H ) */
 

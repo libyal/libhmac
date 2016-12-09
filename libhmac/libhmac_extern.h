@@ -38,9 +38,9 @@
 #include <libhmac/extern.h>
 
 #else
-#define LIBHMAC_EXTERN	extern
+#define LIBHMAC_EXTERN	/* extern */
 
-#endif
+#endif /* !defined( HAVE_LOCAL_LIBHMAC ) */
 
 #endif /* !defined( _LIBHMAC_INTERNAL_EXTERN_H ) */
 
