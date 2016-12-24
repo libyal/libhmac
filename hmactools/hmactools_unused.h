@@ -1,5 +1,5 @@
 /*
- * The internal libhmac header
+ * The unused definition
  *
  * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,19 +19,32 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _HMACTOOLS_LIBHMAC_H )
-#define _HMACTOOLS_LIBHMAC_H
+#if !defined( _HMACTOOLS_UNUSED_H )
+#define _HMACTOOLS_UNUSED_H
 
 #include <common.h>
 
-/* If Cygwin libtool DLL support is enabled set LIBHMAC_DLL_IMPORT
- * before including libhmac.h
- */
-#if defined( _WIN32 ) && defined( DLL_IMPORT ) && !defined( HAVE_STATIC_EXECUTABLES )
-#define LIBHMAC_DLL_IMPORT
-#endif
+#if !defined( HMACTOOLS_ATTRIBUTE_UNUSED )
 
-#include <libhmac.h>
+#if defined( __GNUC__ ) && __GNUC__ >= 3
+#define HMACTOOLS_ATTRIBUTE_UNUSED	__attribute__ ((__unused__))
 
-#endif /* !defined( _HMACTOOLS_LIBHMAC_H ) */
+#else
+#define HMACTOOLS_ATTRIBUTE_UNUSED
+
+#endif /* defined( __GNUC__ ) && __GNUC__ >= 3 */
+
+#endif /* !defined( HMACTOOLS_ATTRIBUTE_UNUSED ) */
+
+#if defined( _MSC_VER )
+#define HMACTOOLS_UNREFERENCED_PARAMETER( parameter ) \
+	UNREFERENCED_PARAMETER( parameter );
+
+#else
+#define HMACTOOLS_UNREFERENCED_PARAMETER( parameter ) \
+	/* parameter */
+
+#endif /* defined( _MSC_VER ) */
+
+#endif /* !defined( _HMACTOOLS_UNUSED_H ) */
 

@@ -1,5 +1,5 @@
 /*
- * Output functions
+ * Internationalization (i18n) functions
  *
  * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,31 +19,30 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _HMACOUTPUT_H )
-#define _HMACOUTPUT_H
+#if !defined( _HMACTOOLS_I18N_H )
+#define _HMACTOOLS_I18N_H
 
 #include <common.h>
-#include <file_stream.h>
-#include <types.h>
+
+#if defined( HAVE_LIBINTL_H )
+#include <libintl.h>
+#endif
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
 
-void hmacoutput_copyright_fprint(
-      FILE *stream );
+/* TODO for now do nothing i18n-like
+#define	_( string ) \
+	gettext( string )
+*/
 
-void hmacoutput_version_fprint(
-      FILE *stream,
-      const system_character_t *program );
-
-void hmacoutput_version_detailed_fprint(
-      FILE *stream,
-      const system_character_t *program );
+#define	_( string ) \
+	string
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _HMACOUTPUT_H ) */
+#endif /* !defined( _HMACTOOLS_I18N_H ) */
 

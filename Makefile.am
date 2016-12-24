@@ -11,7 +11,6 @@ SUBDIRS = \
 	libuna \
 	libcfile \
 	libcpath \
-	libcsystem \
 	hmactools \
 	po \
 	manuals \
@@ -88,7 +87,6 @@ splint:
 	(cd $(srcdir)/libuna && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcfile && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcpath && $(MAKE) splint $(AM_MAKEFLAGS))
-	(cd $(srcdir)/libcsystem && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/hmactools && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/po && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/tests && $(MAKE) splint $(AM_MAKEFLAGS))

@@ -13,7 +13,6 @@ MSVSCPP_FILES = \
 	libcnotify/libcnotify.vcproj \
 	libcpath/libcpath.vcproj \
 	libcsplit/libcsplit.vcproj \
-	libcsystem/libcsystem.vcproj \
 	libhmac/libhmac.vcproj \
 	libuna/libuna.vcproj \
 	libhmac.sln

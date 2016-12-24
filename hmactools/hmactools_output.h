@@ -1,5 +1,5 @@
 /*
- * The internal libhmac header
+ * Output functions
  *
  * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,19 +19,37 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _HMACTOOLS_LIBHMAC_H )
-#define _HMACTOOLS_LIBHMAC_H
+#if !defined( _HMACTOOLS_OUTPUT_H )
+#define _HMACTOOLS_OUTPUT_H
 
 #include <common.h>
+#include <file_stream.h>
+#include <types.h>
 
-/* If Cygwin libtool DLL support is enabled set LIBHMAC_DLL_IMPORT
- * before including libhmac.h
- */
-#if defined( _WIN32 ) && defined( DLL_IMPORT ) && !defined( HAVE_STATIC_EXECUTABLES )
-#define LIBHMAC_DLL_IMPORT
+#include "hmactools_libcerror.h"
+
+#if defined( __cplusplus )
+extern "C" {
 #endif
 
-#include <libhmac.h>
+int hmactools_output_initialize(
+     int stdio_mode,
+     libcerror_error_t **error );
 
-#endif /* !defined( _HMACTOOLS_LIBHMAC_H ) */
+void hmactools_output_copyright_fprint(
+      FILE *stream );
+
+void hmactools_output_version_fprint(
+      FILE *stream,
+      const system_character_t *program );
+
+void hmactools_output_version_detailed_fprint(
+      FILE *stream,
+      const system_character_t *program );
+
+#if defined( __cplusplus )
+}
+#endif
+
+#endif /* !defined( _HMACTOOLS_OUTPUT_H ) */
 

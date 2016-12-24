@@ -8,7 +8,6 @@ AM_CPPFLAGS = \
 	@LIBUNA_CPPFLAGS@ \
 	@LIBCFILE_CPPFLAGS@ \
 	@LIBCPATH_CPPFLAGS@ \
-	@LIBCSYSTEM_CPPFLAGS@ \
 	@LIBHMAC_DLL_IMPORT@
 
 AM_LDFLAGS = @STATIC_LDFLAGS@
@@ -19,26 +18,28 @@ bin_PROGRAMS = \
 hmacsum_SOURCES = \
 	byte_size_string.c byte_size_string.h \
 	digest_hash.c digest_hash.h \
-	hmacoutput.c hmacoutput.h \
 	hmacsum.c \
+	hmactools_getopt.c hmactools_getopt.h \
+	hmactools_i18n.h \
 	hmactools_libcerror.h \
 	hmactools_libcfile.h \
 	hmactools_libclocale.h \
 	hmactools_libcnotify.h \
 	hmactools_libcpath.h \
 	hmactools_libcsplit.h \
-	hmactools_libcsystem.h \
 	hmactools_libhmac.h \
 	hmactools_libuna.h \
+	hmactools_output.c hmactools_output.h \
+	hmactools_signal.c hmactools_signal.h \
 	hmactools_system_split_string.h \
+	hmactools_unused.h \
 	sum_handle.c sum_handle.h
 
 hmacsum_LDADD = \
-	@LIBCSYSTEM_LIBADD@ \
 	@LIBCPATH_LIBADD@ \
 	@LIBCFILE_LIBADD@ \
-	@LIBCSPLIT_LIBADD@ \
 	@LIBUNA_LIBADD@ \
+	@LIBCSPLIT_LIBADD@ \
 	../libhmac/libhmac.la \
 	@LIBCNOTIFY_LIBADD@ \
 	@LIBCLOCALE_LIBADD@ \

@@ -35,12 +35,14 @@
 #include <stdlib.h>
 #endif
 
-#include "hmacoutput.h"
+#include "hmactools_getopt.h"
 #include "hmactools_libcerror.h"
 #include "hmactools_libclocale.h"
 #include "hmactools_libcnotify.h"
-#include "hmactools_libcsystem.h"
 #include "hmactools_libhmac.h"
+#include "hmactools_output.h"
+#include "hmactools_signal.h"
+#include "hmactools_unused.h"
 #include "sum_handle.h"
 
 sum_handle_t *hmacsum_sum_handle = NULL;
@@ -75,12 +77,12 @@ void usage_fprint(
 /* Signal handler for hmacsum
  */
 void hmacsum_signal_handler(
-      libcsystem_signal_t signal LIBCSYSTEM_ATTRIBUTE_UNUSED )
+      hmactools_signal_t signal HMACTOOLS_ATTRIBUTE_UNUSED )
 {
 	libcerror_error_t *error = NULL;
 	static char *function    = "hmacsum_signal_handler";
 
-	LIBCSYSTEM_UNREFERENCED_PARAMETER( signal )
+	HMACTOOLS_UNREFERENCED_PARAMETER( signal )
 
 	hmacsum_abort = 1;
 
@@ -100,8 +102,13 @@ void hmacsum_signal_handler(
 	}
 	/* Force stdin to close otherwise any function reading it will remain blocked
 	 */
-	if( libcsystem_file_io_close(
+#if defined( WINAPI ) && !defined( __CYGWIN__ )
+	if( _close(
 	     0 ) != 0 )
+#else
+	if( close(
+	     0 ) != 0 )
+#endif
 	{
 		libcnotify_printf(
 		 "%s: unable to close stdin.\n",
@@ -142,21 +149,21 @@ int main( int argc, char * const argv[] )
 
 		goto on_error;
 	}
-	if( libcsystem_initialize(
+	if( hmactools_output_initialize(
 	     _IONBF,
 	     &error ) != 1 )
 	{
 		fprintf(
 		 stderr,
-		 "Unable to initialize system values.\n" );
+		 "Unable to initialize output settings.\n" );
 
 		goto on_error;
 	}
-	hmacoutput_version_fprint(
+	hmactools_output_version_fprint(
 	 stdout,
 	 program );
 
-	while( ( option = libcsystem_getopt(
+	while( ( option = hmactools_getopt(
 	                   argc,
 	                   argv,
 	                   _SYSTEM_STRING( "d:hp:vV" ) ) ) != (system_integer_t) -1 )
@@ -197,7 +204,7 @@ int main( int argc, char * const argv[] )
 				break;
 
 			case (system_integer_t) 'V':
-				hmacoutput_copyright_fprint(
+				hmactools_output_copyright_fprint(
 				 stdout );
 
 				return( EXIT_SUCCESS );
@@ -270,7 +277,7 @@ int main( int argc, char * const argv[] )
 			goto on_error;
 		}
 	}
-	if( libcsystem_signal_attach(
+	if( hmactools_signal_attach(
 	     hmacsum_signal_handler,
 	     &error ) != 1 )
 	{
@@ -338,7 +345,7 @@ on_abort:
 
 		goto on_error;
 	}
-	if( libcsystem_signal_detach(
+	if( hmactools_signal_detach(
 	     &error ) != 1 )
 	{
 		fprintf(

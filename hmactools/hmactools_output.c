@@ -35,34 +35,107 @@
 #include <string.h>
 #endif
 
-#include "hmacoutput.h"
+#include "hmactools_i18n.h"
 #include "hmactools_libcerror.h"
 #include "hmactools_libclocale.h"
 #include "hmactools_libcnotify.h"
-#include "hmactools_libcsystem.h"
 #include "hmactools_libhmac.h"
 #include "hmactools_libuna.h"
+#include "hmactools_output.h"
 
-/* Prints the executable version information
+/* Initializes output settings
+ * Returns 1 if successful or -1 on error
  */
-void hmacoutput_copyright_fprint(
+int hmactools_output_initialize(
+     int stdio_mode,
+     libcerror_error_t **error )
+{
+	static char *function = "hmactools_output_initialize";
+
+	if( ( stdio_mode != _IOFBF )
+	 && ( stdio_mode != _IOLBF )
+	 && ( stdio_mode != _IONBF ) )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
+		 "%s: unsupported standard IO mode.",
+		 function );
+
+		return( -1 );
+	}
+#if !defined( __BORLANDC__ )
+	if( setvbuf(
+	     stdout,
+	     NULL,
+	     stdio_mode,
+	     0 ) != 0 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set IO mode of stdout.",
+		 function );
+
+		return( -1 );
+	}
+	if( setvbuf(
+	     stderr,
+	     NULL,
+	     stdio_mode,
+	     0 ) != 0 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set IO mode of stderr.",
+		 function );
+
+		return( -1 );
+	}
+#endif /* !defined( __BORLANDC__ ) */
+
+	return( 1 );
+}
+
+/* Prints the copyright information
+ */
+void hmactools_output_copyright_fprint(
       FILE *stream )
 {
 	if( stream == NULL )
 	{
 		return;
 	}
+	/* TRANSLATORS: This is a proper name.
+	 */
 	fprintf(
 	 stream,
-	 "Copyright (C) 2011-2016, Joachim Metz <%s>.\n"
-	 "This is free software; see the source for copying conditions. There is NO\n"
-	 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n",
+	 _( "Copyright (C) 2011-2016, %s.\n" ),
+	 _( "Joachim Metz" ) );
+
+	fprintf(
+	 stream,
+	 _( "This is free software; see the source for copying conditions. There is NO\n"
+	    "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n" ) );
+
+	/* TRANSLATORS: The placeholder indicates the bug-reporting address
+	 * for this package.  Please add _another line_ saying
+	 * "Report translation bugs to <...>\n" with the address for translation
+	 * bugs (typically your translation team's web or email address).
+	 */
+	fprintf(
+	 stream,
+	 _( "Report bugs to <%s>.\n" ),
 	 PACKAGE_BUGREPORT );
 }
 
 /* Prints the version information to a stream
  */
-void hmacoutput_version_fprint(
+void hmactools_output_version_fprint(
       FILE *stream,
       const system_character_t *program )
 {
@@ -83,7 +156,7 @@ void hmacoutput_version_fprint(
 
 /* Prints the detailed version information to a stream
  */
-void hmacoutput_version_detailed_fprint(
+void hmactools_output_version_detailed_fprint(
       FILE *stream,
       const system_character_t *program )
 {
@@ -101,11 +174,6 @@ void hmacoutput_version_detailed_fprint(
 	 program,
 	 LIBHMAC_VERSION_STRING,
 	 LIBHMAC_VERSION_STRING );
-
-	fprintf(
-	 stream,
-	 ", libcsystem %s",
-	 LIBCSYSTEM_VERSION_STRING );
 
 #if defined( HAVE_LIBUNA ) || defined( HAVE_LOCAL_LIBUNA )
 	fprintf(
