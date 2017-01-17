@@ -5,8 +5,7 @@ AM_CPPFLAGS = \
 	@LIBHMAC_DLL_IMPORT@
 
 TESTS = \
-	test_api_functions.sh \
-	test_api_types.sh \
+	test_library.sh \
 	test_md5sum.sh \
 	test_sha1sum.sh \
 	test_sha2sum.sh
@@ -23,8 +22,7 @@ TESTS_INPUT = \
 	input/test8
 
 check_SCRIPTS = \
-	test_api_functions.sh \
-	test_api_types.sh \
+	test_library.sh \
 	test_md5sum.sh \
 	test_runner.sh \
 	test_sha1sum.sh \
