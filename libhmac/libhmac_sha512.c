@@ -24,7 +24,7 @@
 #include <memory.h>
 #include <types.h>
 
-#if defined( WINAPI )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI )
 #include <wincrypt.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H )
@@ -553,7 +553,7 @@ int libhmac_sha512_initialize(
 
 		return( -1 );
 	}
-#if defined( WINAPI ) && defined( CALG_SHA_512 ) && ( WINVER >= 0x0600 )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_512 )
 	/* Request the AES crypt provider, fail back to the RSA crypt provider
 	*/
 	if( CryptAcquireContext(
@@ -705,7 +705,7 @@ int libhmac_sha512_free(
 		internal_context = (libhmac_internal_sha512_context_t *) *context;
 		*context         = NULL;
 
-#if defined( WINAPI ) && defined( CALG_SHA_512 ) && ( WINVER >= 0x0600 )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_512 )
 		if( internal_context->crypt_provider != 0 )
 		{
 			CryptReleaseContext(
@@ -779,7 +779,7 @@ int libhmac_sha512_update(
 	}
 	internal_context = (libhmac_internal_sha512_context_t *) context;
 
-#if defined( WINAPI ) && defined( CALG_SHA_512 ) && ( WINVER >= 0x0600 )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_512 )
 	if( internal_context->hash == 0 )
 	{
 		libcerror_error_set(
@@ -807,7 +807,7 @@ int libhmac_sha512_update(
 	{
 		return( 1 );
 	}
-#if defined( WINAPI ) && defined( CALG_SHA_512 ) && ( WINVER >= 0x0600 )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_512 )
 #if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
 	if( size > (size_t) UINT32_MAX )
 	{
@@ -1024,7 +1024,7 @@ int libhmac_sha512_finalize(
 	libhmac_internal_sha512_context_t *internal_context = NULL;
 	static char *function                               = "libhmac_sha512_finalize";
 
-#if defined( WINAPI ) && defined( CALG_SHA_512 ) && ( WINVER >= 0x0600 )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_512 )
 	DWORD safe_hash_size                                = 0;
 
 #elif defined( HAVE_LIBCRYPTO ) && !defined( HAVE_OPENSSL_SHA_H ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA512 )
@@ -1054,7 +1054,7 @@ int libhmac_sha512_finalize(
 	}
 	internal_context = (libhmac_internal_sha512_context_t *) context;
 
-#if defined( WINAPI ) && defined( CALG_SHA_256 ) && ( WINVER >= 0x0600 )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_256 ) && ( WINVER >= 0x0600 )
 	if( internal_context->hash == 0 )
 	{
 		libcerror_error_set(
@@ -1089,7 +1089,7 @@ int libhmac_sha512_finalize(
 
 		return( -1 );
 	}
-#if defined( WINAPI ) && defined( CALG_SHA_256 ) && ( WINVER >= 0x0600 )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_256 ) && ( WINVER >= 0x0600 )
 #if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
 	if( hash_size > (size_t) UINT32_MAX )
 	{

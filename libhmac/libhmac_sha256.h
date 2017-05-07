@@ -25,7 +25,7 @@
 #include <common.h>
 #include <types.h>
 
-#if defined( WINAPI ) && defined( HAVE_WINCRYPT )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI )
 #include <wincrypt.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H )
@@ -47,7 +47,7 @@ extern "C" {
 /* Make sure the WINAPI version is Vista or later otherwise
  * a cross compilation will contain broken SHA-256 support
  */
-#if defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( HAVE_WINCRYPT ) && defined( CALG_SHA_256 )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_256 )
 #define LIBHMAC_HAVE_SHA256_SUPPORT
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
@@ -66,7 +66,7 @@ typedef struct libhmac_internal_sha256_context libhmac_internal_sha256_context_t
 
 struct libhmac_internal_sha256_context
 {
-#if defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( HAVE_WINCRYPT ) && defined( CALG_SHA_256 )
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_256 )
 	HCRYPTPROV crypt_provider;
 	HCRYPTHASH hash;
 
