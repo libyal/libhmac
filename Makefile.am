@@ -23,11 +23,10 @@ DPKG_FILES = \
 	dpkg/compat \
 	dpkg/control \
 	dpkg/copyright \
-	dpkg/copyright.in \
 	dpkg/rules \
-	dpkg/libhmac-dev.docs \
-	dpkg/libhmac.docs \
-	dpkg/libhmac-tools.docs \
+	dpkg/libhmac-dev.install \
+	dpkg/libhmac.install \
+	dpkg/libhmac-tools.install \
 	dpkg/source/format
 
 GETTEXT_FILES = \
