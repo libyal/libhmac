@@ -222,6 +222,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\hmactools\hmactools_i18n.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\hmactools\hmactools_libcerror.h"
 				>
 			</File>
