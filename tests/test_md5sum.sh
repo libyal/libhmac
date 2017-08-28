@@ -1,23 +1,14 @@
 #!/bin/bash
 # Sum tool testing script
 #
-# Version: 20160411
+# Version: 20170828
 
 EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
 EXIT_IGNORE=77;
 
-TEST_PREFIX=`dirname ${PWD}`;
-TEST_PREFIX=`basename ${TEST_PREFIX} | sed 's/^lib\([^-]*\).*$/\1/'`;
-TEST_SUFFIX="sum";
-
-TEST_PROFILE="${TEST_PREFIX}${TEST_SUFFIX}";
-TEST_DESCRIPTION="${TEST_PREFIX}${TEST_SUFFIX}";
 OPTION_SETS="";
 
-TEST_TOOL_DIRECTORY="../${TEST_PREFIX}tools";
-TEST_TOOL="${TEST_PREFIX}${TEST_SUFFIX}";
-INPUT_DIRECTORY="input";
 INPUT_GLOB="*";
 
 test_callback()
@@ -51,7 +42,7 @@ test_callback()
 
 	echo "";
 
-	echo -n "Testing ${TEST_PROFILE} -d md5 of input: ${INPUT_FILE} ";
+	echo -n "Testing hmacsum -d md5 of input: ${INPUT_FILE} ";
 
 	if test ${RESULT} -ne ${EXIT_SUCCESS};
 	then
@@ -67,11 +58,11 @@ then
 	exit ${EXIT_IGNORE};
 fi
 
-TEST_EXECUTABLE="${TEST_TOOL_DIRECTORY}/${TEST_TOOL}";
+TEST_EXECUTABLE="../hmactools/hmacsum";
 
 if ! test -x "${TEST_EXECUTABLE}";
 then
-	TEST_EXECUTABLE="${TEST_TOOL_DIRECTORY}/${TEST_TOOL}.exe";
+	TEST_EXECUTABLE="../hmactools/hmacsum.exe";
 fi
 
 if ! test -x "${TEST_EXECUTABLE}";
@@ -106,7 +97,7 @@ else
 	assert_availability_binary md5sum;
 fi
 
-run_test_on_input_directory "${TEST_PROFILE}" "${TEST_DESCRIPTION}" "with_callback" "${OPTION_SETS}" "${TEST_EXECUTABLE}" "${INPUT_DIRECTORY}" "${INPUT_GLOB}";
+run_test_on_input_directory "hmacsum" "hmacsum" "with_callback" "${OPTION_SETS}" "${TEST_EXECUTABLE}" "input" "${INPUT_GLOB}";
 RESULT=$?;
 
 exit ${RESULT};
