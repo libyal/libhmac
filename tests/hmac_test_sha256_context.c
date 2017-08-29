@@ -54,13 +54,13 @@ int hmac_test_sha256_initialize(
 	 result,
 	 1 );
 
-        HMAC_TEST_ASSERT_IS_NOT_NULL(
-         "sha256_context",
-         sha256_context );
+	HMAC_TEST_ASSERT_IS_NOT_NULL(
+	 "sha256_context",
+	 sha256_context );
 
-        HMAC_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	result = libhmac_sha256_free(
 	          &sha256_context,
@@ -71,13 +71,13 @@ int hmac_test_sha256_initialize(
 	 result,
 	 1 );
 
-        HMAC_TEST_ASSERT_IS_NULL(
-         "sha256_context",
-         sha256_context );
+	HMAC_TEST_ASSERT_IS_NULL(
+	 "sha256_context",
+	 sha256_context );
 
-        HMAC_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	/* Test error cases
 	 */
@@ -90,9 +90,9 @@ int hmac_test_sha256_initialize(
 	 result,
 	 -1 );
 
-        HMAC_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -108,9 +108,9 @@ int hmac_test_sha256_initialize(
 	 result,
 	 -1 );
 
-        HMAC_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -218,9 +218,9 @@ int hmac_test_sha256_free(
 	 result,
 	 -1 );
 
-        HMAC_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );

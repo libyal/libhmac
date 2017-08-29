@@ -54,13 +54,13 @@ int hmac_test_md5_initialize(
 	 result,
 	 1 );
 
-        HMAC_TEST_ASSERT_IS_NOT_NULL(
-         "md5_context",
-         md5_context );
+	HMAC_TEST_ASSERT_IS_NOT_NULL(
+	 "md5_context",
+	 md5_context );
 
-        HMAC_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	result = libhmac_md5_free(
 	          &md5_context,
@@ -71,13 +71,13 @@ int hmac_test_md5_initialize(
 	 result,
 	 1 );
 
-        HMAC_TEST_ASSERT_IS_NULL(
-         "md5_context",
-         md5_context );
+	HMAC_TEST_ASSERT_IS_NULL(
+	 "md5_context",
+	 md5_context );
 
-        HMAC_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	/* Test error cases
 	 */
@@ -90,9 +90,9 @@ int hmac_test_md5_initialize(
 	 result,
 	 -1 );
 
-        HMAC_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -108,9 +108,9 @@ int hmac_test_md5_initialize(
 	 result,
 	 -1 );
 
-        HMAC_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -218,9 +218,9 @@ int hmac_test_md5_free(
 	 result,
 	 -1 );
 
-        HMAC_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	HMAC_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
