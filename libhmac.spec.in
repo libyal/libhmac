@@ -5,13 +5,13 @@ Summary: Library to support various Hash-based Message Authentication Codes (HMA
 Group: System Environment/Libraries
 License: LGPL
 Source: %{name}-%{version}.tar.gz
-URL: https://github.com/libyal/libhmac/
+URL: https://github.com/libyal/libhmac
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 @libhmac_spec_requires@ @ax_libcerror_spec_requires@ @ax_libcrypto_spec_requires@
 @libhmac_spec_build_requires@ @ax_libcerror_spec_build_requires@ @ax_libcrypto_spec_build_requires@
 
 %description
-libhmac is a library to support various Hash-based Message Authentication Codes (HMAC)
+Library to support various Hash-based Message Authentication Codes (HMAC)
 
 %package devel
 Summary: Header files and libraries for developing applications for libhmac
@@ -22,7 +22,7 @@ Requires: libhmac = %{version}-%{release}
 Header files and libraries for developing applications for libhmac.
 
 %package tools
-Summary: Several tools for accessing optical disc table of contents (TOC) files
+Summary: Several tools for calculating Hash-based Message Authentication Codes (HMAC)
 Group: Applications/System
 Requires: libhmac = %{version}-%{release} @ax_libcfile_spec_requires@ @ax_libclocale_spec_requires@ @ax_libcnotify_spec_requires@ @ax_libcpath_spec_requires@ @ax_libcsplit_spec_requires@ @ax_libuna_spec_requires@
 @libhmac_spec_tools_build_requires@ @ax_libcfile_spec_build_requires@ @ax_libclocale_spec_build_requires@ @ax_libcnotify_spec_build_requires@ @ax_libcpath_spec_build_requires@ @ax_libcsplit_spec_build_requires@ @ax_libuna_spec_build_requires@
@@ -66,9 +66,8 @@ rm -rf %{buildroot}
 %files tools
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING NEWS README
-%attr(755,root,root) %{_bindir}/hmacsum
+%attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
-
 %changelog
 * @SPEC_DATE@ Joachim Metz <joachim.metz@gmail.com> @VERSION@-1
 - Auto-generated
