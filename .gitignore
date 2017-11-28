@@ -121,7 +121,6 @@ stamp-h[1-9]
 /libhmac/libhmac_definitions.h
 /hmactools/*.exe
 /hmactools/hmacsum
-
 /tests/*.exe
 /tests/hmac_test_error
 /tests/hmac_test_md5_context

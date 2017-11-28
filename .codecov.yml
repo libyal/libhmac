@@ -7,4 +7,11 @@ coverage:
     patch: true
     changes: false
   ignore:
+    - "libcerror/*"
+    - "libcfile/*"
+    - "libclocale/*"
+    - "libcnotify/*"
+    - "libcpath/*"
+    - "libcsplit/*"
+    - "libuna/*"
     - "tests/*"
