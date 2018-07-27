@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libhmac],
- [20180331],
+ [20180727],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -178,17 +178,17 @@ dnl Print a summary
 AC_MSG_NOTICE([
 Building:
    libcerror support:                         $ac_cv_libcerror
-   MD5 support:                               $ac_cv_libhmac_md5
-   SHA1 support:                              $ac_cv_libhmac_sha1
-   SHA224 support:                            $ac_cv_libhmac_sha224
-   SHA256 support:                            $ac_cv_libhmac_sha256
-   SHA512 support:                            $ac_cv_libhmac_sha512
    libclocale support:                        $ac_cv_libclocale
    libcnotify support:                        $ac_cv_libcnotify
    libcsplit support:                         $ac_cv_libcsplit
    libuna support:                            $ac_cv_libuna
    libcfile support:                          $ac_cv_libcfile
    libcpath support:                          $ac_cv_libcpath
+   MD5 support:                               $ac_cv_libhmac_md5
+   SHA1 support:                              $ac_cv_libhmac_sha1
+   SHA224 support:                            $ac_cv_libhmac_sha224
+   SHA256 support:                            $ac_cv_libhmac_sha256
+   SHA512 support:                            $ac_cv_libhmac_sha512
 
 Features:
    Wide character type support:               $ac_cv_enable_wide_character_type

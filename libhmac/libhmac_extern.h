@@ -37,8 +37,11 @@
 
 #include <libhmac/extern.h>
 
+#define LIBHMAC_EXTERN_VARIABLE	LIBHMAC_EXTERN
+
 #else
-#define LIBHMAC_EXTERN	/* extern */
+#define LIBHMAC_EXTERN		/* extern */
+#define LIBHMAC_EXTERN_VARIABLE	extern
 
 #endif /* !defined( HAVE_LOCAL_LIBHMAC ) */
 
