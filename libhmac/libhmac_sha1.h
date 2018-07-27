@@ -53,7 +53,7 @@ extern "C" {
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA1 )
 #define LIBHMAC_HAVE_SHA1_SUPPORT
 
-#endif
+#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA1 ) */
 
 #if !defined( LIBHMAC_HAVE_SHA1_SUPPORT )
 #define LIBHMAC_SHA1_BLOCK_SIZE		64
@@ -64,14 +64,27 @@ typedef struct libhmac_internal_sha1_context libhmac_internal_sha1_context_t;
 struct libhmac_internal_sha1_context
 {
 #if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA1 )
+	/* The crypto provider handle
+	 */
 	HCRYPTPROV crypt_provider;
+
+	/* The crypto hash handle
+	 */
 	HCRYPTHASH hash;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA_DIGEST_LENGTH )
+	/* The SHA1 context
+	 */
 	SHA_CTX sha1_context;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA1 )
-	EVP_MD_CTX evp_md_context;
+	/* The EVP message digest context
+	 */
+#if defined( HAVE_EVP_MD_CTX_INIT )
+	EVP_MD_CTX internal_evp_md_context;
+#endif
+
+	EVP_MD_CTX *evp_md_context;
 
 #else
 	/* The number of bytes hashed
@@ -89,7 +102,8 @@ struct libhmac_internal_sha1_context
 	/* The (data) block
 	 */
 	uint8_t block[ 128 ];
-#endif
+
+#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA1 ) */
 };
 
 #if !defined( LIBHMAC_HAVE_SHA1_SUPPORT )

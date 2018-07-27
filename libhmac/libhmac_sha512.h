@@ -1,5 +1,5 @@
 /*
- * SHA512 functions
+ * SHA-512 functions
  *
  * Copyright (C) 2011-2018, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -67,14 +67,27 @@ typedef struct libhmac_internal_sha512_context libhmac_internal_sha512_context_t
 struct libhmac_internal_sha512_context
 {
 #if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_512 )
+	/* The crypto provider handle
+	 */
 	HCRYPTPROV crypt_provider;
+
+	/* The crypto hash handle
+	 */
 	HCRYPTHASH hash;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA512_DIGEST_LENGTH )
+	/* The SHA-512 context
+	 */
 	SHA512_CTX sha512_context;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA512 )
-	EVP_MD_CTX evp_md_context;
+	/* The EVP message digest context
+	 */
+#if defined( HAVE_EVP_MD_CTX_INIT )
+	EVP_MD_CTX internal_evp_md_context;
+#endif
+
+	EVP_MD_CTX *evp_md_context;
 
 #else
 	/* The number of bytes hashed

@@ -1,4 +1,5 @@
 TODO
+* test update with 0 byte buffer
 * add support for the macosx replacement for libcrypto
 * SHA224
   - fix unknown type name 'SHA224_CTX' on mac os x

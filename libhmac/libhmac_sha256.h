@@ -1,5 +1,5 @@
 /*
- * SHA256 functions
+ * SHA-256 functions
  *
  * Copyright (C) 2011-2018, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -67,14 +67,27 @@ typedef struct libhmac_internal_sha256_context libhmac_internal_sha256_context_t
 struct libhmac_internal_sha256_context
 {
 #if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_256 )
+	/* The crypto provider handle
+	 */
 	HCRYPTPROV crypt_provider;
+
+	/* The crypto hash handle
+	 */
 	HCRYPTHASH hash;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
+	/* The SHA-256 context
+	 */
 	SHA256_CTX sha256_context;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA256 )
-	EVP_MD_CTX evp_md_context;
+	/* The EVP message digest context
+	 */
+#if defined( HAVE_EVP_MD_CTX_INIT )
+	EVP_MD_CTX internal_evp_md_context;
+#endif
+
+	EVP_MD_CTX *evp_md_context;
 
 #else
 	/* The number of bytes hashed

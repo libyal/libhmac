@@ -53,7 +53,7 @@ extern "C" {
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_MD5 )
 #define LIBHMAC_HAVE_MD5_SUPPORT
 
-#endif
+#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
 
 #if !defined( LIBHMAC_HAVE_MD5_SUPPORT )
 #define LIBHMAC_MD5_BLOCK_SIZE		64
@@ -64,14 +64,27 @@ typedef struct libhmac_internal_md5_context libhmac_internal_md5_context_t;
 struct libhmac_internal_md5_context
 {
 #if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
+	/* The crypto provider handle
+	 */
 	HCRYPTPROV crypt_provider;
+
+	/* The crypto hash handle
+	 */
 	HCRYPTHASH hash;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+	/* The MD5 context
+	 */
 	MD5_CTX md5_context;
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_MD5 )
-	EVP_MD_CTX evp_md_context;
+	/* The EVP message digest context
+	 */
+#if defined( HAVE_EVP_MD_CTX_INIT )
+	EVP_MD_CTX internal_evp_md_context;
+#endif
+
+	EVP_MD_CTX *evp_md_context;
 
 #else
 	/* The number of bytes hashed
@@ -89,7 +102,8 @@ struct libhmac_internal_md5_context
 	/* The (data) block
 	 */
 	uint8_t block[ 128 ];
-#endif
+
+#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
 };
 
 #if !defined( LIBHMAC_HAVE_MD5_SUPPORT )

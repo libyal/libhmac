@@ -1,5 +1,5 @@
 /*
- * SHA512 functions
+ * SHA-512 functions
  *
  * Copyright (C) 2011-2018, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -261,7 +261,7 @@ uint64_t libhmac_sha512_prime_cube_roots[ 80 ] = {
 	libhmac_sha512_transform_unfolded_calculate_hash_value( values_64bit, 78, hash_values, 2, 3, 4, 5, 6, 7, 0, 1, s0, s1, t1, t2 ) \
 	libhmac_sha512_transform_unfolded_calculate_hash_value( values_64bit, 79, hash_values, 1, 2, 3, 4, 5, 6, 7, 0, s0, s1, t1, t2 )
 
-/* Calculates the SHA512 of 128 byte sized blocks of data in a buffer
+/* Calculates the SHA-512 of 128 byte sized blocks of data in a buffer
  * Returns the number of bytes used if successful or -1 on error
  */
 ssize_t libhmac_sha512_transform(
@@ -489,7 +489,7 @@ on_error:
 
 #endif /* !defined( LIBHMAC_HAVE_SHA512_SUPPORT ) */
 
-/* Creates a SHA512 context
+/* Creates a SHA-512 context
  * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
@@ -627,11 +627,29 @@ int libhmac_sha512_initialize(
 	}
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA512 )
+#if defined( HAVE_EVP_MD_CTX_INIT )
 	EVP_MD_CTX_init(
-	 &( internal_context->evp_md_context ) );
+	 &( internal_context->internal_evp_md_context ) );
+
+	internal_context->evp_md_context = &( internal_context->internal_evp_md_context );
+#else
+	internal_context->evp_md_context = EVP_MD_CTX_new();
+
+	if( internal_context->evp_md_context == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+		 "%s: unable to create EVP message digest context.",
+		 function );
+
+		goto on_error;
+	}
+#endif /* defined( HAVE_EVP_MD_CTX_INIT ) */
 
 	if( EVP_DigestInit_ex(
-	     &( internal_context->evp_md_context ),
+	     internal_context->evp_md_context,
 	     EVP_sha512(),
 	     NULL ) != 1 )
 	{
@@ -642,14 +660,19 @@ int libhmac_sha512_initialize(
 		 "%s: unable to initialize context.",
 		 function );
 
+#if defined( HAVE_EVP_MD_CTX_CLEANUP )
 		EVP_MD_CTX_cleanup(
-		 &( internal_context->evp_md_context ) );
+		 &( internal_context->internal_evp_md_context ) );
 		ERR_remove_thread_state(
 		 NULL );
+#else
+		EVP_MD_CTX_free(
+		 internal_context->evp_md_context );
+#endif
+		internal_context->evp_md_context = NULL;
 
 		goto on_error;
 	}
-
 #else
 	if( memory_copy(
 	     internal_context->hash_values,
@@ -679,7 +702,7 @@ on_error:
 	return( -1 );
 }
 
-/* Frees a SHA512 context
+/* Frees a SHA-512 context
  * Returns 1 if successful or -1 on error
  */
 int libhmac_sha512_free(
@@ -723,21 +746,28 @@ int libhmac_sha512_free(
 		 */
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA512 )
+#if defined( HAVE_EVP_MD_CTX_CLEANUP )
 		if( EVP_MD_CTX_cleanup(
-		     &( internal_context->evp_md_context ) ) != 1 )
+		     &( internal_context->internal_evp_md_context ) ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to clean up context.",
+			 "%s: unable to clean up EVP message digest context.",
 			 function );
 		}
-		/* Make sure the error state is removed otherwise openssl will leak memory
+		/* Make sure the error state is removed otherwise OpenSSL will leak memory
 		 */
 		ERR_remove_thread_state(
 		 NULL );
+#else
+		EVP_MD_CTX_free(
+		 internal_context->evp_md_context );
 
+#endif /* defined( HAVE_EVP_MD_CTX_CLEANUP ) */
+
+		internal_context->evp_md_context = NULL;
 #else
 		/* No additional clean up necessary
 		 */
@@ -748,7 +778,9 @@ int libhmac_sha512_free(
 	return( 1 );
 }
 
-/* Updates the SHA512 context
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_512 )
+
+/* Updates the SHA-512 context using the Windows Crypto API
  * Returns 1 if successful or -1 on error
  */
 int libhmac_sha512_update(
@@ -759,12 +791,6 @@ int libhmac_sha512_update(
 {
 	libhmac_internal_sha512_context_t *internal_context = NULL;
 	static char *function                               = "libhmac_sha512_update";
-
-#if !defined( LIBHMAC_HAVE_SHA512_SUPPORT )
-	size_t buffer_offset                                = 0;
-	size_t remaining_block_size                         = 0;
-	ssize_t process_count                               = 0;
-#endif
 
 	if( context == NULL )
 	{
@@ -779,7 +805,6 @@ int libhmac_sha512_update(
 	}
 	internal_context = (libhmac_internal_sha512_context_t *) context;
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_512 )
 	if( internal_context->hash == 0 )
 	{
 		libcerror_error_set(
@@ -791,7 +816,6 @@ int libhmac_sha512_update(
 
 		return( -1 );
 	}
-#endif
 	if( buffer == NULL )
 	{
 		libcerror_error_set(
@@ -803,11 +827,6 @@ int libhmac_sha512_update(
 
 		return( -1 );
 	}
-	if( size == 0 )
-	{
-		return( 1 );
-	}
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_512 )
 #if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
 	if( size > (size_t) UINT32_MAX )
 	{
@@ -821,6 +840,10 @@ int libhmac_sha512_update(
 		return( -1 );
 	}
 #endif
+	if( size == 0 )
+	{
+		return( 1 );
+	}
 	if( CryptHashData(
 	     internal_context->hash,
 	     (BYTE *) buffer,
@@ -836,9 +859,53 @@ int libhmac_sha512_update(
 
 		return( -1 );
 	}
+	return( 1 );
+}
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA512_DIGEST_LENGTH )
+
+/* Updates the SHA-512 context using OpenSSL
+ * Returns 1 if successful or -1 on error
+ */
+int libhmac_sha512_update(
+     libhmac_sha512_context_t *context,
+     const uint8_t *buffer,
+     size_t size,
+     libcerror_error_t **error )
+{
+	libhmac_internal_sha512_context_t *internal_context = NULL;
+	static char *function                               = "libhmac_sha512_update";
+	unsigned long safe_hash_size                        = 0;
+
+	if( context == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid context.",
+		 function );
+
+		return( -1 );
+	}
+	internal_context = (libhmac_internal_sha512_context_t *) context;
+
+	if( buffer == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid buffer.",
+		 function );
+
+		return( -1 );
+	}
+#if ( SIZEOF_LONG < SIZEOF_SIZE_T )
+	if( size > (size_t) ULONG_MAX )
+#else
 	if( size > (size_t) SSIZE_MAX )
+#endif
 	{
 		libcerror_error_set(
 		 error,
@@ -849,6 +916,12 @@ int libhmac_sha512_update(
 
 		return( -1 );
 	}
+	if( size == 0 )
+	{
+		return( 1 );
+	}
+	safe_hash_size = (unsigned long) size;
+
 	if( SHA512_Update(
 	     &( internal_context->sha512_context ),
 	     (const void *) buffer,
@@ -863,8 +936,47 @@ int libhmac_sha512_update(
 
 		return( -1 );
 	}
+	return( 1 );
+}
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA512 )
+
+/* Updates the SHA-512 context using OpenSSL EVP
+ * Returns 1 if successful or -1 on error
+ */
+int libhmac_sha512_update(
+     libhmac_sha512_context_t *context,
+     const uint8_t *buffer,
+     size_t size,
+     libcerror_error_t **error )
+{
+	libhmac_internal_sha512_context_t *internal_context = NULL;
+	static char *function                               = "libhmac_sha512_update";
+
+	if( context == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid context.",
+		 function );
+
+		return( -1 );
+	}
+	internal_context = (libhmac_internal_sha512_context_t *) context;
+
+	if( buffer == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid buffer.",
+		 function );
+
+		return( -1 );
+	}
 	if( size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
@@ -876,8 +988,12 @@ int libhmac_sha512_update(
 
 		return( -1 );
 	}
+	if( size == 0 )
+	{
+		return( 1 );
+	}
 	if( EVP_DigestUpdate(
-	     &( internal_context->evp_md_context ),
+	     internal_context->evp_md_context,
 	     (const void *) buffer,
 	     size ) != 1 )
 	{
@@ -890,9 +1006,50 @@ int libhmac_sha512_update(
 
 		return( -1 );
 	}
+	return( 1 );
+}
 
 #else
 
+/* Updates the SHA-512 context using fallback implementation
+ * Returns 1 if successful or -1 on error
+ */
+int libhmac_sha512_update(
+     libhmac_sha512_context_t *context,
+     const uint8_t *buffer,
+     size_t size,
+     libcerror_error_t **error )
+{
+	libhmac_internal_sha512_context_t *internal_context = NULL;
+	static char *function                               = "libhmac_sha512_update";
+	size_t buffer_offset                                = 0;
+	size_t remaining_block_size                         = 0;
+	ssize_t process_count                               = 0;
+
+	if( context == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid context.",
+		 function );
+
+		return( -1 );
+	}
+	internal_context = (libhmac_internal_sha512_context_t *) context;
+
+	if( buffer == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid buffer.",
+		 function );
+
+		return( -1 );
+	}
 	if( size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
@@ -903,6 +1060,10 @@ int libhmac_sha512_update(
 		 function );
 
 		return( -1 );
+	}
+	if( size == 0 )
+	{
+		return( 1 );
 	}
 	if( internal_context->block_offset > 0 )
 	{
@@ -1008,11 +1169,14 @@ int libhmac_sha512_update(
 		}
 		internal_context->block_offset = size;
 	}
-#endif
 	return( 1 );
 }
 
-/* Finalizes the SHA512 context
+#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_512 ) */
+
+#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_512 )
+
+/* Finalizes the SHA-512 context using the Windows Crypto API
  * Returns 1 if successful or -1 on error
  */
 int libhmac_sha512_finalize(
@@ -1023,24 +1187,8 @@ int libhmac_sha512_finalize(
 {
 	libhmac_internal_sha512_context_t *internal_context = NULL;
 	static char *function                               = "libhmac_sha512_finalize";
-
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_512 )
 	DWORD safe_hash_size                                = 0;
 
-#elif defined( HAVE_LIBCRYPTO ) && !defined( HAVE_OPENSSL_SHA_H ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA512 )
-	unsigned int safe_hash_size                         = 0;
-
-#elif !defined( LIBHMAC_HAVE_SHA512_SUPPORT )
-	uint64_t bit_size                                   = 0;
-	size_t block_size                                   = 0;
-	size_t number_of_blocks                             = 0;
-	ssize_t process_count                               = 0;
-
-#if !defined( LIBHMAC_UNFOLLED_LOOPS )
-	size_t hash_index                                   = 0;
-	int hash_values_index                               = 0;
-#endif
-#endif
 	if( context == NULL )
 	{
 		libcerror_error_set(
@@ -1054,7 +1202,6 @@ int libhmac_sha512_finalize(
 	}
 	internal_context = (libhmac_internal_sha512_context_t *) context;
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_256 ) && ( WINVER >= 0x0600 )
 	if( internal_context->hash == 0 )
 	{
 		libcerror_error_set(
@@ -1066,7 +1213,6 @@ int libhmac_sha512_finalize(
 
 		return( -1 );
 	}
-#endif
 	if( hash == NULL )
 	{
 		libcerror_error_set(
@@ -1078,18 +1224,6 @@ int libhmac_sha512_finalize(
 
 		return( -1 );
 	}
-	if( hash_size < (size_t) LIBHMAC_SHA512_HASH_SIZE )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: invalid hash value too small.",
-		 function );
-
-		return( -1 );
-	}
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_256 ) && ( WINVER >= 0x0600 )
 #if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
 	if( hash_size > (size_t) UINT32_MAX )
 	{
@@ -1103,6 +1237,17 @@ int libhmac_sha512_finalize(
 		return( -1 );
 	}
 #endif
+	if( hash_size < (size_t) LIBHMAC_SHA512_HASH_SIZE )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
+		 "%s: invalid hash value too small.",
+		 function );
+
+		return( -1 );
+	}
 	safe_hash_size = (DWORD) hash_size;
 
 	if( CryptGetHashParam(
@@ -1121,8 +1266,47 @@ int libhmac_sha512_finalize(
 
 		return( -1 );
 	}
+	return( 1 );
+}
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA512_DIGEST_LENGTH )
+
+/* Finalizes the SHA-512 context using OpenSSL
+ * Returns 1 if successful or -1 on error
+ */
+int libhmac_sha512_finalize(
+     libhmac_sha512_context_t *context,
+     uint8_t *hash,
+     size_t hash_size,
+     libcerror_error_t **error )
+{
+	libhmac_internal_sha512_context_t *internal_context = NULL;
+	static char *function                               = "libhmac_sha512_finalize";
+
+	if( context == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid context.",
+		 function );
+
+		return( -1 );
+	}
+	internal_context = (libhmac_internal_sha512_context_t *) context;
+
+	if( hash == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid hash.",
+		 function );
+
+		return( -1 );
+	}
 	if( hash_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
@@ -1158,8 +1342,48 @@ int libhmac_sha512_finalize(
 
 		return( -1 );
 	}
+	return( 1 );
+}
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA512 )
+
+/* Finalizes the SHA-512 context using OpenSSL EVP
+ * Returns 1 if successful or -1 on error
+ */
+int libhmac_sha512_finalize(
+     libhmac_sha512_context_t *context,
+     uint8_t *hash,
+     size_t hash_size,
+     libcerror_error_t **error )
+{
+	libhmac_internal_sha512_context_t *internal_context = NULL;
+	static char *function                               = "libhmac_sha512_finalize";
+	unsigned int safe_hash_size                         = 0;
+
+	if( context == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid context.",
+		 function );
+
+		return( -1 );
+	}
+	internal_context = (libhmac_internal_sha512_context_t *) context;
+
+	if( hash == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid hash.",
+		 function );
+
+		return( -1 );
+	}
 	if( hash_size > (size_t) UINT_MAX )
 	{
 		libcerror_error_set(
@@ -1171,10 +1395,21 @@ int libhmac_sha512_finalize(
 
 		return( -1 );
 	}
+	if( hash_size < (size_t) LIBHMAC_SHA512_HASH_SIZE )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
+		 "%s: invalid hash size value too small.",
+		 function );
+
+		return( -1 );
+	}
 	safe_hash_size = (unsigned int) hash_size;
 
 	if( EVP_DigestFinal_ex(
-	     &( internal_context->evp_md_context ),
+	     internal_context->evp_md_context,
 	     (unsigned char *) hash,
 	     &safe_hash_size ) != 1 )
 	{
@@ -1187,8 +1422,67 @@ int libhmac_sha512_finalize(
 
 		return( -1 );
 	}
+	return( 1 );
+}
 
 #else
+
+/* Finalizes the SHA-512 context using fallback implementation
+ * Returns 1 if successful or -1 on error
+ */
+int libhmac_sha512_finalize(
+     libhmac_sha512_context_t *context,
+     uint8_t *hash,
+     size_t hash_size,
+     libcerror_error_t **error )
+{
+	libhmac_internal_sha512_context_t *internal_context = NULL;
+	static char *function                               = "libhmac_sha512_finalize";
+	size_t block_size                                   = 0;
+	size_t number_of_blocks                             = 0;
+	ssize_t process_count                               = 0;
+	uint64_t bit_size                                   = 0;
+
+#if !defined( LIBHMAC_UNFOLLED_LOOPS )
+	size_t hash_index                                   = 0;
+	int hash_values_index                               = 0;
+#endif
+
+	if( context == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid context.",
+		 function );
+
+		return( -1 );
+	}
+	internal_context = (libhmac_internal_sha512_context_t *) context;
+
+	if( hash == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid hash.",
+		 function );
+
+		return( -1 );
+	}
+	if( hash_size < (size_t) LIBHMAC_SHA512_HASH_SIZE )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
+		 "%s: invalid hash value too small.",
+		 function );
+
+		return( -1 );
+	}
 	if( hash_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
@@ -1324,11 +1618,12 @@ int libhmac_sha512_finalize(
 
 		return( -1 );
 	}
-#endif
 	return( 1 );
 }
 
-/* Calculates the SHA512 of the buffer
+#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_512 ) */
+
+/* Calculates the SHA-512 of the buffer
  * Returns 1 if successful or -1 on error
  */
 int libhmac_sha512_calculate(
@@ -1409,7 +1704,7 @@ on_error:
 	return( -1 );
 }
 
-/* Calculates the SHA512 HMAC of the buffer
+/* Calculates the SHA-512 HMAC of the buffer
  * HMAC is defined in RFC 2104
  * Returns 1 if successful or -1 on error
  */

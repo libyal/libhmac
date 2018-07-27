@@ -224,7 +224,7 @@ int libhmac_sha1_calculate_hmac(
  * SHA-224 functions
  * ------------------------------------------------------------------------- */
 
-/* Creates a SHA224 context
+/* Creates a SHA-224 context
  * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
@@ -233,7 +233,7 @@ int libhmac_sha224_initialize(
      libhmac_sha224_context_t **context,
      libhmac_error_t **error );
 
-/* Frees a SHA224 context
+/* Frees a SHA-224 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -241,7 +241,7 @@ int libhmac_sha224_free(
      libhmac_sha224_context_t **context,
      libhmac_error_t **error );
 
-/* Updates the SHA224 context
+/* Updates the SHA-224 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -251,7 +251,7 @@ int libhmac_sha224_update(
      size_t size,
      libhmac_error_t **error );
 
-/* Finalizes the SHA224 context
+/* Finalizes the SHA-224 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -261,7 +261,7 @@ int libhmac_sha224_finalize(
      size_t hash_size,
      libhmac_error_t **error );
 
-/* Calculates the SHA224 of the buffer
+/* Calculates the SHA-224 of the buffer
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -272,7 +272,7 @@ int libhmac_sha224_calculate(
      size_t hash_size,
      libhmac_error_t **error );
 
-/* Calculates the SHA224 HMAC of the buffer
+/* Calculates the SHA-224 HMAC of the buffer
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -289,7 +289,7 @@ int libhmac_sha224_calculate_hmac(
  * SHA-256 functions
  * ------------------------------------------------------------------------- */
 
-/* Creates a SHA256 context
+/* Creates a SHA-256 context
  * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
@@ -298,7 +298,7 @@ int libhmac_sha256_initialize(
      libhmac_sha256_context_t **context,
      libhmac_error_t **error );
 
-/* Frees a SHA256 context
+/* Frees a SHA-256 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -306,7 +306,7 @@ int libhmac_sha256_free(
      libhmac_sha256_context_t **context,
      libhmac_error_t **error );
 
-/* Updates the SHA256 context
+/* Updates the SHA-256 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -316,7 +316,7 @@ int libhmac_sha256_update(
      size_t size,
      libhmac_error_t **error );
 
-/* Finalizes the SHA256 context
+/* Finalizes the SHA-256 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -326,7 +326,7 @@ int libhmac_sha256_finalize(
      size_t hash_size,
      libhmac_error_t **error );
 
-/* Calculates the SHA256 of the buffer
+/* Calculates the SHA-256 of the buffer
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -337,7 +337,7 @@ int libhmac_sha256_calculate(
      size_t hash_size,
      libhmac_error_t **error );
 
-/* Calculates the SHA256 HMAC of the buffer
+/* Calculates the SHA-256 HMAC of the buffer
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -354,7 +354,7 @@ int libhmac_sha256_calculate_hmac(
  * SHA-512 functions
  * ------------------------------------------------------------------------- */
 
-/* Creates a SHA512 context
+/* Creates a SHA-512 context
  * Make sure the value context is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
@@ -363,7 +363,7 @@ int libhmac_sha512_initialize(
      libhmac_sha512_context_t **context,
      libhmac_error_t **error );
 
-/* Frees a SHA512 context
+/* Frees a SHA-512 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -371,7 +371,7 @@ int libhmac_sha512_free(
      libhmac_sha512_context_t **context,
      libhmac_error_t **error );
 
-/* Updates the SHA512 context
+/* Updates the SHA-512 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -381,7 +381,7 @@ int libhmac_sha512_update(
      size_t size,
      libhmac_error_t **error );
 
-/* Finalizes the SHA512 context
+/* Finalizes the SHA-512 context
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -391,7 +391,7 @@ int libhmac_sha512_finalize(
      size_t hash_size,
      libhmac_error_t **error );
 
-/* Calculates the SHA512 of the buffer
+/* Calculates the SHA-512 of the buffer
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
@@ -402,7 +402,7 @@ int libhmac_sha512_calculate(
      size_t hash_size,
      libhmac_error_t **error );
 
-/* Calculates the SHA512 HMAC of the buffer
+/* Calculates the SHA-512 HMAC of the buffer
  * Returns 1 if successful or -1 on error
  */
 LIBHMAC_EXTERN \
