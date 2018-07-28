@@ -28,13 +28,6 @@
  */
 #if !defined( HAVE_LOCAL_LIBHMAC )
 
-/* If libtool DLL support is enabled set LIBHMAC_DLL_EXPORT
- * before including libhmac/extern.h
- */
-#if defined( _WIN32 ) && defined( DLL_EXPORT )
-#define LIBHMAC_DLL_EXPORT
-#endif
-
 #include <libhmac/extern.h>
 
 #define LIBHMAC_EXTERN_VARIABLE	LIBHMAC_EXTERN

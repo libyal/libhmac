@@ -1,6 +1,6 @@
 dnl Functions for libhmac
 dnl
-dnl Version: 20161224
+dnl Version: 20180728
 
 dnl Function to detect if libhmac dependencies are available
 AC_DEFUN([AX_LIBHMAC_CHECK_LOCAL],
@@ -9,9 +9,6 @@ AC_DEFUN([AX_LIBHMAC_CHECK_LOCAL],
   ac_cv_libhmac_sha224=no
   ac_cv_libhmac_sha256=no
   ac_cv_libhmac_sha512=no
-
-  dnl Check for Windows crypto API support
-  AX_WINCRYPT_CHECK_LIB
 
   AS_IF(
     [test "x$ac_cv_wincrypt" != xno],
@@ -69,23 +66,7 @@ AC_DEFUN([AX_LIBHMAC_CHECK_LOCAL],
   AS_IF(
     [test "x$ac_cv_libhmac_sha512" = xno],
     [ac_cv_libhmac_sha512=local])
-
-  dnl Check if DLL support is needed
-  AS_IF(
-    [test "x$enable_shared" = xyes],
-    [AS_CASE(
-      [$host],
-      [*cygwin* | *mingw*],
-      [AC_DEFINE(
-        [HAVE_DLLMAIN],
-        [1],
-        [Define to 1 to enable the DllMain function.])
-      AC_SUBST(
-        [HAVE_DLLMAIN],
-        [1])
-    ])
   ])
-])
 
 dnl Function to detect if hmactools dependencies are available
 AC_DEFUN([AX_HMACTOOLS_CHECK_LOCAL],
@@ -102,17 +83,5 @@ AC_DEFUN([AX_HMACTOOLS_CHECK_LOCAL],
 
   dnl Check if tools should be build as static executables
   AX_COMMON_CHECK_ENABLE_STATIC_EXECUTABLES
-
-  dnl Check if DLL support is needed
-  AS_IF(
-    [test "x$enable_shared" = xyes && test "x$ac_cv_enable_static_executables" = xno],
-    [AS_CASE(
-      [$host],
-      [*cygwin* | *mingw*],
-      [AC_SUBST(
-        [LIBHMAC_DLL_IMPORT],
-        ["-DLIBHMAC_DLL_IMPORT"])
-    ])
-  ])
 ])
 

@@ -24,13 +24,6 @@
 
 #include <common.h>
 
-/* If Cygwin libtool DLL support is enabled set LIBHMAC_DLL_IMPORT
- * before including libhmac.h
- */
-#if defined( _WIN32 ) && defined( DLL_IMPORT ) && !defined( HAVE_STATIC_EXECUTABLES )
-#define LIBHMAC_DLL_IMPORT
-#endif
-
 #include <libhmac.h>
 
 #endif /* !defined( _HMACTOOLS_LIBHMAC_H ) */
