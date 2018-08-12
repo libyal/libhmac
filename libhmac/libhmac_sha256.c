@@ -24,10 +24,7 @@
 #include <memory.h>
 #include <types.h>
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI )
-#include <wincrypt.h>
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H )
 #include <openssl/sha.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H )
@@ -517,66 +514,7 @@ int libhmac_sha256_initialize(
 
 		return( -1 );
 	}
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_256 )
-	/* Request the AES crypt provider, fail back to the RSA crypt provider
-	*/
-	if( CryptAcquireContext(
-	     &( internal_context->crypt_provider ),
-	     NULL,
-	     NULL,
-	     PROV_RSA_AES,
-	     CRYPT_VERIFYCONTEXT ) == 0 )
-	{
-		if( CryptAcquireContext(
-		     &( internal_context->crypt_provider ),
-		     NULL,
-		     NULL,
-		     PROV_RSA_FULL,
-		     CRYPT_VERIFYCONTEXT ) == 0 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-			 "%s: unable to create AES or RSA crypt provider.",
-			 function );
-
-			goto on_error;
-		}
-	}
-	if( internal_context->crypt_provider == 0 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: unable to create crypt provider.",
-		 function );
-
-		goto on_error;
-	}
-	if( CryptCreateHash(
-	     internal_context->crypt_provider,
-	     CALG_SHA_256,
-	     0,
-	     0,
-	     &( internal_context->hash ) ) != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable to create hash object.",
-		 function );
-
-		CryptReleaseContext(
-		 internal_context->crypt_provider,
-		 0 );
-
-		goto on_error;
-	}
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
 	if( SHA256_Init(
 	     &( internal_context->sha256_context ) ) != 1 )
 	{
@@ -652,7 +590,8 @@ int libhmac_sha256_initialize(
 
 		return( -1 );
 	}
-#endif
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH ) */
+
 	*context = (libhmac_sha256_context_t *) internal_context;
 
 	return( 1 );
@@ -692,20 +631,7 @@ int libhmac_sha256_free(
 		internal_context = (libhmac_internal_sha256_context_t *) *context;
 		*context         = NULL;
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_256 )
-		if( internal_context->crypt_provider != 0 )
-		{
-			CryptReleaseContext(
-			 internal_context->crypt_provider,
-			 0 );
-		}
-		if( internal_context->hash != 0 )
-		{
-			CryptDestroyHash(
-			 internal_context->hash );
-		}
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
 		/* No additional clean up necessary
 		 */
 
@@ -735,98 +661,15 @@ int libhmac_sha256_free(
 #else
 		/* No additional clean up necessary
 		 */
-#endif
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH ) */
+
 		memory_free(
 		 internal_context );
 	}
 	return( 1 );
 }
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_256 )
-
-/* Updates the SHA-256 context using the Windows Crypto API
- * Returns 1 if successful or -1 on error
- */
-int libhmac_sha256_update(
-     libhmac_sha256_context_t *context,
-     const uint8_t *buffer,
-     size_t size,
-     libcerror_error_t **error )
-{
-	libhmac_internal_sha256_context_t *internal_context = NULL;
-	static char *function                               = "libhmac_sha256_update";
-
-	if( context == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid context.",
-		 function );
-
-		return( -1 );
-	}
-	internal_context = (libhmac_internal_sha256_context_t *) context;
-
-	if( internal_context->hash == 0 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid context - missing hash.",
-		 function );
-
-		return( -1 );
-	}
-	if( buffer == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid buffer.",
-		 function );
-
-		return( -1 );
-	}
-#if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
-	if( size > (size_t) UINT32_MAX )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid size value exceeds maximum.",
-		 function );
-
-		return( -1 );
-	}
-#endif
-	if( size == 0 )
-	{
-		return( 1 );
-	}
-	if( CryptHashData(
-	     internal_context->hash,
-	     (BYTE *) buffer,
-	     (DWORD) size,
-	     0 ) != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable to update hash.",
-		 function );
-
-		return( -1 );
-	}
-	return( 1 );
-}
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
 
 /* Updates the SHA-256 context using OpenSSL
  * Returns 1 if successful or -1 on error
@@ -1136,104 +979,9 @@ int libhmac_sha256_update(
 	return( 1 );
 }
 
-#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_256 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH ) */
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_256 )
-
-/* Finalizes the SHA-256 context using the Windows Crypto API
- * Returns 1 if successful or -1 on error
- */
-int libhmac_sha256_finalize(
-     libhmac_sha256_context_t *context,
-     uint8_t *hash,
-     size_t hash_size,
-     libcerror_error_t **error )
-{
-	libhmac_internal_sha256_context_t *internal_context = NULL;
-	static char *function                               = "libhmac_sha256_finalize";
-	DWORD safe_hash_size                                = 0;
-
-	if( context == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid context.",
-		 function );
-
-		return( -1 );
-	}
-	internal_context = (libhmac_internal_sha256_context_t *) context;
-
-	if( internal_context->hash == 0 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid context - missing hash.",
-		 function );
-
-		return( -1 );
-	}
-	if( hash == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid hash.",
-		 function );
-
-		return( -1 );
-	}
-#if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
-	if( hash_size > (size_t) UINT32_MAX )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid hash size value exceeds maximum.",
-		 function );
-
-		return( -1 );
-	}
-#endif
-	if( hash_size < (size_t) LIBHMAC_SHA256_HASH_SIZE )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: invalid hash value too small.",
-		 function );
-
-		return( -1 );
-	}
-	safe_hash_size = (DWORD) hash_size;
-
-	if( CryptGetHashParam(
-	     internal_context->hash,
-	     HP_HASHVAL,
-	     (BYTE *) hash,
-	     &safe_hash_size,
-	     0 ) != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable to finalize hash.",
-		 function );
-
-		return( -1 );
-	}
-	return( 1 );
-}
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
 
 /* Finalizes the SHA-256 context using OpenSSL
  * Returns 1 if successful or -1 on error
@@ -1585,7 +1333,7 @@ int libhmac_sha256_finalize(
 	return( 1 );
 }
 
-#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_SHA_256 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH ) */
 
 /* Calculates the SHA-256 of the buffer
  * Returns 1 if successful or -1 on error

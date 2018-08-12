@@ -466,13 +466,7 @@ int hmac_test_md5_initialize(
 	}
 #endif /* defined( HAVE_HMAC_TEST_MEMORY ) */
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-
-	/* TODO add test for failing CryptAcquireContext */
-
-	/* TODO add test for failing CryptCreateHash */
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
@@ -600,7 +594,7 @@ int hmac_test_md5_initialize(
 	}
 #endif /* defined( HAVE_CAES_TEST_MEMORY ) && defined( OPTIMIZATION_DISABLED ) */
 
-#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH ) */
 
 	return( 1 );
 
@@ -670,11 +664,7 @@ int hmac_test_md5_update(
 	size_t maximum_size            = 0;
 	int result                     = 0;
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-#if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
-	maximum_size = (size_t) UINT32_MAX;
-#endif
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 #if ( SIZEOF_LONG < SIZEOF_SIZE_T )
 	maximum_size = (size_t) ULONG_MAX;
 #else
@@ -795,13 +785,7 @@ int hmac_test_md5_update(
 		libcerror_error_free(
 		 &error );
 	}
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-
-	/* TODO add test for failing internal_context->hash == 0 */
-
-	/* TODO add test for failing CryptHashData */
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
@@ -929,7 +913,7 @@ int hmac_test_md5_update(
 		 &error );
 	}
 #endif /* defined( HAVE_CAES_TEST_MEMORY ) && defined( OPTIMIZATION_DISABLED ) */
-#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH ) */
 
 	/* Clean up
 	 */
@@ -980,9 +964,7 @@ int hmac_test_md5_finalize(
 	size_t maximum_size            = 0;
 	int result                     = 0;
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-	maximum_size = (size_t) UINT32_MAX;
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 	maximum_size = (size_t) SSIZE_MAX;
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_MD5 )
 	maximum_size = (size_t) UINT_MAX;
@@ -1102,13 +1084,7 @@ int hmac_test_md5_finalize(
 	libcerror_error_free(
 	 &error );
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-
-	/* TODO add test for failing internal_context->hash == 0 */
-
-	/* TODO add test for failing CryptGetHashParam */
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
@@ -1239,7 +1215,7 @@ int hmac_test_md5_finalize(
 		 &error );
 	}
 #endif /* defined( HAVE_HMAC_TEST_MEMORY ) */
-#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH ) */
 
 	/* Clean up
 	 */

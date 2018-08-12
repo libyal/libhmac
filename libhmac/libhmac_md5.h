@@ -25,10 +25,7 @@
 #include <common.h>
 #include <types.h>
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI )
-#include <wincrypt.h>
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H )
 #include <openssl/md5.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H )
@@ -44,16 +41,13 @@
 extern "C" {
 #endif
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-#define LIBHMAC_HAVE_MD5_SUPPORT
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 #define LIBHMAC_HAVE_MD5_SUPPORT
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_MD5 )
 #define LIBHMAC_HAVE_MD5_SUPPORT
 
-#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
+#endif
 
 #if !defined( LIBHMAC_HAVE_MD5_SUPPORT )
 #define LIBHMAC_MD5_BLOCK_SIZE		64
@@ -63,16 +57,7 @@ typedef struct libhmac_internal_md5_context libhmac_internal_md5_context_t;
 
 struct libhmac_internal_md5_context
 {
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-	/* The crypto provider handle
-	 */
-	HCRYPTPROV crypt_provider;
-
-	/* The crypto hash handle
-	 */
-	HCRYPTHASH hash;
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 	/* The MD5 context
 	 */
 	MD5_CTX md5_context;
@@ -103,7 +88,7 @@ struct libhmac_internal_md5_context
 	 */
 	uint8_t block[ 128 ];
 
-#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH ) */
 };
 
 #if !defined( LIBHMAC_HAVE_MD5_SUPPORT )

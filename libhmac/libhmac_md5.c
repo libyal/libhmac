@@ -24,10 +24,7 @@
 #include <memory.h>
 #include <types.h>
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI )
-#include <wincrypt.h>
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H )
 #include <openssl/md5.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H )
@@ -484,66 +481,7 @@ int libhmac_md5_initialize(
 
 		return( -1 );
 	}
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-	/* Request the AES crypt provider, fail back to the RSA crypt provider
-	*/
-	if( CryptAcquireContext(
-	     &( internal_context->crypt_provider ),
-	     NULL,
-	     NULL,
-	     PROV_RSA_AES,
-	     CRYPT_VERIFYCONTEXT ) == 0 )
-	{
-		if( CryptAcquireContext(
-		     &( internal_context->crypt_provider ),
-		     NULL,
-		     NULL,
-		     PROV_RSA_FULL,
-		     CRYPT_VERIFYCONTEXT ) == 0 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-			 "%s: unable to create AES or RSA crypt provider.",
-			 function );
-
-			goto on_error;
-		}
-	}
-	if( internal_context->crypt_provider == 0 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: unable to create crypt provider.",
-		 function );
-
-		goto on_error;
-	}
-	if( CryptCreateHash(
-	     internal_context->crypt_provider,
-	     CALG_MD5,
-	     0,
-	     0,
-	     &( internal_context->hash ) ) != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable to create hash object.",
-		 function );
-
-		CryptReleaseContext(
-		 internal_context->crypt_provider,
-		 0 );
-
-		goto on_error;
-	}
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 	if( MD5_Init(
 	     &( internal_context->md5_context ) ) != 1 )
 	{
@@ -619,7 +557,7 @@ int libhmac_md5_initialize(
 
 		goto on_error;
 	}
-#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH ) */
 
 	*context = (libhmac_md5_context_t *) internal_context;
 
@@ -660,20 +598,7 @@ int libhmac_md5_free(
 		internal_context = (libhmac_internal_md5_context_t *) *context;
 		*context         = NULL;
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-		if( internal_context->crypt_provider != 0 )
-		{
-			CryptReleaseContext(
-			 internal_context->crypt_provider,
-			 0 );
-		}
-		if( internal_context->hash != 0 )
-		{
-			CryptDestroyHash(
-			 internal_context->hash );
-		}
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 		/* No additional clean up necessary
 		 */
 
@@ -703,7 +628,7 @@ int libhmac_md5_free(
 #else
 		/* No additional clean up necessary
 		 */
-#endif /* defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH ) */
 
 		memory_free(
 		 internal_context );
@@ -711,91 +636,7 @@ int libhmac_md5_free(
 	return( 1 );
 }
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-
-/* Updates the MD5 context using the Windows Crypto API
- * Returns 1 if successful or -1 on error
- */
-int libhmac_md5_update(
-     libhmac_md5_context_t *context,
-     const uint8_t *buffer,
-     size_t size,
-     libcerror_error_t **error )
-{
-	libhmac_internal_md5_context_t *internal_context = NULL;
-	static char *function                            = "libhmac_md5_update";
-
-	if( context == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid context.",
-		 function );
-
-		return( -1 );
-	}
-	internal_context = (libhmac_internal_md5_context_t *) context;
-
-	if( internal_context->hash == 0 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid context - missing hash.",
-		 function );
-
-		return( -1 );
-	}
-	if( buffer == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid buffer.",
-		 function );
-
-		return( -1 );
-	}
-#if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
-	if( size > (size_t) UINT32_MAX )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid size value exceeds maximum.",
-		 function );
-
-		return( -1 );
-	}
-#endif
-	if( size == 0 )
-	{
-		return( 1 );
-	}
-	if( CryptHashData(
-	     internal_context->hash,
-	     (BYTE *) buffer,
-	     (DWORD) size,
-	     0 ) != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable to update hash.",
-		 function );
-
-		return( -1 );
-	}
-	return( 1 );
-}
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 
 /* Updates the MD5 context using OpenSSL
  * Returns 1 if successful or -1 on error
@@ -1105,104 +946,9 @@ int libhmac_md5_update(
 	return( 1 );
 }
 
-#endif /* if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH ) */
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 )
-
-/* Finalizes the MD5 context using the Windows Crypto API
- * Returns 1 if successful or -1 on error
- */
-int libhmac_md5_finalize(
-     libhmac_md5_context_t *context,
-     uint8_t *hash,
-     size_t hash_size,
-     libcerror_error_t **error )
-{
-	libhmac_internal_md5_context_t *internal_context = NULL;
-	static char *function                            = "libhmac_md5_finalize";
-	DWORD safe_hash_size                             = 0;
-
-	if( context == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid context.",
-		 function );
-
-		return( -1 );
-	}
-	internal_context = (libhmac_internal_md5_context_t *) context;
-
-	if( internal_context->hash == 0 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid context - missing hash.",
-		 function );
-
-		return( -1 );
-	}
-	if( hash == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid hash.",
-		 function );
-
-		return( -1 );
-	}
-#if ( SIZEOF_SIZE_T == 8 ) || defined( _WIN64 )
-	if( hash_size > (size_t) UINT32_MAX )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid hash size value exceeds maximum.",
-		 function );
-
-		return( -1 );
-	}
-#endif
-	if( hash_size < (size_t) LIBHMAC_MD5_HASH_SIZE )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: invalid hash value too small.",
-		 function );
-
-		return( -1 );
-	}
-	safe_hash_size = (DWORD) hash_size;
-
-	if( CryptGetHashParam(
-	     internal_context->hash,
-	     HP_HASHVAL,
-	     (BYTE *) hash,
-	     &safe_hash_size,
-	     0 ) != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable to finalize hash.",
-		 function );
-
-		return( -1 );
-	}
-	return( 1 );
-}
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
 
 /* Finalizes the MD5 context using OpenSSL
  * Returns 1 if successful or -1 on error
@@ -1527,7 +1273,7 @@ int libhmac_md5_finalize(
 	return( 1 );
 }
 
-#endif /* if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && defined( CALG_MD5 ) */
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH ) */
 
 /* Calculates the MD5 of the buffer
  * Returns 1 if successful or -1 on error

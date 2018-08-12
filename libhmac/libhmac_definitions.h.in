@@ -48,15 +48,7 @@
 #define LIBHMAC_SHA256_HASH_SIZE	32
 #define LIBHMAC_SHA512_HASH_SIZE	64
 
-#endif
-
-#if defined( WINAPI ) && defined( HAVE_WINCRYPT )
-
-#if !defined( PROV_RSA_AES )
-#define PROV_RSA_AES			24
-#endif
-
-#endif /* defined( WINAPI ) && defined( HAVE_WINCRYPT ) */
+#endif /* !defined( HAVE_LOCAL_LIBHMAC ) */
 
 #define LIBHMAC_UNFOLLED_LOOPS
 

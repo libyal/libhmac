@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libhmac],
- [20180731],
+ [20180812],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -59,9 +59,6 @@ AX_LIBCERROR_CHECK_ENABLE
 
 dnl Check if libcrypto or required headers and functions are available
 AX_LIBCRYPTO_CHECK_ENABLE
-
-dnl Check for Windows crypto API support
-AX_WINCRYPT_CHECK_LIB
 
 dnl Check if libhmac required headers and functions are available
 AX_LIBHMAC_CHECK_LOCAL

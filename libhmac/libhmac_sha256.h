@@ -25,10 +25,7 @@
 #include <common.h>
 #include <types.h>
 
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI )
-#include <wincrypt.h>
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H )
 #include <openssl/sha.h>
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H )
@@ -44,13 +41,7 @@
 extern "C" {
 #endif
 
-/* Make sure the WINAPI version is Vista or later otherwise
- * a cross compilation will contain broken SHA-256 support
- */
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_256 )
-#define LIBHMAC_HAVE_SHA256_SUPPORT
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
 #define LIBHMAC_HAVE_SHA256_SUPPORT
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA256 )
@@ -66,16 +57,7 @@ typedef struct libhmac_internal_sha256_context libhmac_internal_sha256_context_t
 
 struct libhmac_internal_sha256_context
 {
-#if defined( HAVE_WINCRYPT ) && defined( WINAPI ) && ( WINVER >= 0x0600 ) && defined( CALG_SHA_256 )
-	/* The crypto provider handle
-	 */
-	HCRYPTPROV crypt_provider;
-
-	/* The crypto hash handle
-	 */
-	HCRYPTHASH hash;
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH )
 	/* The SHA-256 context
 	 */
 	SHA256_CTX sha256_context;
@@ -105,7 +87,8 @@ struct libhmac_internal_sha256_context
 	/* The (data) block
 	 */
 	uint8_t block[ 128 ];
-#endif
+
+#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH ) */
 };
 
 #if !defined( LIBHMAC_HAVE_SHA256_SUPPORT )
