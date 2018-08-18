@@ -77,7 +77,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libhmac", "libhmac\libhmac.vcproj", "{17E6D2AC-3A79-4280-B860-C9123D24049F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BD3A95FA-A3DE-4B79-A889-A7E5ECA4B69C} = {BD3A95FA-A3DE-4B79-A889-A7E5ECA4B69C}
-		{} = {}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libuna", "libuna\libuna.vcproj", "{BC27FF34-C859-4A1A-95D6-FC89952E1910}"
