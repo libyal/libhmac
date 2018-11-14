@@ -8,26 +8,26 @@ Source: %{name}-%{version}.tar.gz
 URL: https://github.com/libyal/libhmac
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 @libhmac_spec_requires@ @ax_libcerror_spec_requires@ @ax_libcrypto_spec_requires@
-@libhmac_spec_build_requires@ @ax_libcerror_spec_build_requires@ @ax_libcrypto_spec_build_requires@
+BuildRequires: gcc @ax_libcerror_spec_build_requires@ @ax_libcrypto_spec_build_requires@
 
-%description
+%description -n libhmac
 Library to support various Hash-based Message Authentication Codes (HMAC)
 
-%package devel
+%package -n libhmac-devel
 Summary: Header files and libraries for developing applications for libhmac
 Group: Development/Libraries
 Requires: libhmac = %{version}-%{release}
 
-%description devel
+%description -n libhmac-devel
 Header files and libraries for developing applications for libhmac.
 
-%package tools
+%package -n libhmac-tools
 Summary: Several tools for calculating Hash-based Message Authentication Codes (HMAC)
 Group: Applications/System
 Requires: libhmac = %{version}-%{release} @ax_libcfile_spec_requires@ @ax_libclocale_spec_requires@ @ax_libcnotify_spec_requires@ @ax_libcpath_spec_requires@ @ax_libcsplit_spec_requires@ @ax_libuna_spec_requires@
 @libhmac_spec_tools_build_requires@ @ax_libcfile_spec_build_requires@ @ax_libclocale_spec_build_requires@ @ax_libcnotify_spec_build_requires@ @ax_libcpath_spec_build_requires@ @ax_libcsplit_spec_build_requires@ @ax_libuna_spec_build_requires@
 
-%description tools
+%description -n libhmac-tools
 Several tools for calculating Hash-based Message Authentication Codes (HMAC)
 
 %prep
@@ -48,13 +48,13 @@ rm -rf %{buildroot}
 
 %postun -p /sbin/ldconfig
 
-%files
+%files -n libhmac
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README
 %attr(755,root,root) %{_libdir}/*.so.*
 
-%files devel
+%files -n libhmac-devel
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README ChangeLog
@@ -65,7 +65,7 @@ rm -rf %{buildroot}
 %{_includedir}/*
 %{_mandir}/man3/*
 
-%files tools
+%files -n libhmac-tools
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README
