@@ -9,6 +9,8 @@ Homepage: https://github.com/libyal/libhmac
 Package: libhmac
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libhmac1
+Replaces: libhmac1
 Suggests: libhmac-dbg
 Description: Library to support various Hash-based Message Authentication Codes (HMAC)
  libhmac is a library to support various Hash-based Message Authentication Codes (HMAC).
@@ -31,6 +33,8 @@ Package: libhmac-tools
 Section: utils
 Architecture: any
 Depends: libhmac (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libhmac-utils
+Replaces: libhmac-utils
 Description: Several tools for calculating Hash-based Message Authentication Codes (HMAC)
  Several tools for calculating Hash-based Message Authentication Codes (HMAC).
 
