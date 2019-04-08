@@ -13,6 +13,14 @@ BuildRequires: gcc @ax_libcerror_spec_build_requires@ @ax_libcrypto_spec_build_r
 %description -n libhmac
 Library to support various Hash-based Message Authentication Codes (HMAC)
 
+%package -n libhmac-static
+Summary: Library to support various Hash-based Message Authentication Codes (HMAC)
+Group: Development/Libraries
+Requires: libhmac = %{version}-%{release}
+
+%description -n libhmac-static
+Static library version of libhmac.
+
 %package -n libhmac-devel
 Summary: Header files and libraries for developing applications for libhmac
 Group: Development/Libraries
@@ -54,11 +62,16 @@ rm -rf %{buildroot}
 %doc AUTHORS README
 %attr(755,root,root) %{_libdir}/*.so.*
 
+%files -n libhmac-static
+%defattr(644,root,root,755)
+%license COPYING
+%doc AUTHORS README
+%attr(755,root,root) %{_libdir}/*.a
+
 %files -n libhmac-devel
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README
-%{_libdir}/*.a
 %{_libdir}/*.la
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/libhmac.pc

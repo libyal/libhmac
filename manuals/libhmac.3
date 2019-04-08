@@ -1,11 +1,9 @@
-.Dd January 17, 2017
+.Dd April  8, 2019
 .Dt libhmac 3
 .Os libhmac
 .Sh NAME
 .Nm libhmac.h
 .Nd Library to support various Hash-based Message Authentication Codes (HMAC)
-.Sh LIBRARY
-.Lb libhmac
 .Sh SYNOPSIS
 .In libhmac.h
 .Pp
@@ -17,83 +15,83 @@ Error functions
 .Ft void
 .Fn libhmac_error_free "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_error_fprint "libhmac_error_t *error, FILE *stream"
+.Fn libhmac_error_fprint "libhmac_error_t *error" "FILE *stream"
 .Ft int
-.Fn libhmac_error_sprint "libhmac_error_t *error, char *string, size_t size"
+.Fn libhmac_error_sprint "libhmac_error_t *error" "char *string" "size_t size"
 .Ft int
-.Fn libhmac_error_backtrace_fprint "libhmac_error_t *error, FILE *stream"
+.Fn libhmac_error_backtrace_fprint "libhmac_error_t *error" "FILE *stream"
 .Ft int
-.Fn libhmac_error_backtrace_sprint "libhmac_error_t *error, char *string, size_t size"
+.Fn libhmac_error_backtrace_sprint "libhmac_error_t *error" "char *string" "size_t size"
 .Pp
 MD5 functions
 .Ft int
-.Fn libhmac_md5_initialize "libhmac_md5_context_t **context, libhmac_error_t **error"
+.Fn libhmac_md5_initialize "libhmac_md5_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_md5_free "libhmac_md5_context_t **context, libhmac_error_t **error"
+.Fn libhmac_md5_free "libhmac_md5_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_md5_update "libhmac_md5_context_t *context, const uint8_t *buffer, size_t size, libhmac_error_t **error"
+.Fn libhmac_md5_update "libhmac_md5_context_t *context" "const uint8_t *buffer" "size_t size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_md5_finalize "libhmac_md5_context_t *context, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_md5_finalize "libhmac_md5_context_t *context" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_md5_calculate "const uint8_t *buffer, size_t size, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_md5_calculate "const uint8_t *buffer" "size_t size" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_md5_calculate_hmac "const uint8_t *key, size_t key_size, const uint8_t *buffer, size_t size, uint8_t *hmac, size_t hmac_size, libhmac_error_t **error"
+.Fn libhmac_md5_calculate_hmac "const uint8_t *key" "size_t key_size" "const uint8_t *buffer" "size_t size" "uint8_t *hmac" "size_t hmac_size" "libhmac_error_t **error"
 .Pp
 SHA1 functions
 .Ft int
-.Fn libhmac_sha1_initialize "libhmac_sha1_context_t **context, libhmac_error_t **error"
+.Fn libhmac_sha1_initialize "libhmac_sha1_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha1_free "libhmac_sha1_context_t **context, libhmac_error_t **error"
+.Fn libhmac_sha1_free "libhmac_sha1_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha1_update "libhmac_sha1_context_t *context, const uint8_t *buffer, size_t size, libhmac_error_t **error"
+.Fn libhmac_sha1_update "libhmac_sha1_context_t *context" "const uint8_t *buffer" "size_t size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha1_finalize "libhmac_sha1_context_t *context, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_sha1_finalize "libhmac_sha1_context_t *context" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha1_calculate "const uint8_t *buffer, size_t size, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_sha1_calculate "const uint8_t *buffer" "size_t size" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha1_calculate_hmac "const uint8_t *key, size_t key_size, const uint8_t *buffer, size_t size, uint8_t *hmac, size_t hmac_size, libhmac_error_t **error"
+.Fn libhmac_sha1_calculate_hmac "const uint8_t *key" "size_t key_size" "const uint8_t *buffer" "size_t size" "uint8_t *hmac" "size_t hmac_size" "libhmac_error_t **error"
 .Pp
 SHA-224 functions
 .Ft int
-.Fn libhmac_sha224_initialize "libhmac_sha224_context_t **context, libhmac_error_t **error"
+.Fn libhmac_sha224_initialize "libhmac_sha224_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha224_free "libhmac_sha224_context_t **context, libhmac_error_t **error"
+.Fn libhmac_sha224_free "libhmac_sha224_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha224_update "libhmac_sha224_context_t *context, const uint8_t *buffer, size_t size, libhmac_error_t **error"
+.Fn libhmac_sha224_update "libhmac_sha224_context_t *context" "const uint8_t *buffer" "size_t size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha224_finalize "libhmac_sha224_context_t *context, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_sha224_finalize "libhmac_sha224_context_t *context" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha224_calculate "const uint8_t *buffer, size_t size, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_sha224_calculate "const uint8_t *buffer" "size_t size" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha224_calculate_hmac "const uint8_t *key, size_t key_size, const uint8_t *buffer, size_t size, uint8_t *hmac, size_t hmac_size, libhmac_error_t **error"
+.Fn libhmac_sha224_calculate_hmac "const uint8_t *key" "size_t key_size" "const uint8_t *buffer" "size_t size" "uint8_t *hmac" "size_t hmac_size" "libhmac_error_t **error"
 .Pp
 SHA-256 functions
 .Ft int
-.Fn libhmac_sha256_initialize "libhmac_sha256_context_t **context, libhmac_error_t **error"
+.Fn libhmac_sha256_initialize "libhmac_sha256_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha256_free "libhmac_sha256_context_t **context, libhmac_error_t **error"
+.Fn libhmac_sha256_free "libhmac_sha256_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha256_update "libhmac_sha256_context_t *context, const uint8_t *buffer, size_t size, libhmac_error_t **error"
+.Fn libhmac_sha256_update "libhmac_sha256_context_t *context" "const uint8_t *buffer" "size_t size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha256_finalize "libhmac_sha256_context_t *context, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_sha256_finalize "libhmac_sha256_context_t *context" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha256_calculate "const uint8_t *buffer, size_t size, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_sha256_calculate "const uint8_t *buffer" "size_t size" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha256_calculate_hmac "const uint8_t *key, size_t key_size, const uint8_t *buffer, size_t size, uint8_t *hmac, size_t hmac_size, libhmac_error_t **error"
+.Fn libhmac_sha256_calculate_hmac "const uint8_t *key" "size_t key_size" "const uint8_t *buffer" "size_t size" "uint8_t *hmac" "size_t hmac_size" "libhmac_error_t **error"
 .Pp
 SHA-512 functions
 .Ft int
-.Fn libhmac_sha512_initialize "libhmac_sha512_context_t **context, libhmac_error_t **error"
+.Fn libhmac_sha512_initialize "libhmac_sha512_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha512_free "libhmac_sha512_context_t **context, libhmac_error_t **error"
+.Fn libhmac_sha512_free "libhmac_sha512_context_t **context" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha512_update "libhmac_sha512_context_t *context, const uint8_t *buffer, size_t size, libhmac_error_t **error"
+.Fn libhmac_sha512_update "libhmac_sha512_context_t *context" "const uint8_t *buffer" "size_t size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha512_finalize "libhmac_sha512_context_t *context, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_sha512_finalize "libhmac_sha512_context_t *context" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha512_calculate "const uint8_t *buffer, size_t size, uint8_t *hash, size_t hash_size, libhmac_error_t **error"
+.Fn libhmac_sha512_calculate "const uint8_t *buffer" "size_t size" "uint8_t *hash" "size_t hash_size" "libhmac_error_t **error"
 .Ft int
-.Fn libhmac_sha512_calculate_hmac "const uint8_t *key, size_t key_size, const uint8_t *buffer, size_t size, uint8_t *hmac, size_t hmac_size, libhmac_error_t **error"
+.Fn libhmac_sha512_calculate_hmac "const uint8_t *key" "size_t key_size" "const uint8_t *buffer" "size_t size" "uint8_t *hmac" "size_t hmac_size" "libhmac_error_t **error"
 .Sh DESCRIPTION
 The
 .Fn libhmac_get_version
@@ -111,7 +109,7 @@ Please report bugs of any kind on the project issue tracker: https://github.com/
 These man pages are generated from "libhmac.h".
 .Sh COPYRIGHT
 Copyright (C) 2011-2019, Joachim Metz <joachim.metz@gmail.com>.
-
+.sp
 This is free software; see the source for copying conditions.
 There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 .Sh SEE ALSO

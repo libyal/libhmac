@@ -23,6 +23,7 @@ TESTS_INPUT = \
 
 check_SCRIPTS = \
 	test_library.sh \
+	test_manpage.sh \
 	test_md5sum.sh \
 	test_runner.sh \
 	test_sha1sum.sh \
