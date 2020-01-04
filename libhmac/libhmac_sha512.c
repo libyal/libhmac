@@ -1,7 +1,7 @@
 /*
  * SHA-512 functions
  *
- * Copyright (C) 2011-2019, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2020, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -1473,7 +1473,7 @@ int libhmac_sha512_calculate_hmac(
 	uint8_t *outer_padding            = NULL;
 	static char *function             = "libhmac_sha512_calculate_hmac";
 	size_t block_index                = 0;
-	size_t block_size                 = 64;
+	size_t block_size                 = 128;
 
 	if( key == NULL )
 	{
