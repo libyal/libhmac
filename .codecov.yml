@@ -13,5 +13,6 @@ coverage:
     - "libcnotify/*"
     - "libcpath/*"
     - "libcsplit/*"
+    - "libcthreads/*"
     - "libuna/*"
     - "tests/*"

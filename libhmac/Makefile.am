@@ -2,6 +2,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
 	@LIBCERROR_CPPFLAGS@ \
+	@LIBCRYPTO_CPPFLAGS@ \
+	@PTHREAD_CPPFLAGS@ \
 	@LIBHMAC_DLL_EXPORT@
 
 lib_LTLIBRARIES = libhmac.la
@@ -25,7 +27,8 @@ libhmac_la_SOURCES = \
 libhmac_la_LIBADD = \
 	@LIBCERROR_LIBADD@ \
 	@LIBCRYPTO_LIBADD@ \
-	@LIBDL_LIBADD@
+	@LIBDL_LIBADD@ \
+	@PTHREAD_LIBADD@
 
 libhmac_la_LDFLAGS = -no-undefined -version-info 1:0:0
 

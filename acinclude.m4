@@ -1,6 +1,6 @@
 dnl Checks for required headers and functions
 dnl
-dnl Version: 20190308
+dnl Version: 20200104
 
 dnl Function to detect if libhmac dependencies are available
 AC_DEFUN([AX_LIBHMAC_CHECK_LOCAL],

@@ -60,6 +60,9 @@ AX_COMMON_CHECK_LOCAL
 dnl Check if libcerror or required headers and functions are available
 AX_LIBCERROR_CHECK_ENABLE
 
+dnl Check if libcthreads or required headers and functions are available
+AX_LIBCTHREADS_CHECK_ENABLE
+
 dnl Check if libcrypto or required headers and functions are available
 AX_LIBCRYPTO_CHECK_ENABLE
 
@@ -119,7 +122,7 @@ CFLAGS="$CFLAGS -Wall";
 
 dnl Check if requires and build requires should be set in spec file
 AS_IF(
- [test "x$ac_cv_libcerror" = xyes || test "x$ac_cv_libcrypto" != xno],
+ [test "x$ac_cv_libcerror" = xyes || test "x$ac_cv_libcthreads" = xyes || test "x$ac_cv_libcrypto" != xno],
  [AC_SUBST(
   [libhmac_spec_requires],
   [Requires:])
@@ -147,6 +150,7 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([include/Makefile])
 AC_CONFIG_FILES([common/Makefile])
 AC_CONFIG_FILES([libcerror/Makefile])
+AC_CONFIG_FILES([libcthreads/Makefile])
 AC_CONFIG_FILES([libhmac/Makefile])
 AC_CONFIG_FILES([libclocale/Makefile])
 AC_CONFIG_FILES([libcnotify/Makefile])
@@ -181,6 +185,7 @@ dnl Print a summary
 AC_MSG_NOTICE([
 Building:
    libcerror support:                         $ac_cv_libcerror
+   libcthreads support:                       $ac_cv_libcthreads
    libclocale support:                        $ac_cv_libclocale
    libcnotify support:                        $ac_cv_libcnotify
    libcsplit support:                         $ac_cv_libcsplit
@@ -194,6 +199,7 @@ Building:
    SHA512 support:                            $ac_cv_libhmac_sha512
 
 Features:
+   Multi-threading support:                   $ac_cv_libcthreads_multi_threading
    Wide character type support:               $ac_cv_enable_wide_character_type
    hmactools are build as static executables: $ac_cv_enable_static_executables
 ]);

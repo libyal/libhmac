@@ -2,6 +2,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
 	@LIBCERROR_CPPFLAGS@ \
+	@LIBCRYPTO_CPPFLAGS@ \
+	@PTHREAD_CPPFLAGS@ \
 	@LIBHMAC_DLL_IMPORT@
 
 TESTS = \

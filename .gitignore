@@ -142,4 +142,5 @@ stamp-h[1-9]
 /libcnotify
 /libcpath
 /libcsplit
+/libcthreads
 /libuna
