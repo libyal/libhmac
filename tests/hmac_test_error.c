@@ -27,7 +27,6 @@
 #include <stdlib.h>
 #endif
 
-#include "hmac_test_libcerror.h"
 #include "hmac_test_libhmac.h"
 #include "hmac_test_macros.h"
 #include "hmac_test_unused.h"
