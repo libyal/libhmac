@@ -1,7 +1,7 @@
 #!/bin/bash
 # Sum tool testing script
 #
-# Version: 20180727
+# Version: 20200821
 
 EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
@@ -21,7 +21,7 @@ test_callback()
 	shift 5;
 	local ARGUMENTS=("$@");
 
-	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" -d md5 ${INPUT_FILE} > ${TMPDIR}/hmacsum;
+	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" "-d md5" "${INPUT_FILE}" > ${TMPDIR}/hmacsum;
 	local RESULT=$?;
 
 	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "MD5" | sed 's/^[^:]*[:][\t][\t]*//'`;
