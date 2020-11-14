@@ -5,7 +5,7 @@ AM_CPPFLAGS = \
 
 bin_PROGRAMS = \
 	md5_context_fuzzer \
-	sha1_context_fuzzer
+	sha1_context_fuzzer \
 	sha224_context_fuzzer \
 	sha256_context_fuzzer \
 	sha512_context_fuzzer

@@ -24,13 +24,14 @@ test_callback()
 	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" "-d md5" "${INPUT_FILE}" > ${TMPDIR}/hmacsum;
 	local RESULT=$?;
 
-	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "MD5" | sed 's/^[^:]*[:][\t][\t]*//'`;
+	# Note that the $'' string notation is needed for Mac OS to correctly interpret the tabs.
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "MD5" | sed $'s/^[^:]*[:][\t][\t]*//'`;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`md5 ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
+			VERIFICATION_DIGEST_HASH=`md5 ${INPUT_FILE} | sed 's/^[^=]*= //'`;
 		else
 			VERIFICATION_DIGEST_HASH=`md5sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi

@@ -13,15 +13,15 @@ TESTS = \
 	test_sha2sum.sh
 
 TESTS_INPUT = \
-	input/empty \
-	input/test1 \
-	input/test2 \
-	input/test3 \
-	input/test4 \
-	input/test5 \
-	input/test6 \
-	input/test7 \
-	input/test8
+	input/public/empty \
+	input/public/test1 \
+	input/public/test2 \
+	input/public/test3 \
+	input/public/test4 \
+	input/public/test5 \
+	input/public/test6 \
+	input/public/test7 \
+	input/public/test8
 
 check_SCRIPTS = \
 	test_library.sh \
