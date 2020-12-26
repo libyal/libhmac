@@ -30,7 +30,7 @@
 
 #include <libhmac/extern.h>
 
-#if defined( __CYGWIN__ )
+#if defined( __CYGWIN__ ) || defined( __MINGW32__ )
 #define LIBHMAC_EXTERN_VARIABLE	extern
 #else
 #define LIBHMAC_EXTERN_VARIABLE	LIBHMAC_EXTERN
