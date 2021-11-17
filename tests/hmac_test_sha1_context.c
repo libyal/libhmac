@@ -21,6 +21,7 @@
 
 #include <common.h>
 #include <file_stream.h>
+#include <memory.h>
 #include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
@@ -1265,6 +1266,13 @@ int hmac_test_sha1_calculate(
 	libcerror_error_t *error = NULL;
 	int result               = 0;
 
+	/* Initialize test
+	 */
+	memory_set(
+	 data,
+	 0,
+	 208 );
+
 	/* Test regular cases
 	 */
 	result = libhmac_sha1_calculate(
@@ -1383,6 +1391,18 @@ int hmac_test_sha1_calculate_hmac(
 
 	libcerror_error_t *error = NULL;
 	int result               = 0;
+
+	/* Initialize test
+	 */
+	memory_set(
+	 data,
+	 0,
+	 208 );
+
+	memory_set(
+	 key,
+	 0,
+	 16 );
 
 	/* Test regular cases
 	 */

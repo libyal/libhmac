@@ -1299,6 +1299,13 @@ int hmac_test_sha224_calculate(
 	libcerror_error_t *error = NULL;
 	int result               = 0;
 
+	/* Initialize test
+	 */
+	memory_set(
+	 data,
+	 0,
+	 208 );
+
 	/* Test regular cases
 	 */
 	result = libhmac_sha224_calculate(
