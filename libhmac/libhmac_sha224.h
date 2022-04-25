@@ -30,7 +30,6 @@
 
 #elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H )
 #include <openssl/evp.h>
-
 #endif
 
 #include "libhmac_extern.h"
