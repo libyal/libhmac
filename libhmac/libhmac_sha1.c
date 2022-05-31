@@ -501,6 +501,10 @@ int libhmac_sha1_initialize(
 	libhmac_internal_sha1_context_t *internal_context = NULL;
 	static char *function                             = "libhmac_sha1_initialize";
 
+#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA1 )
+	const EVP_MD *evp_md_type                         = NULL;
+#endif
+
 	if( context == NULL )
 	{
 		libcerror_error_set(
@@ -590,10 +594,20 @@ int libhmac_sha1_initialize(
 	}
 #endif /* defined( HAVE_EVP_MD_CTX_INIT ) */
 
+/* TODO use EVP_MD_fetch for EVP_DigestInit_ex2 */
+	evp_md_type = EVP_sha1();
+
+#if defined( HAVE_EVP_DIGESTINIT_EX2 )
+	if( EVP_DigestInit_ex2(
+	     internal_context->evp_md_context,
+	     evp_md_type,
+	     NULL ) != 1 )
+#else
 	if( EVP_DigestInit_ex(
 	     internal_context->evp_md_context,
-	     EVP_sha1(),
+	     evp_md_type,
 	     NULL ) != 1 )
+#endif
 	{
 		libcerror_error_set(
 		 error,

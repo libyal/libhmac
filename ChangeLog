@@ -1,22 +1,20 @@
 TODO
-* test update with 0 byte buffer
+* just read input if size is 0 ?
+  - test update with 0 byte buffer
 * add support for the macosx replacement for libcrypto
+
 * SHA224
   - fix unknown type name 'SHA224_CTX' on mac os x
 * SHA384
   - add support
 * SHA512
   - local version
-  - wincrypt version
 * hmacsum
   - print number of bytes processed
   - add man page (update spec file)
 
-* just read input if size is 0 ?
-
 * hmac support
   - use functions to determine block size
-* detect wincrypt, allow to compile without it
 
 20130331
 * see `git log' for more recent change log
