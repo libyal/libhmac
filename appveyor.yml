@@ -1,4 +1,6 @@
 environment:
+  PYPI_TOKEN:
+    secure: VHuZiUWgTqTciKE2nsv/LrJNUqN/CftteuhwemKDrv8SkWe3OwkH5XZFQkOC69mw3ezyiMjaGbndChV6gnTJv7sJnZ4y1icQHiW3qn4EBSwgMTkrXVEEfE0ZVQ1mY6b9MtrxAGgY9Fl0P00gn0N1bsaNeMbUsL2wMecDwUCFZOAydsCsu9hviixwzEpjzuI0nefkazJ1aW13YArnjrbcFBlgCnLZPWko0nj91Bz7YBFZHaMN9h71qpmHMImPoCoSEjTSyQClmT+0oubYpztTM2nE78wx4H4dOz3s8iRoQVg=
   matrix:
   - TARGET: vs2008
     BUILD_ENVIRONMENT: msbuild
@@ -212,4 +214,9 @@ after_test:
 
 artifacts:
 - path: dist\*.whl
+
+deploy_script:
+- ps: If ($env:APPVEYOR_REPO_TAG -eq "true" -and $isWindows -and $env:BUILD_ENVIRONMENT -eq "python") {
+    Invoke-Expression "${env:PYTHON} -m twine upload dist/*.whl --username __token__ --password ${env:PYPI_TOKEN} --skip-existing" }
+- sh: if test ${APPVEYOR_REPO_TAG} = "true" && test ${BUILD_ENVIRONMENT} = "python-tox"; then twine upload dist/*.whl --username __token__ --password ${PYPI_TOKEN} --skip-existing; fi
 

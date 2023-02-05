@@ -25,80 +25,14 @@
 #include <common.h>
 #include <types.h>
 
-#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H )
-#include <openssl/md5.h>
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H )
-#include <openssl/evp.h>
-#endif
-
 #include "libhmac_extern.h"
 #include "libhmac_libcerror.h"
+#include "libhmac_md5_context.h"
 #include "libhmac_types.h"
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
-
-#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
-#define LIBHMAC_HAVE_MD5_SUPPORT
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_MD5 )
-#define LIBHMAC_HAVE_MD5_SUPPORT
-
-#endif
-
-#if !defined( LIBHMAC_HAVE_MD5_SUPPORT )
-#define LIBHMAC_MD5_BLOCK_SIZE		64
-#endif
-
-typedef struct libhmac_internal_md5_context libhmac_internal_md5_context_t;
-
-struct libhmac_internal_md5_context
-{
-#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH )
-	/* The MD5 context
-	 */
-	MD5_CTX md5_context;
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_MD5 )
-	/* The EVP message digest context
-	 */
-#if defined( HAVE_EVP_MD_CTX_INIT )
-	EVP_MD_CTX internal_evp_md_context;
-#endif
-
-	EVP_MD_CTX *evp_md_context;
-
-#else
-	/* The number of bytes hashed
-	 */
-	uint64_t hash_count;
-
-	/* The hash values
-	 */
-	uint32_t hash_values[ 4 ];
-
-	/* The block offset
-	 */
-	size_t block_offset;
-
-	/* The (data) block
-	 */
-	uint8_t block[ 128 ];
-
-#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_MD5_H ) && defined( MD5_DIGEST_LENGTH ) */
-};
-
-#if !defined( LIBHMAC_HAVE_MD5_SUPPORT )
-
-ssize_t libhmac_md5_transform(
-         libhmac_internal_md5_context_t *internal_context,
-         const uint8_t *buffer,
-         size_t size,
-         libcerror_error_t **error );
-
-#endif /* !defined( LIBHMAC_HAVE_MD5_SUPPORT ) */
 
 LIBHMAC_EXTERN \
 int libhmac_md5_initialize(

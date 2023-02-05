@@ -170,7 +170,7 @@ int sum_handle_free(
 	{
 		if( ( *sum_handle )->md5_context != NULL )
 		{
-			if( libhmac_md5_free(
+			if( libhmac_md5_context_free(
 			     &( ( *sum_handle )->md5_context ),
 			     error ) != 1 )
 			{
@@ -191,7 +191,7 @@ int sum_handle_free(
 		}
 		if( ( *sum_handle )->sha1_context != NULL )
 		{
-			if( libhmac_sha1_free(
+			if( libhmac_sha1_context_free(
 			     &( ( *sum_handle )->sha1_context ),
 			     error ) != 1 )
 			{
@@ -212,7 +212,7 @@ int sum_handle_free(
 		}
 		if( ( *sum_handle )->sha224_context != NULL )
 		{
-			if( libhmac_sha224_free(
+			if( libhmac_sha224_context_free(
 			     &( ( *sum_handle )->sha224_context ),
 			     error ) != 1 )
 			{
@@ -233,7 +233,7 @@ int sum_handle_free(
 		}
 		if( ( *sum_handle )->sha256_context != NULL )
 		{
-			if( libhmac_sha256_free(
+			if( libhmac_sha256_context_free(
 			     &( ( *sum_handle )->sha256_context ),
 			     error ) != 1 )
 			{
@@ -254,7 +254,7 @@ int sum_handle_free(
 		}
 		if( ( *sum_handle )->sha512_context != NULL )
 		{
-			if( libhmac_sha512_free(
+			if( libhmac_sha512_context_free(
 			     &( ( *sum_handle )->sha512_context ),
 			     error ) != 1 )
 			{
@@ -489,7 +489,7 @@ int sum_handle_initialize_integrity_hash(
 	}
 	if( sum_handle->calculate_md5 != 0 )
 	{
-		if( libhmac_md5_initialize(
+		if( libhmac_md5_context_initialize(
 		     &( sum_handle->md5_context ),
 		     error ) != 1 )
 		{
@@ -506,7 +506,7 @@ int sum_handle_initialize_integrity_hash(
 	}
 	if( sum_handle->calculate_sha1 != 0 )
 	{
-		if( libhmac_sha1_initialize(
+		if( libhmac_sha1_context_initialize(
 		     &( sum_handle->sha1_context ),
 		     error ) != 1 )
 		{
@@ -523,7 +523,7 @@ int sum_handle_initialize_integrity_hash(
 	}
 	if( sum_handle->calculate_sha224 != 0 )
 	{
-		if( libhmac_sha224_initialize(
+		if( libhmac_sha224_context_initialize(
 		     &( sum_handle->sha224_context ),
 		     error ) != 1 )
 		{
@@ -540,7 +540,7 @@ int sum_handle_initialize_integrity_hash(
 	}
 	if( sum_handle->calculate_sha256 != 0 )
 	{
-		if( libhmac_sha256_initialize(
+		if( libhmac_sha256_context_initialize(
 		     &( sum_handle->sha256_context ),
 		     error ) != 1 )
 		{
@@ -557,7 +557,7 @@ int sum_handle_initialize_integrity_hash(
 	}
 	if( sum_handle->calculate_sha512 != 0 )
 	{
-		if( libhmac_sha512_initialize(
+		if( libhmac_sha512_context_initialize(
 		     &( sum_handle->sha512_context ),
 		     error ) != 1 )
 		{
@@ -577,13 +577,13 @@ int sum_handle_initialize_integrity_hash(
 on_error:
 	if( sum_handle->sha1_context != NULL )
 	{
-		libhmac_sha1_free(
+		libhmac_sha1_context_free(
 		 &( sum_handle->sha1_context ),
 		 NULL );
 	}
 	if( sum_handle->md5_context != NULL )
 	{
-		libhmac_md5_free(
+		libhmac_md5_context_free(
 		 &( sum_handle->md5_context ),
 		 NULL );
 	}
@@ -637,7 +637,7 @@ int sum_handle_update_integrity_hash(
 	}
 	if( sum_handle->calculate_md5 != 0 )
 	{
-		if( libhmac_md5_update(
+		if( libhmac_md5_context_update(
 		     sum_handle->md5_context,
 		     buffer,
 		     buffer_size,
@@ -655,7 +655,7 @@ int sum_handle_update_integrity_hash(
 	}
 	if( sum_handle->calculate_sha1 != 0 )
 	{
-		if( libhmac_sha1_update(
+		if( libhmac_sha1_context_update(
 		     sum_handle->sha1_context,
 		     buffer,
 		     buffer_size,
@@ -673,7 +673,7 @@ int sum_handle_update_integrity_hash(
 	}
 	if( sum_handle->calculate_sha224 != 0 )
 	{
-		if( libhmac_sha224_update(
+		if( libhmac_sha224_context_update(
 		     sum_handle->sha224_context,
 		     buffer,
 		     buffer_size,
@@ -691,7 +691,7 @@ int sum_handle_update_integrity_hash(
 	}
 	if( sum_handle->calculate_sha256 != 0 )
 	{
-		if( libhmac_sha256_update(
+		if( libhmac_sha256_context_update(
 		     sum_handle->sha256_context,
 		     buffer,
 		     buffer_size,
@@ -709,7 +709,7 @@ int sum_handle_update_integrity_hash(
 	}
 	if( sum_handle->calculate_sha512 != 0 )
 	{
-		if( libhmac_sha512_update(
+		if( libhmac_sha512_context_update(
 		     sum_handle->sha512_context,
 		     buffer,
 		     buffer_size,
@@ -767,7 +767,7 @@ int sum_handle_finalize_integrity_hash(
 
 			return( -1 );
 		}
-		if( libhmac_md5_finalize(
+		if( libhmac_md5_context_finalize(
 		     sum_handle->md5_context,
 		     calculated_md5_hash,
 		     LIBHMAC_MD5_HASH_SIZE,
@@ -812,7 +812,7 @@ int sum_handle_finalize_integrity_hash(
 
 			return( -1 );
 		}
-		if( libhmac_sha1_finalize(
+		if( libhmac_sha1_context_finalize(
 		     sum_handle->sha1_context,
 		     calculated_sha1_hash,
 		     LIBHMAC_SHA1_HASH_SIZE,
@@ -857,7 +857,7 @@ int sum_handle_finalize_integrity_hash(
 
 			return( -1 );
 		}
-		if( libhmac_sha224_finalize(
+		if( libhmac_sha224_context_finalize(
 		     sum_handle->sha224_context,
 		     calculated_sha224_hash,
 		     LIBHMAC_SHA224_HASH_SIZE,
@@ -902,7 +902,7 @@ int sum_handle_finalize_integrity_hash(
 
 			return( -1 );
 		}
-		if( libhmac_sha256_finalize(
+		if( libhmac_sha256_context_finalize(
 		     sum_handle->sha256_context,
 		     calculated_sha256_hash,
 		     LIBHMAC_SHA256_HASH_SIZE,
@@ -947,7 +947,7 @@ int sum_handle_finalize_integrity_hash(
 
 			return( -1 );
 		}
-		if( libhmac_sha512_finalize(
+		if( libhmac_sha512_context_finalize(
 		     sum_handle->sha512_context,
 		     calculated_sha512_hash,
 		     LIBHMAC_SHA512_HASH_SIZE,

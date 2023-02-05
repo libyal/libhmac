@@ -6,7 +6,7 @@ $ExitSuccess = 0
 $ExitFailure = 1
 $ExitIgnore = 77
 
-$LibraryTests = "error md5_context sha1_context sha224_context sha256_context sha512_context support"
+$LibraryTests = "error md5 md5_context sha1 sha1_context sha224 sha224_context sha256 sha256_context sha512 sha512_context support"
 $LibraryTestsWithInput = ""
 $OptionSets = ""
 

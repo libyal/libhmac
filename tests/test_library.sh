@@ -7,7 +7,7 @@ EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
 EXIT_IGNORE=77;
 
-LIBRARY_TESTS="error md5_context sha1_context sha224_context sha256_context sha512_context support";
+LIBRARY_TESTS="error md5 md5_context sha1 sha1_context sha224 sha224_context sha256 sha256_context sha512 sha512_context support";
 LIBRARY_TESTS_WITH_INPUT="";
 OPTION_SETS="";
 

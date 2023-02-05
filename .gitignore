@@ -128,10 +128,15 @@ stamp-h[1-9]
 /hmactools/hmacsum
 /tests/*.exe
 /tests/hmac_test_error
+/tests/hmac_test_md5
 /tests/hmac_test_md5_context
+/tests/hmac_test_sha1
 /tests/hmac_test_sha1_context
+/tests/hmac_test_sha224
 /tests/hmac_test_sha224_context
+/tests/hmac_test_sha256
 /tests/hmac_test_sha256_context
+/tests/hmac_test_sha512
 /tests/hmac_test_sha512_context
 /tests/hmac_test_support
 /tests/input

@@ -25,13 +25,6 @@
 #include <common.h>
 #include <types.h>
 
-#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H )
-#include <openssl/sha.h>
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H )
-#include <openssl/evp.h>
-#endif
-
 #include "libhmac_extern.h"
 #include "libhmac_libcerror.h"
 #include "libhmac_types.h"
@@ -39,66 +32,6 @@
 #if defined( __cplusplus )
 extern "C" {
 #endif
-
-#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA224_DIGEST_LENGTH )
-#define LIBHMAC_HAVE_SHA224_SUPPORT
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA224 )
-#define LIBHMAC_HAVE_SHA224_SUPPORT
-
-#endif
-
-#if !defined( LIBHMAC_HAVE_SHA224_SUPPORT )
-#define LIBHMAC_SHA224_BLOCK_SIZE		64
-#endif
-
-typedef struct libhmac_internal_sha224_context libhmac_internal_sha224_context_t;
-
-struct libhmac_internal_sha224_context
-{
-#if defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA224_DIGEST_LENGTH )
-	/* The SHA-224 functions use the SHA-256 context
-	 */
-	SHA256_CTX sha224_context;
-
-#elif defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_EVP_H ) && defined( HAVE_EVP_SHA224 )
-	/* The EVP message digest context
-	 */
-#if defined( HAVE_EVP_MD_CTX_INIT )
-	EVP_MD_CTX internal_evp_md_context;
-#endif
-
-	EVP_MD_CTX *evp_md_context;
-
-#else
-	/* The number of bytes hashed
-	 */
-	uint64_t hash_count;
-
-	/* The 32-bit hash values
-	 */
-	uint32_t hash_values[ 8 ];
-
-	/* The block offset
-	 */
-	size_t block_offset;
-
-	/* The (data) block
-	 */
-	uint8_t block[ 128 ];
-
-#endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA224_DIGEST_LENGTH ) */
-};
-
-#if !defined( LIBHMAC_HAVE_SHA224_SUPPORT )
-
-ssize_t libhmac_sha224_transform(
-         libhmac_internal_sha224_context_t *internal_context,
-         const uint8_t *buffer,
-         size_t size,
-         libcerror_error_t **error );
-
-#endif /* !defined( LIBHMAC_HAVE_SHA224_SUPPORT ) */
 
 LIBHMAC_EXTERN \
 int libhmac_sha224_initialize(

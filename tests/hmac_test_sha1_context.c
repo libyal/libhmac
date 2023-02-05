@@ -47,9 +47,9 @@
 #include "hmac_test_memory.h"
 #include "hmac_test_unused.h"
 
-/* Make sure libhmac_sha1.h is included to define LIBHMAC_HAVE_SHA1_SUPPORT
+/* Make sure libhmac_sha1_context.h is included to define LIBHMAC_HAVE_SHA1_SUPPORT
  */
-#include "../libhmac/libhmac_sha1.h"
+#include "../libhmac/libhmac_sha1_context.h"
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
@@ -285,10 +285,10 @@ int EVP_DigestFinal_ex(
 
 #endif /* defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ ) */
 
-/* Tests the libhmac_sha1_initialize function
+/* Tests the libhmac_sha1_context_initialize function
  * Returns 1 if successful or 0 if not
  */
-int hmac_test_sha1_initialize(
+int hmac_test_sha1_context_initialize(
      void )
 {
 	libcerror_error_t *error        = NULL;
@@ -301,9 +301,9 @@ int hmac_test_sha1_initialize(
 	int test_number                 = 0;
 #endif
 
-	/* Test libhmac_sha1_initialize without entries
+	/* Test libhmac_sha1_context_initialize without entries
 	 */
-	result = libhmac_sha1_initialize(
+	result = libhmac_sha1_context_initialize(
 	          &context,
 	          &error );
 
@@ -320,7 +320,7 @@ int hmac_test_sha1_initialize(
 	 "error",
 	 error );
 
-	result = libhmac_sha1_free(
+	result = libhmac_sha1_context_free(
 	          &context,
 	          &error );
 
@@ -339,7 +339,7 @@ int hmac_test_sha1_initialize(
 
 	/* Test error cases
 	 */
-	result = libhmac_sha1_initialize(
+	result = libhmac_sha1_context_initialize(
 	          NULL,
 	          &error );
 
@@ -357,7 +357,7 @@ int hmac_test_sha1_initialize(
 
 	context = (libhmac_sha1_context_t *) 0x12345678UL;
 
-	result = libhmac_sha1_initialize(
+	result = libhmac_sha1_context_initialize(
 	          &context,
 	          &error );
 
@@ -383,11 +383,11 @@ int hmac_test_sha1_initialize(
 	     test_number < number_of_malloc_fail_tests;
 	     test_number++ )
 	{
-		/* Test libhmac_sha1_initialize with malloc failing
+		/* Test libhmac_sha1_context_initialize with malloc failing
 		 */
 		hmac_test_malloc_attempts_before_fail = test_number;
 
-		result = libhmac_sha1_initialize(
+		result = libhmac_sha1_context_initialize(
 		          &context,
 		          &error );
 
@@ -397,7 +397,7 @@ int hmac_test_sha1_initialize(
 
 			if( context != NULL )
 			{
-				libhmac_sha1_free(
+				libhmac_sha1_context_free(
 				 &context,
 				 NULL );
 			}
@@ -427,11 +427,11 @@ int hmac_test_sha1_initialize(
 	     test_number < number_of_memset_fail_tests;
 	     test_number++ )
 	{
-		/* Test libhmac_sha1_initialize with memset failing
+		/* Test libhmac_sha1_context_initialize with memset failing
 		 */
 		hmac_test_memset_attempts_before_fail = test_number;
 
-		result = libhmac_sha1_initialize(
+		result = libhmac_sha1_context_initialize(
 		          &context,
 		          &error );
 
@@ -441,7 +441,7 @@ int hmac_test_sha1_initialize(
 
 			if( context != NULL )
 			{
-				libhmac_sha1_free(
+				libhmac_sha1_context_free(
 				 &context,
 				 NULL );
 			}
@@ -471,11 +471,11 @@ int hmac_test_sha1_initialize(
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
-	/* Test libhmac_sha1_initialize with SHA1_Init failing
+	/* Test libhmac_sha1_context_initialize with SHA1_Init failing
 	 */
 	hmac_test_SHA1_Init_attempts_before_fail = 0;
 
-	result = libhmac_sha1_initialize(
+	result = libhmac_sha1_context_initialize(
 	          &context,
 	          &error );
 
@@ -485,7 +485,7 @@ int hmac_test_sha1_initialize(
 
 		if( context != NULL )
 		{
-			libhmac_sha1_free(
+			libhmac_sha1_context_free(
 			 &context,
 			 NULL );
 		}
@@ -514,11 +514,11 @@ int hmac_test_sha1_initialize(
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
-	/* Test libhmac_sha1_initialize with EVP_DigestInit_ex failing
+	/* Test libhmac_sha1_context_initialize with EVP_DigestInit_ex failing
 	 */
 	hmac_test_EVP_DigestInit_ex_attempts_before_fail = 0;
 
-	result = libhmac_sha1_initialize(
+	result = libhmac_sha1_context_initialize(
 	          &context,
 	          &error );
 
@@ -528,7 +528,7 @@ int hmac_test_sha1_initialize(
 
 		if( context != NULL )
 		{
-			libhmac_sha1_free(
+			libhmac_sha1_context_free(
 			 &context,
 			 NULL );
 		}
@@ -556,11 +556,11 @@ int hmac_test_sha1_initialize(
 #else
 #if defined( HAVE_CAES_TEST_MEMORY ) && defined( OPTIMIZATION_DISABLED )
 
-	/* Test libhmac_sha1_initialize with memcpy failing
+	/* Test libhmac_sha1_context_initialize with memcpy failing
 	 */
 	hmac_test_memcpy_attempts_before_fail = 0;
 
-	result = libhmac_sha1_initialize(
+	result = libhmac_sha1_context_initialize(
 	          &context,
 	          &error );
 
@@ -570,7 +570,7 @@ int hmac_test_sha1_initialize(
 
 		if( context != NULL )
 		{
-			libhmac_sha1_free(
+			libhmac_sha1_context_free(
 			 &context,
 			 NULL );
 		}
@@ -607,17 +607,17 @@ on_error:
 	}
 	if( context != NULL )
 	{
-		libhmac_sha1_free(
+		libhmac_sha1_context_free(
 		 &context,
 		 NULL );
 	}
 	return( 0 );
 }
 
-/* Tests the libhmac_sha1_free function
+/* Tests the libhmac_sha1_context_free function
  * Returns 1 if successful or 0 if not
  */
-int hmac_test_sha1_free(
+int hmac_test_sha1_context_free(
      void )
 {
 	libcerror_error_t *error = NULL;
@@ -625,7 +625,7 @@ int hmac_test_sha1_free(
 
 	/* Test error cases
 	 */
-	result = libhmac_sha1_free(
+	result = libhmac_sha1_context_free(
 	          NULL,
 	          &error );
 
@@ -652,10 +652,10 @@ on_error:
 	return( 0 );
 }
 
-/* Tests the libhmac_sha1_update function
+/* Tests the libhmac_sha1_context_update function
  * Returns 1 if successful or 0 if not
  */
-int hmac_test_sha1_update(
+int hmac_test_sha1_context_update(
      void )
 {
 	uint8_t data[ 208 ];
@@ -679,7 +679,7 @@ int hmac_test_sha1_update(
 
 	/* Initialize test
 	 */
-	result = libhmac_sha1_initialize(
+	result = libhmac_sha1_context_initialize(
 	          &context,
 	          &error );
 
@@ -698,7 +698,7 @@ int hmac_test_sha1_update(
 
 	/* Test regular cases
 	 */
-	result = libhmac_sha1_update(
+	result = libhmac_sha1_context_update(
 	          context,
 	          data,
 	          208,
@@ -713,7 +713,7 @@ int hmac_test_sha1_update(
 	 "error",
 	 error );
 
-	result = libhmac_sha1_update(
+	result = libhmac_sha1_context_update(
 	          context,
 	          data,
 	          0,
@@ -730,7 +730,7 @@ int hmac_test_sha1_update(
 
 	/* Test error cases
 	 */
-	result = libhmac_sha1_update(
+	result = libhmac_sha1_context_update(
 	          NULL,
 	          data,
 	          208,
@@ -748,7 +748,7 @@ int hmac_test_sha1_update(
 	libcerror_error_free(
 	 &error );
 
-	result = libhmac_sha1_update(
+	result = libhmac_sha1_context_update(
 	          context,
 	          NULL,
 	          208,
@@ -768,7 +768,7 @@ int hmac_test_sha1_update(
 
 	if( maximum_size > 0 )
 	{
-		result = libhmac_sha1_update(
+		result = libhmac_sha1_context_update(
 		          context,
 		          data,
 		          maximum_size + 1,
@@ -790,11 +790,11 @@ int hmac_test_sha1_update(
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
-	/* Test libhmac_sha1_update with SHA1_Update failing
+	/* Test libhmac_sha1_context_update with SHA1_Update failing
 	 */
 	hmac_test_SHA1_Update_attempts_before_fail = 0;
 
-	result = libhmac_sha1_update(
+	result = libhmac_sha1_context_update(
 	          context,
 	          data,
 	          208,
@@ -824,11 +824,11 @@ int hmac_test_sha1_update(
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
-	/* Test libhmac_sha1_update with EVP_DigestUpdate failing
+	/* Test libhmac_sha1_context_update with EVP_DigestUpdate failing
 	 */
 	hmac_test_EVP_DigestUpdate_attempts_before_fail = 0;
 
-	result = libhmac_sha1_update(
+	result = libhmac_sha1_context_update(
 	          context,
 	          data,
 	          208,
@@ -857,11 +857,11 @@ int hmac_test_sha1_update(
 #else
 #if defined( HAVE_CAES_TEST_MEMORY ) && defined( OPTIMIZATION_DISABLED )
 
-	/* Test libhmac_sha1_update with memcpy failing
+	/* Test libhmac_sha1_context_update with memcpy failing
 	 */
 	hmac_test_memcpy_attempts_before_fail = 0;
 
-	result = libhmac_sha1_update(
+	result = libhmac_sha1_context_update(
 	          context,
 	          data,
 	          208,
@@ -885,11 +885,11 @@ int hmac_test_sha1_update(
 		libcerror_error_free(
 		 &error );
 	}
-	/* Test libhmac_sha1_update with memcpy failing
+	/* Test libhmac_sha1_context_update with memcpy failing
 	 */
 	hmac_test_memcpy_attempts_before_fail = 1;
 
-	result = libhmac_sha1_update(
+	result = libhmac_sha1_context_update(
 	          context,
 	          data,
 	          208,
@@ -918,7 +918,7 @@ int hmac_test_sha1_update(
 
 	/* Clean up
 	 */
-	result = libhmac_sha1_free(
+	result = libhmac_sha1_context_free(
 	          &context,
 	          &error );
 
@@ -945,17 +945,17 @@ on_error:
 	}
 	if( context != NULL )
 	{
-		libhmac_sha1_free(
+		libhmac_sha1_context_free(
 		 &context,
 		 NULL );
 	}
 	return( 0 );
 }
 
-/* Tests the libhmac_sha1_finalize function
+/* Tests the libhmac_sha1_context_finalize function
  * Returns 1 if successful or 0 if not
  */
-int hmac_test_sha1_finalize(
+int hmac_test_sha1_context_finalize(
      void )
 {
 	uint8_t hash[ LIBHMAC_SHA1_HASH_SIZE ];
@@ -975,7 +975,7 @@ int hmac_test_sha1_finalize(
 
 	/* Initialize test
 	 */
-	result = libhmac_sha1_initialize(
+	result = libhmac_sha1_context_initialize(
 	          &context,
 	          &error );
 
@@ -994,7 +994,7 @@ int hmac_test_sha1_finalize(
 
 	/* Test regular cases
 	 */
-	result = libhmac_sha1_finalize(
+	result = libhmac_sha1_context_finalize(
 	          context,
 	          hash,
 	          LIBHMAC_SHA1_HASH_SIZE,
@@ -1011,7 +1011,7 @@ int hmac_test_sha1_finalize(
 
 	/* Test error cases
 	 */
-	result = libhmac_sha1_finalize(
+	result = libhmac_sha1_context_finalize(
 	          NULL,
 	          hash,
 	          LIBHMAC_SHA1_HASH_SIZE,
@@ -1029,7 +1029,7 @@ int hmac_test_sha1_finalize(
 	libcerror_error_free(
 	 &error );
 
-	result = libhmac_sha1_finalize(
+	result = libhmac_sha1_context_finalize(
 	          context,
 	          NULL,
 	          LIBHMAC_SHA1_HASH_SIZE,
@@ -1049,7 +1049,7 @@ int hmac_test_sha1_finalize(
 
 	if( maximum_size > 0 )
 	{
-		result = libhmac_sha1_finalize(
+		result = libhmac_sha1_context_finalize(
 		          context,
 		          hash,
 		          maximum_size + 1,
@@ -1067,7 +1067,7 @@ int hmac_test_sha1_finalize(
 		libcerror_error_free(
 		 &error );
 	}
-	result = libhmac_sha1_finalize(
+	result = libhmac_sha1_context_finalize(
 	          context,
 	          hash,
 	          0,
@@ -1089,11 +1089,11 @@ int hmac_test_sha1_finalize(
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
-	/* Test libhmac_sha1_finalize with SHA1_Final failing
+	/* Test libhmac_sha1_context_finalize with SHA1_Final failing
 	 */
 	hmac_test_SHA1_Final_attempts_before_fail = 0;
 
-	result = libhmac_sha1_finalize(
+	result = libhmac_sha1_context_finalize(
 	          context,
 	          hash,
 	          LIBHMAC_SHA1_HASH_SIZE,
@@ -1123,11 +1123,11 @@ int hmac_test_sha1_finalize(
 
 #if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) && !defined( __CYGWIN__ )
 
-	/* Test libhmac_sha1_finalize with EVP_DigestFinal_ex failing
+	/* Test libhmac_sha1_context_finalize with EVP_DigestFinal_ex failing
 	 */
 	hmac_test_EVP_DigestFinal_ex_attempts_before_fail = 0;
 
-	result = libhmac_sha1_finalize(
+	result = libhmac_sha1_context_finalize(
 	          context,
 	          hash,
 	          LIBHMAC_SHA1_HASH_SIZE,
@@ -1157,11 +1157,11 @@ int hmac_test_sha1_finalize(
 #if defined( HAVE_HMAC_TEST_MEMORY )
 #if defined( OPTIMIZATION_DISABLED )
 
-	/* Test libhmac_sha1_finalize with memset of internal_context->block failing
+	/* Test libhmac_sha1_context_finalize with memset of internal_context->block failing
 	 */
 	hmac_test_memset_attempts_before_fail = 0;
 
-	result = libhmac_sha1_finalize(
+	result = libhmac_sha1_context_finalize(
 	          context,
 	          hash,
 	          LIBHMAC_SHA1_HASH_SIZE,
@@ -1187,11 +1187,11 @@ int hmac_test_sha1_finalize(
 	}
 #endif /* defined( OPTIMIZATION_DISABLED ) */
 
-	/* Test libhmac_sha1_finalize with memset of internal_context failing
+	/* Test libhmac_sha1_context_finalize with memset of internal_context failing
 	 */
 	hmac_test_memset_attempts_before_fail = 1;
 
-	result = libhmac_sha1_finalize(
+	result = libhmac_sha1_context_finalize(
 	          context,
 	          hash,
 	          LIBHMAC_SHA1_HASH_SIZE,
@@ -1220,7 +1220,7 @@ int hmac_test_sha1_finalize(
 
 	/* Clean up
 	 */
-	result = libhmac_sha1_free(
+	result = libhmac_sha1_context_free(
 	          &context,
 	          &error );
 
@@ -1247,312 +1247,9 @@ on_error:
 	}
 	if( context != NULL )
 	{
-		libhmac_sha1_free(
+		libhmac_sha1_context_free(
 		 &context,
 		 NULL );
-	}
-	return( 0 );
-}
-
-/* Tests the libhmac_sha1_calculate function
- * Returns 1 if successful or 0 if not
- */
-int hmac_test_sha1_calculate(
-     void )
-{
-	uint8_t data[ 208 ];
-	uint8_t hash[ LIBHMAC_SHA1_HASH_SIZE ];
-
-	libcerror_error_t *error = NULL;
-	int result               = 0;
-
-	/* Initialize test
-	 */
-	memory_set(
-	 data,
-	 0,
-	 208 );
-
-	/* Test regular cases
-	 */
-	result = libhmac_sha1_calculate(
-	          data,
-	          208,
-	          hash,
-	          LIBHMAC_SHA1_HASH_SIZE,
-	          &error );
-
-	HMAC_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 1 );
-
-	HMAC_TEST_ASSERT_IS_NULL(
-	 "error",
-	 error );
-
-	/* Test error cases
-	 */
-#if defined( HAVE_HMAC_TEST_MEMORY )
-
-	/* Test libhmac_sha1_calculate with malloc failing in libhmac_sha1_initialize
-	 */
-	hmac_test_malloc_attempts_before_fail = 0;
-
-	result = libhmac_sha1_calculate(
-	          data,
-	          208,
-	          hash,
-	          LIBHMAC_SHA1_HASH_SIZE,
-	          &error );
-
-	if( hmac_test_malloc_attempts_before_fail != -1 )
-	{
-		hmac_test_malloc_attempts_before_fail = -1;
-	}
-	else
-	{
-		HMAC_TEST_ASSERT_EQUAL_INT(
-		 "result",
-		 result,
-		 -1 );
-
-		HMAC_TEST_ASSERT_IS_NOT_NULL(
-		 "error",
-		 error );
-
-		libcerror_error_free(
-		 &error );
-	}
-#endif /* defined( HAVE_HMAC_TEST_MEMORY ) */
-
-	/* Test libhmac_sha1_calculate with libhmac_sha1_update failing
-	 */
-	result = libhmac_sha1_calculate(
-	          NULL,
-	          208,
-	          hash,
-	          LIBHMAC_SHA1_HASH_SIZE,
-	          &error );
-
-	HMAC_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 -1 );
-
-	HMAC_TEST_ASSERT_IS_NOT_NULL(
-	 "error",
-	 error );
-
-	libcerror_error_free(
-	 &error );
-
-	/* Test libhmac_sha1_calculate with libhmac_sha1_finalize failing
-	 */
-	result = libhmac_sha1_calculate(
-	          data,
-	          208,
-	          NULL,
-	          LIBHMAC_SHA1_HASH_SIZE,
-	          &error );
-
-	HMAC_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 -1 );
-
-	HMAC_TEST_ASSERT_IS_NOT_NULL(
-	 "error",
-	 error );
-
-	libcerror_error_free(
-	 &error );
-
-	return( 1 );
-
-on_error:
-	if( error != NULL )
-	{
-		libcerror_error_free(
-		 &error );
-	}
-	return( 0 );
-}
-
-/* Tests the libhmac_sha1_calculate_hmac function
- * Returns 1 if successful or 0 if not
- */
-int hmac_test_sha1_calculate_hmac(
-     void )
-{
-	uint8_t data[ 208 ];
-	uint8_t hmac[ LIBHMAC_SHA1_HASH_SIZE ];
-	uint8_t key[ 16 ];
-
-	libcerror_error_t *error = NULL;
-	int result               = 0;
-
-	/* Initialize test
-	 */
-	memory_set(
-	 data,
-	 0,
-	 208 );
-
-	memory_set(
-	 key,
-	 0,
-	 16 );
-
-	/* Test regular cases
-	 */
-	result = libhmac_sha1_calculate_hmac(
-	          key,
-	          16,
-	          data,
-	          208,
-	          hmac,
-	          LIBHMAC_SHA1_HASH_SIZE,
-	          &error );
-
-	HMAC_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 1 );
-
-	HMAC_TEST_ASSERT_IS_NULL(
-	 "error",
-	 error );
-
-	/* Test error cases
-	 */
-	result = libhmac_sha1_calculate_hmac(
-	          NULL,
-	          16,
-	          data,
-	          208,
-	          hmac,
-	          LIBHMAC_SHA1_HASH_SIZE,
-	          &error );
-
-	HMAC_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 -1 );
-
-	HMAC_TEST_ASSERT_IS_NOT_NULL(
-	 "error",
-	 error );
-
-	libcerror_error_free(
-	 &error );
-
-	result = libhmac_sha1_calculate_hmac(
-	          key,
-	          (size_t) SSIZE_MAX + 1,
-	          data,
-	          208,
-	          hmac,
-	          LIBHMAC_SHA1_HASH_SIZE,
-	          &error );
-
-	HMAC_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 -1 );
-
-	HMAC_TEST_ASSERT_IS_NOT_NULL(
-	 "error",
-	 error );
-
-	libcerror_error_free(
-	 &error );
-
-	result = libhmac_sha1_calculate_hmac(
-	          key,
-	          0,
-	          data,
-	          208,
-	          hmac,
-	          0,
-	          &error );
-
-	HMAC_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 -1 );
-
-	HMAC_TEST_ASSERT_IS_NOT_NULL(
-	 "error",
-	 error );
-
-	libcerror_error_free(
-	 &error );
-
-#if defined( HAVE_HMAC_TEST_MEMORY )
-
-	/* Test libhmac_sha1_calculate_hmac with malloc failing
-	 */
-	hmac_test_malloc_attempts_before_fail = 0;
-
-	result = libhmac_sha1_calculate_hmac(
-	          key,
-	          16,
-	          data,
-	          208,
-	          hmac,
-	          LIBHMAC_SHA1_HASH_SIZE,
-	          &error );
-
-	if( hmac_test_malloc_attempts_before_fail != -1 )
-	{
-		hmac_test_malloc_attempts_before_fail = -1;
-	}
-	else
-	{
-		HMAC_TEST_ASSERT_EQUAL_INT(
-		 "result",
-		 result,
-		 -1 );
-
-		HMAC_TEST_ASSERT_IS_NOT_NULL(
-		 "error",
-		 error );
-
-		libcerror_error_free(
-		 &error );
-	}
-#endif /* defined( HAVE_HMAC_TEST_MEMORY ) */
-
-/* TODO add tests for key_size <= block_size and memcpy failing */
-
-/* TODO add tests for key_size <= block_size and memset failing */
-
-/* TODO add tests for key_size > block_size and libhmac_sha1_initialize failing */
-
-/* TODO add tests for key_size > block_size and libhmac_sha1_update failing */
-
-/* TODO add tests for key_size > block_size and libhmac_sha1_finalize failing */
-
-/* TODO add tests for key_size > block_size and memset failing */
-
-/* TODO add tests for key_size > block_size and memcpy failing */
-
-/* TODO add tests for malloc of inner_padding failing */
-
-/* TODO add tests for memset of inner_padding failing */
-
-/* TODO add tests for malloc of outer_padding failing */
-
-/* TODO add tests for memset of outer_padding failing */
-
-	return( 1 );
-
-on_error:
-	if( error != NULL )
-	{
-		libcerror_error_free(
-		 &error );
 	}
 	return( 0 );
 }
@@ -1574,33 +1271,25 @@ int main(
 
 #if !defined( LIBHMAC_HAVE_SHA1_SUPPORT )
 
-	/* TODO add tests for libhmac_sha1_transform */
+	/* TODO add tests for libhmac_sha1_context_transform */
 
 #endif /* !defined( LIBHMAC_HAVE_SHA1_SUPPORT ) */
 
 	HMAC_TEST_RUN(
-	 "libhmac_sha1_initialize",
-	 hmac_test_sha1_initialize );
+	 "libhmac_sha1_context_initialize",
+	 hmac_test_sha1_context_initialize );
 
 	HMAC_TEST_RUN(
-	 "libhmac_sha1_free",
-	 hmac_test_sha1_free );
+	 "libhmac_sha1_context_free",
+	 hmac_test_sha1_context_free );
 
 	HMAC_TEST_RUN(
-	 "libhmac_sha1_update",
-	 hmac_test_sha1_update );
+	 "libhmac_sha1_context_update",
+	 hmac_test_sha1_context_update );
 
 	HMAC_TEST_RUN(
-	 "libhmac_sha1_finalize",
-	 hmac_test_sha1_finalize );
-
-	HMAC_TEST_RUN(
-	 "libhmac_sha1_calculate",
-	 hmac_test_sha1_calculate );
-
-	HMAC_TEST_RUN(
-	 "libhmac_sha1_calculate_hmac",
-	 hmac_test_sha1_calculate_hmac );
+	 "libhmac_sha1_context_finalize",
+	 hmac_test_sha1_context_finalize );
 
 	return( EXIT_SUCCESS );
 
