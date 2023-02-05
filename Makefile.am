@@ -13,6 +13,9 @@ SUBDIRS = \
 	libcfile \
 	libcpath \
 	hmactools \
+	pyhmac \
+	pyhmac-python2 \
+	pyhmac-python3 \
 	po \
 	manuals \
 	tests \
@@ -28,6 +31,7 @@ DPKG_FILES = \
 	dpkg/rules \
 	dpkg/libhmac-dev.install \
 	dpkg/libhmac.install \
+	dpkg/libhmac-python3.install \
 	dpkg/libhmac-tools.install \
 	dpkg/source/format
 
@@ -38,6 +42,9 @@ GETTEXT_FILES = \
 PKGCONFIG_FILES = \
 	libhmac.pc.in
 
+SETUP_PY_FILES = \
+	setup.py
+
 SPEC_FILES = \
 	libhmac.spec \
 	libhmac.spec.in
@@ -46,6 +53,7 @@ EXTRA_DIST = \
 	$(DPKG_FILES) \
 	$(GETTEXT_FILES) \
 	$(PKGCONFIG_FILES) \
+	$(SETUP_PY_FILES) \
 	$(SPEC_FILES)
 
 MAINTAINERCLEANFILES = \
@@ -84,6 +92,7 @@ splint:
 	(cd $(srcdir)/libcerror && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcthreads && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libhmac && $(MAKE) splint $(AM_MAKEFLAGS))
+	(cd $(srcdir)/pyhmac && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libclocale && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcnotify && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcsplit && $(MAKE) splint $(AM_MAKEFLAGS))

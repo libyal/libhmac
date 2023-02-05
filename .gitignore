@@ -123,6 +123,7 @@ stamp-h[1-9]
 /libhmac.spec
 /libhmac/libhmac.rc
 /libhmac/libhmac_definitions.h
+/pyhmac-python[23]/*.[ch]
 /hmactools/*.exe
 /hmactools/hmacsum
 /tests/*.exe

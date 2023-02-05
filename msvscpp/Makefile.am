@@ -16,6 +16,7 @@ MSVSCPP_FILES = \
 	libcthreads/libcthreads.vcproj \
 	libhmac/libhmac.vcproj \
 	libuna/libuna.vcproj \
+	pyhmac/pyhmac.vcproj \
 	libhmac.sln
 
 EXTRA_DIST = \

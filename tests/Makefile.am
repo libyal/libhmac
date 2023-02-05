@@ -6,11 +6,17 @@ AM_CPPFLAGS = \
 	@PTHREAD_CPPFLAGS@ \
 	@LIBHMAC_DLL_IMPORT@
 
+if HAVE_PYTHON_TESTS
+TESTS_PYHMAC = \
+	test_python_module.sh
+endif
+
 TESTS = \
 	test_library.sh \
 	test_md5sum.sh \
 	test_sha1sum.sh \
-	test_sha2sum.sh
+	test_sha2sum.sh \
+	$(TESTS_PYHMAC)
 
 TESTS_INPUT = \
 	input/public/empty \
@@ -24,12 +30,14 @@ TESTS_INPUT = \
 	input/public/test8
 
 check_SCRIPTS = \
+	pyhmac_test_support.py \
 	test_library.sh \
 	test_manpage.sh \
 	test_md5sum.sh \
 	test_runner.sh \
 	test_sha1sum.sh \
 	test_sha2sum.sh
+	test_python_module.sh
 
 check_PROGRAMS = \
 	hmac_test_error \

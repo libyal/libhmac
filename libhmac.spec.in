@@ -29,6 +29,15 @@ Requires: libhmac = %{version}-%{release}
 %description -n libhmac-devel
 Header files and libraries for developing applications for libhmac.
 
+%package -n libhmac-python3
+Summary: Python 3 bindings for libhmac
+Group: System Environment/Libraries
+Requires: libhmac = %{version}-%{release} python3
+BuildRequires: python3-devel
+
+%description -n libhmac-python3
+Python 3 bindings for libhmac
+
 %package -n libhmac-tools
 Summary: Several tools for calculating Hash-based Message Authentication Codes (HMAC)
 Group: Applications/System
@@ -42,7 +51,7 @@ Several tools for calculating Hash-based Message Authentication Codes (HMAC)
 %setup -q
 
 %build
-%configure --prefix=/usr --libdir=%{_libdir} --mandir=%{_mandir}
+%configure --prefix=/usr --libdir=%{_libdir} --mandir=%{_mandir} --enable-python3
 make %{?_smp_mflags}
 
 %install
@@ -76,6 +85,13 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libhmac.pc
 %{_includedir}/*
 %{_mandir}/man3/*
+
+%files -n libhmac-python3
+%defattr(644,root,root,755)
+%license COPYING COPYING.LESSER
+%doc AUTHORS README
+%{_libdir}/python3*/site-packages/*.a
+%{_libdir}/python3*/site-packages/*.so
 
 %files -n libhmac-tools
 %defattr(644,root,root,755)
