@@ -1,5 +1,5 @@
 /*
- * Crypographic digest hash
+ * Crypographic digest hash functions
  *
  * Copyright (C) 2011-2023, Joachim Metz <joachim.metz@gmail.com>
  *

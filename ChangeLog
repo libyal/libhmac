@@ -1,4 +1,5 @@
 TODO
+* Move X context functions to separate source file like python binding
 * just read input if size is 0 ?
   - test update with 0 byte buffer
 * add support for the macosx replacement for libcrypto

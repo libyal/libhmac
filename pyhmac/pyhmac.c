@@ -30,7 +30,17 @@
 #include "pyhmac.h"
 #include "pyhmac_libhmac.h"
 #include "pyhmac_libcerror.h"
+#include "pyhmac_md5.h"
+#include "pyhmac_md5_context.h"
 #include "pyhmac_python.h"
+#include "pyhmac_sha1.h"
+#include "pyhmac_sha1_context.h"
+#include "pyhmac_sha224.h"
+#include "pyhmac_sha224_context.h"
+#include "pyhmac_sha256.h"
+#include "pyhmac_sha256_context.h"
+#include "pyhmac_sha512.h"
+#include "pyhmac_sha512_context.h"
 #include "pyhmac_unused.h"
 
 /* The pyhmac module methods
@@ -42,6 +52,76 @@ PyMethodDef pyhmac_module_methods[] = {
 	  "get_version() -> String\n"
 	  "\n"
 	  "Retrieves the version." },
+
+	{ "md5_calculate",
+	  (PyCFunction) pyhmac_md5_calculate,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "md5_calculate(data) -> Bytes\n"
+	  "\n"
+	  "Calculates the MD5 hash of the data." },
+
+	{ "md5_calculate_hmac",
+	  (PyCFunction) pyhmac_md5_calculate_hmac,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "md5_calculate_hmac(key, data) -> Bytes\n"
+	  "\n"
+	  "Calculates the MD5 HMAC of the data." },
+
+	{ "sha1_calculate",
+	  (PyCFunction) pyhmac_sha1_calculate,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "sha1_calculate(data) -> Bytes\n"
+	  "\n"
+	  "Calculates the SHA1 hash of the data." },
+
+	{ "sha1_calculate_hmac",
+	  (PyCFunction) pyhmac_sha1_calculate_hmac,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "sha1_calculate_hmac(key, data) -> Bytes\n"
+	  "\n"
+	  "Calculates the SHA1 HMAC of the data." },
+
+	{ "sha224_calculate",
+	  (PyCFunction) pyhmac_sha224_calculate,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "sha224_calculate(data) -> Bytes\n"
+	  "\n"
+	  "Calculates the SHA224 hash of the data." },
+
+	{ "sha224_calculate_hmac",
+	  (PyCFunction) pyhmac_sha224_calculate_hmac,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "sha224_calculate_hmac(key, data) -> Bytes\n"
+	  "\n"
+	  "Calculates the SHA224 HMAC of the data." },
+
+	{ "sha256_calculate",
+	  (PyCFunction) pyhmac_sha256_calculate,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "sha256_calculate(data) -> Bytes\n"
+	  "\n"
+	  "Calculates the SHA256 hash of the data." },
+
+	{ "sha256_calculate_hmac",
+	  (PyCFunction) pyhmac_sha256_calculate_hmac,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "sha256_calculate_hmac(key, data) -> Bytes\n"
+	  "\n"
+	  "Calculates the SHA256 HMAC of the data." },
+
+	{ "sha512_calculate",
+	  (PyCFunction) pyhmac_sha512_calculate,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "sha512_calculate(data) -> Bytes\n"
+	  "\n"
+	  "Calculates the SHA512 hash of the data." },
+
+	{ "sha512_calculate_hmac",
+	  (PyCFunction) pyhmac_sha512_calculate_hmac,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "sha512_calculate_hmac(key, data) -> Bytes\n"
+	  "\n"
+	  "Calculates the SHA512 HMAC of the data." },
 
 	/* Sentinel */
 	{ NULL, NULL, 0, NULL }
@@ -154,7 +234,90 @@ PyMODINIT_FUNC initpyhmac(
 #endif
 	gil_state = PyGILState_Ensure();
 
-/* TODO */
+	/* Setup the md5_context type object
+	 */
+	pyhmac_md5_context_type_object.tp_new = PyType_GenericNew;
+
+	if( PyType_Ready(
+	     &pyhmac_md5_context_type_object ) < 0 )
+	{
+		goto on_error;
+	}
+	Py_IncRef(
+	 (PyObject *) &pyhmac_md5_context_type_object );
+
+	PyModule_AddObject(
+	 module,
+	 "md5_context",
+	 (PyObject *) &pyhmac_md5_context_type_object );
+
+	/* Setup the sha1_context type object
+	 */
+	pyhmac_sha1_context_type_object.tp_new = PyType_GenericNew;
+
+	if( PyType_Ready(
+	     &pyhmac_sha1_context_type_object ) < 0 )
+	{
+		goto on_error;
+	}
+	Py_IncRef(
+	 (PyObject *) &pyhmac_sha1_context_type_object );
+
+	PyModule_AddObject(
+	 module,
+	 "sha1_context",
+	 (PyObject *) &pyhmac_sha1_context_type_object );
+
+	/* Setup the sha224_context type object
+	 */
+	pyhmac_sha224_context_type_object.tp_new = PyType_GenericNew;
+
+	if( PyType_Ready(
+	     &pyhmac_sha224_context_type_object ) < 0 )
+	{
+		goto on_error;
+	}
+	Py_IncRef(
+	 (PyObject *) &pyhmac_sha224_context_type_object );
+
+	PyModule_AddObject(
+	 module,
+	 "sha224_context",
+	 (PyObject *) &pyhmac_sha224_context_type_object );
+
+	/* Setup the sha256_context type object
+	 */
+	pyhmac_sha256_context_type_object.tp_new = PyType_GenericNew;
+
+	if( PyType_Ready(
+	     &pyhmac_sha256_context_type_object ) < 0 )
+	{
+		goto on_error;
+	}
+	Py_IncRef(
+	 (PyObject *) &pyhmac_sha256_context_type_object );
+
+	PyModule_AddObject(
+	 module,
+	 "sha256_context",
+	 (PyObject *) &pyhmac_sha256_context_type_object );
+
+	/* Setup the sha512_context type object
+	 */
+	pyhmac_sha512_context_type_object.tp_new = PyType_GenericNew;
+
+	if( PyType_Ready(
+	     &pyhmac_sha512_context_type_object ) < 0 )
+	{
+		goto on_error;
+	}
+	Py_IncRef(
+	 (PyObject *) &pyhmac_sha512_context_type_object );
+
+	PyModule_AddObject(
+	 module,
+	 "sha512_context",
+	 (PyObject *) &pyhmac_sha512_context_type_object );
 
 	PyGILState_Release(
 	 gil_state );

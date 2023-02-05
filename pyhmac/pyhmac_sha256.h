@@ -1,5 +1,5 @@
 /*
- * Crypographic digest hash functions
+ * Python definition of the libhmac SHA256 functions
  *
  * Copyright (C) 2011-2023, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,28 +19,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _DIGEST_HASH_H )
-#define _DIGEST_HASH_H
+#if !defined( _PYHMAC_SHA256_H )
+#define _PYHMAC_SHA256_H
 
 #include <common.h>
 #include <types.h>
 
-#include "hmactools_libcerror.h"
+#include "pyhmac_python.h"
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
 
-int digest_hash_copy_to_string(
-     const uint8_t *digest_hash,
-     size_t digest_hash_size,
-     system_character_t *string,
-     size_t string_size,
-     libcerror_error_t **error );
+PyObject *pyhmac_sha256_calculate(
+           PyObject *self,
+           PyObject *arguments,
+           PyObject *keywords );
+
+PyObject *pyhmac_sha256_calculate_hmac(
+           PyObject *self,
+           PyObject *arguments,
+           PyObject *keywords );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _DIGEST_HASH_H ) */
+#endif /* !defined( _PYHMAC_SHA256_H ) */
 

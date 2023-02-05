@@ -177,6 +177,46 @@
 				RelativePath="..\..\pyhmac\pyhmac_error.c"
 				>
 			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_md5.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_md5_context.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha1.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha1_context.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha224.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha224_context.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha256.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha256_context.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha512.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha512_context.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -200,7 +240,47 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\pyhmac\pyhmac_md5.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_md5_context.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\pyhmac\pyhmac_python.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha1.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha1_context.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha224.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha224_context.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha256.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha256_context.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha512.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyhmac\pyhmac_sha512_context.h"
 				>
 			</File>
 			<File
