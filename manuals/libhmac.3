@@ -1,4 +1,4 @@
-.Dd February  5, 2023
+.Dd April  7, 2023
 .Dt libhmac 3
 .Os libhmac
 .Sh NAME
@@ -55,7 +55,7 @@ SHA1 functions
 .Ft int
 .Fn libhmac_sha1_calculate_hmac "const uint8_t *key" "size_t key_size" "const uint8_t *buffer" "size_t size" "uint8_t *hmac" "size_t hmac_size" "libhmac_error_t **error"
 .Pp
-SHA-224 functions
+SHA-224 context functions
 .Ft int
 .Fn libhmac_sha224_context_initialize "libhmac_sha224_context_t **context" "libhmac_error_t **error"
 .Ft int

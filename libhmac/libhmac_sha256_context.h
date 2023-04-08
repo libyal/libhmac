@@ -48,6 +48,8 @@ extern "C" {
 
 #endif
 
+#define LIBHMAC_SHA256_BLOCK_SIZE	64
+
 typedef struct libhmac_internal_sha256_context libhmac_internal_sha256_context_t;
 
 struct libhmac_internal_sha256_context
@@ -81,7 +83,7 @@ struct libhmac_internal_sha256_context
 
 	/* The (data) block
 	 */
-	uint8_t block[ 128 ];
+	uint8_t block[ 2 * LIBHMAC_SHA256_BLOCK_SIZE ];
 
 #endif /* defined( HAVE_LIBCRYPTO ) && defined( HAVE_OPENSSL_SHA_H ) && defined( SHA256_DIGEST_LENGTH ) */
 };

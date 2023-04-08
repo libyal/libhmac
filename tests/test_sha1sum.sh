@@ -1,7 +1,7 @@
 #!/bin/bash
 # Sum tool testing script
 #
-# Version: 20200821
+# Version: 20230408
 
 EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
@@ -21,10 +21,12 @@ test_callback()
 	shift 5;
 	local ARGUMENTS=("$@");
 
-	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" "-d sha1" "${INPUT_FILE}" > ${TMPDIR}/hmacsum;
+	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" "${INPUT_FILE}" -dsha1 > ${TMPDIR}/hmacsum;
 	local RESULT=$?;
 
 	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA1" | sed 's/^[^:]*[:][\t][\t]*//'`;
+
+	cp ${TMPDIR}/hmacsum /tmp/
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
@@ -34,7 +36,7 @@ test_callback()
 		else
 			VERIFICATION_DIGEST_HASH=`sha1sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
-		if test ${DIGEST_HASH} != ${VERIFICATION_DIGEST_HASH};
+		if test "${DIGEST_HASH}" != "${VERIFICATION_DIGEST_HASH}";
 		then
 			RESULT=${EXIT_FAILURE};
 		fi

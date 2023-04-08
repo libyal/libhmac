@@ -39,8 +39,6 @@
 
 #if !defined( LIBHMAC_HAVE_SHA256_SUPPORT )
 
-#define LIBHMAC_SHA256_BLOCK_SIZE	64
-
 /* FIPS 180-2 based SHA-256 functions
  */
 
@@ -889,6 +887,17 @@ int libhmac_sha256_context_update(
 	}
 	if( internal_context->block_offset > 0 )
 	{
+		if( internal_context->block_offset >= LIBHMAC_SHA256_BLOCK_SIZE )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid context - block offset value out of bounds.",
+			 function );
+
+			return( -1 );
+		}
 		remaining_block_size = LIBHMAC_SHA256_BLOCK_SIZE - internal_context->block_offset;
 
 		if( remaining_block_size > size )
