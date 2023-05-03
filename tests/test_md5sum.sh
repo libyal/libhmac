@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Sum tool testing script
 #
-# Version: 20230408
+# Version: 20230410
 
 EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
