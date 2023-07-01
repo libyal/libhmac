@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Sum tool testing script
 #
-# Version: 20230410
+# Version: 20230701
 
 EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
@@ -24,7 +24,8 @@ test_callback()
 	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" "${INPUT_FILE}" -dsha1 > ${TMPDIR}/hmacsum;
 	local RESULT=$?;
 
-	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA1" | sed 's/^[^:]*[:][\t][\t]*//'`;
+	# Note that the $'' string notation is needed for Mac OS to correctly interpret the tabs.
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA1" | sed $'s/^[^:]*[:][\t][\t]*//'`;
 
 	cp ${TMPDIR}/hmacsum /tmp/
 
@@ -32,7 +33,7 @@ test_callback()
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`openssl sha1 ${INPUT_FILE} | sed 's/^[^=]*=//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha1 ${INPUT_FILE} | sed 's/^[^=]*= //'`;
 		else
 			VERIFICATION_DIGEST_HASH=`sha1sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi

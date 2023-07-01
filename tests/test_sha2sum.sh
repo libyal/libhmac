@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Sum tool testing script
 #
-# Version: 20230410
+# Version: 20230701
 
 EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
@@ -24,13 +24,14 @@ test_callback()
 	run_test_with_input_and_arguments "${TEST_EXECUTABLE}" "${INPUT_FILE}" -dsha224,sha256,sha512 > ${TMPDIR}/hmacsum;
 	local RESULT=$?;
 
-	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA224" | sed 's/^[^:]*[:][\t][\t]*//'`;
+	# Note that the $'' string notation is needed for Mac OS to correctly interpret the tabs.
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA224" | sed $'s/^[^:]*[:][\t][\t]*//'`;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`openssl sha224 ${INPUT_FILE} | sed 's/^[^=]*=//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha224 ${INPUT_FILE} | sed 's/^[^=]*= //'`;
 		else
 			VERIFICATION_DIGEST_HASH=`sha224sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
@@ -40,13 +41,14 @@ test_callback()
 		fi
 	fi
 
-	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA256" | sed 's/^[^:]*[:][\t][\t]*//'`;
+	# Note that the $'' string notation is needed for Mac OS to correctly interpret the tabs.
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA256" | sed $'s/^[^:]*[:][\t][\t]*//'`;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`openssl sha256 ${INPUT_FILE} | sed 's/^[^=]*=//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha256 ${INPUT_FILE} | sed 's/^[^=]*= //'`;
 		else
 			VERIFICATION_DIGEST_HASH=`sha256sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
@@ -56,13 +58,14 @@ test_callback()
 		fi
 	fi
 
-	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA512" | sed 's/^[^:]*[:][\t][\t]*//'`;
+	# Note that the $'' string notation is needed for Mac OS to correctly interpret the tabs.
+	DIGEST_HASH=`cat ${TMPDIR}/hmacsum | grep "SHA512" | sed $'s/^[^:]*[:][\t][\t]*//'`;
 
 	if test ${RESULT} -eq ${EXIT_SUCCESS};
 	then
 		if test "${PLATFORM}" = "Darwin";
 		then
-			VERIFICATION_DIGEST_HASH=`openssl sha512 ${INPUT_FILE} | sed 's/^[^=]*=//'`;
+			VERIFICATION_DIGEST_HASH=`openssl sha512 ${INPUT_FILE} | sed 's/^[^=]*= //'`;
 		else
 			VERIFICATION_DIGEST_HASH=`sha512sum ${INPUT_FILE} | sed 's/[ ][ ]*[^ ][^ ]*$//'`;
 		fi
