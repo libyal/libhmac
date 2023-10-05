@@ -1088,24 +1088,14 @@ int libhmac_md5_context_finalize(
 
 		return( -1 );
 	}
-	if( hash_size > (size_t) UINT_MAX )
+	if( ( hash_size < (size_t) LIBHMAC_MD5_HASH_SIZE )
+	 || ( hash_size > (size_t) UINT_MAX ) )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid hash size value exceeds maximum.",
-		 function );
-
-		return( -1 );
-	}
-	if( hash_size < (size_t) LIBHMAC_MD5_HASH_SIZE )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: invalid hash size value too small.",
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid hash size value out of bounds.",
 		 function );
 
 		return( -1 );
