@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Sum tool testing script
 #
-# Version: 20231001
+# Version: 20231007
 
 EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
@@ -199,7 +199,7 @@ do
 
 					IFS=" " read -a OPTIONS <<< $(read_test_data_option_file "${TEST_SET_DIRECTORY}" "${INPUT_FILE}" "${OPTION_SET}");
 
-					run_test_on_input_file "${TEST_SET_DIRECTORY}" "hmacsum" "with_stdout_reference" "${OPTION_SET}" "${TEST_EXECUTABLE}" "${INPUT_FILE}" "${PROFILE_OPTIONS[@]}" "${OPTIONS[@]}";
+					run_test_on_input_file "${TEST_SET_DIRECTORY}" "hmacsum" "with_callback" "${OPTION_SET}" "${TEST_EXECUTABLE}" "${INPUT_FILE}" "${PROFILE_OPTIONS[@]}" "${OPTIONS[@]}";
 					RESULT=$?;
 
 					if test ${RESULT} -ne ${EXIT_SUCCESS};
@@ -211,7 +211,7 @@ do
 
 			if test ${TESTED_WITH_OPTIONS} -eq 0;
 			then
-				run_test_on_input_file "${TEST_SET_DIRECTORY}" "hmacsum" "with_stdout_reference" "" "${TEST_EXECUTABLE}" "${INPUT_FILE}" "${PROFILE_OPTIONS[@]}";
+				run_test_on_input_file "${TEST_SET_DIRECTORY}" "hmacsum" "with_callback" "" "${TEST_EXECUTABLE}" "${INPUT_FILE}" "${PROFILE_OPTIONS[@]}";
 				RESULT=$?;
 			fi
 

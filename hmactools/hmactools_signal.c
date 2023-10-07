@@ -40,7 +40,7 @@ void (*hmactools_signal_signal_handler)( hmactools_signal_t ) = NULL;
 /* Signal handler for Ctrl+C or Ctrl+Break signals
  */
 BOOL WINAPI hmactools_signal_handler(
-             unsigned long signal )
+             hmactools_signal_t signal )
 {
 	static char *function = "hmactools_signal_handler";
 
@@ -112,7 +112,7 @@ int hmactools_signal_attach(
 	hmactools_signal_signal_handler = signal_handler;
 
 	if( SetConsoleCtrlHandler(
-	     hmactools_signal_handler,
+	     (PHANDLER_ROUTINE) hmactools_signal_handler,
 	     TRUE ) == 0 )
 	{
 		libcerror_error_set(
@@ -179,7 +179,7 @@ int hmactools_signal_detach(
 	static char *function = "hmactools_signal_detach";
 
 	if( SetConsoleCtrlHandler(
-	     hmactools_signal_handler,
+	     (PHANDLER_ROUTINE) hmactools_signal_handler,
 	     FALSE ) == 0 )
 	{
 		libcerror_error_set(
