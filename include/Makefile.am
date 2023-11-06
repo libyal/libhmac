@@ -18,9 +18,9 @@ MAINTAINERCLEANFILES = \
 	Makefile.in
 
 distclean: clean
-	/bin/rm -f libhmac.h
-	/bin/rm -f libhmac/definitions.h
-	/bin/rm -f libhmac/features.h
-	/bin/rm -f libhmac/types.h
-	/bin/rm -f Makefile
+	-rm -f libhmac.h
+	-rm -f libhmac/definitions.h
+	-rm -f libhmac/features.h
+	-rm -f libhmac/types.h
+	-rm -f Makefile
 
