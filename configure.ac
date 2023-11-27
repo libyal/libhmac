@@ -2,7 +2,7 @@ AC_PREREQ([2.71])
 
 AC_INIT(
  [libhmac],
- [20231106],
+ [20231127],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -77,7 +77,7 @@ dnl Check if libhmac Python bindings (pyhmac) required headers and functions are
 AX_PYTHON_CHECK_ENABLE
 
 AS_IF(
-  [test "x${ac_cv_enable_python}" != xno || test "x${ac_cv_enable_python2}" != xno || test "x${ac_cv_enable_python3}" != xno],
+  [test "x${ac_cv_enable_python}" != xno],
   [dnl Headers included in pyhmac/pyhmac_error.c
   AC_CHECK_HEADERS([stdarg.h varargs.h])
 
@@ -153,8 +153,6 @@ AC_CONFIG_FILES([libcerror/Makefile])
 AC_CONFIG_FILES([libcthreads/Makefile])
 AC_CONFIG_FILES([libhmac/Makefile])
 AC_CONFIG_FILES([pyhmac/Makefile])
-AC_CONFIG_FILES([pyhmac-python2/Makefile])
-AC_CONFIG_FILES([pyhmac-python3/Makefile])
 AC_CONFIG_FILES([libclocale/Makefile])
 AC_CONFIG_FILES([libcnotify/Makefile])
 AC_CONFIG_FILES([libcsplit/Makefile])

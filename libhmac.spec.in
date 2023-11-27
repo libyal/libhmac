@@ -32,7 +32,7 @@ Header files and libraries for developing applications for libhmac.
 Summary: Python 3 bindings for libhmac
 Group: System Environment/Libraries
 Requires: libhmac = %{version}-%{release} python3
-BuildRequires: python3-devel
+BuildRequires: python3-devel python3-setuptools
 
 %description -n libhmac-python3
 Python 3 bindings for libhmac
@@ -50,7 +50,7 @@ Several tools for calculating Hash-based Message Authentication Codes (HMAC)
 %setup -q
 
 %build
-%configure --prefix=/usr --libdir=%{_libdir} --mandir=%{_mandir} --enable-python3
+%configure --prefix=/usr --libdir=%{_libdir} --mandir=%{_mandir} --enable-python
 make %{?_smp_mflags}
 
 %install

@@ -14,8 +14,6 @@ SUBDIRS = \
 	libcpath \
 	hmactools \
 	pyhmac \
-	pyhmac-python2 \
-	pyhmac-python3 \
 	po \
 	manuals \
 	tests \
