@@ -1,6 +1,6 @@
 AM_CPPFLAGS = \
-	-I$(top_srcdir)/include \
-	-I$(top_srcdir)/common \
+	-I../include -I$(top_srcdir)/include \
+	-I../common -I$(top_srcdir)/common \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCRYPTO_CPPFLAGS@ \
 	@PTHREAD_CPPFLAGS@ \
@@ -42,13 +42,11 @@ EXTRA_DIST = \
 	libhmac.rc \
 	libhmac.rc.in
 
-MAINTAINERCLEANFILES = \
+DISTCLEANFILES = \
+	libhmac_definitions.h \
+	libhmac.rc \
+	Makefile \
 	Makefile.in
-
-distclean: clean
-	-rm -f libhmac_definitions.h
-	-rm -f libhmac.rc
-	-rm -f Makefile
 
 sources-local: $(BUILT_SOURCES)
 

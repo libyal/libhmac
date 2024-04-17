@@ -1,7 +1,7 @@
 if HAVE_LIB_FUZZING_ENGINE
 AM_CPPFLAGS = \
-	-I$(top_srcdir)/include \
-	-I$(top_srcdir)/common
+	-I../include -I$(top_srcdir)/include \
+	-I../common -I$(top_srcdir)/common
 
 bin_PROGRAMS = \
 	md5_context_fuzzer \
@@ -51,11 +51,9 @@ sha512_context_fuzzer_LDADD = \
 	../libhmac/libhmac.la
 endif
 
-MAINTAINERCLEANFILES = \
+DISTCLEANFILES = \
+	Makefile \
 	Makefile.in
-
-distclean: clean
-	-rm -f Makefile
 
 splint-local:
 	@echo "Running splint on md5_context_fuzzer ..."

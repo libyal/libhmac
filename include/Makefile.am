@@ -14,13 +14,11 @@ EXTRA_DIST = \
 	libhmac/features.h.in \
 	libhmac/types.h.in
 
-MAINTAINERCLEANFILES = \
+DISTCLEANFILES = \
+	libhmac.h \
+	libhmac/definitions.h \
+	libhmac/features.h \
+	libhmac/types.h \
+	Makefile \
 	Makefile.in
-
-distclean: clean
-	-rm -f libhmac.h
-	-rm -f libhmac/definitions.h
-	-rm -f libhmac/features.h
-	-rm -f libhmac/types.h
-	-rm -f Makefile
 

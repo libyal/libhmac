@@ -6,9 +6,7 @@ EXTRA_DIST = \
 	hmacsum.1 \
 	libhmac.3
 
-MAINTAINERCLEANFILES = \
+DISTCLEANFILES = \
+	Makefile \
 	Makefile.in
-
-distclean: clean
-	-rm -f Makefile
 
