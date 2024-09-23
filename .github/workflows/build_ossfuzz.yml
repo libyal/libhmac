@@ -30,6 +30,6 @@ jobs:
         head -n 20 projects/libyal/Dockerfile > projects/libhmac/Dockerfile
         echo "RUN git clone --depth 1 https://github.com/libyal/libhmac.git libhmac" >> projects/libhmac/Dockerfile
         tail -n 3 projects/libyal/Dockerfile >> projects/libhmac/Dockerfile
-        python3 infra/helper.py build_image --pull libhmac 
+        python3 infra/helper.py build_image --pull libhmac
         python3 infra/helper.py build_fuzzers --sanitizer address libhmac
         python3 infra/helper.py check_build libhmac
