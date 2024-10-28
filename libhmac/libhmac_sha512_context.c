@@ -1267,11 +1267,11 @@ int libhmac_sha512_context_finalize(
 
 		return( -1 );
 	}
-	/* Add padding with a size of 120 mod 128
+	/* Add padding with a size of 112 mod 128
 	 */
 	number_of_blocks = 1;
 
-	if( internal_context->block_offset > 119 )
+	if( internal_context->block_offset > 111 )
 	{
 		number_of_blocks += 1;
 	}
