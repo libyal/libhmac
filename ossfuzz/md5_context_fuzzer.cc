@@ -1,7 +1,7 @@
 /*
  * OSS-Fuzz target for libhmac MD5 context type
  *
- * Copyright (C) 2011-2025, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2026, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
