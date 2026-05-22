@@ -31,14 +31,17 @@
  */
 #if defined( LIBHMAC_DLL_EXPORT )
 #define LIBHMAC_EXTERN __declspec(dllexport)
+#define LIBHMAC_EXTERN_VARIABLE extern __declspec(dllexport)
 
 #elif defined( LIBHMAC_DLL_IMPORT )
-#define LIBHMAC_EXTERN extern __declspec(dllimport)
+#define LIBHMAC_EXTERN __declspec(dllimport)
+#define LIBHMAC_EXTERN_VARIABLE extern __declspec(dllimport)
 
 #else
 #define LIBHMAC_EXTERN extern
+#define LIBHMAC_EXTERN_VARIABLE extern
 
-#endif
+#endif /* defined( LIBHMAC_DLL_EXPORT ) */
 
 #endif /* !defined( _LIBHMAC_EXTERN_H ) */
 
