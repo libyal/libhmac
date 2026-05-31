@@ -257,9 +257,11 @@ int main( int argc, char * const argv[] )
 
 			goto on_error;
 		}
-		else if( ( result == 0 )
-		      || ( hmacsum_sum_handle->process_buffer_size > (size_t) SSIZE_MAX ) )
+		else if( result == 0 )
 		{
+#if defined( __clang_analyzer__ )
+			__builtin_assume( hmacsum_sum_handle != NULL );
+#endif
 			hmacsum_sum_handle->process_buffer_size = 32768;
 
 			fprintf(
