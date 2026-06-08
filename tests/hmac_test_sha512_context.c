@@ -766,7 +766,7 @@ int hmac_test_sha512_context_update(
 	libcerror_error_free(
 	 &error );
 
-	if( maximum_size > 0 ) 
+	if( maximum_size > 0 )
 	{
 		result = libhmac_sha512_context_update(
 		          context,

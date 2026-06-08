@@ -242,6 +242,9 @@ int main( int argc, char * const argv[] )
 
 		goto on_error;
 	}
+#if defined( __clang_analyzer__ )
+	__builtin_assume( hmacsum_sum_handle != NULL );
+#endif
 	if( option_process_buffer_size != NULL )
 	{
 		result = sum_handle_set_process_buffer_size(
@@ -259,9 +262,6 @@ int main( int argc, char * const argv[] )
 		}
 		else if( result == 0 )
 		{
-#if defined( __clang_analyzer__ )
-			__builtin_assume( hmacsum_sum_handle != NULL );
-#endif
 			hmacsum_sum_handle->process_buffer_size = 32768;
 
 			fprintf(

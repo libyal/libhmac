@@ -24,6 +24,19 @@
 
 #include <common.h>
 
+#if !defined( __CYGWIN__ ) && !defined( _WIN32 ) && defined( __has_attribute )
+#if __has_attribute( visibility )
+#define LIBHMAC_INTERNAL	__attribute__((visibility("hidden"))) extern
+
+#else
+#define LIBHMAC_INTERNAL	extern
+
+#endif /* __has_attribute( visibility ) */
+#else
+#define LIBHMAC_INTERNAL	extern
+
+#endif /* !defined( __CYGWIN__ ) && !defined( _WIN32 ) && defined( __has_attribute ) */
+
 /* Define HAVE_LOCAL_LIBHMAC for local use of libhmac
  */
 #if !defined( HAVE_LOCAL_LIBHMAC )
@@ -32,7 +45,7 @@
 
 #else
 #define LIBHMAC_EXTERN		/* extern */
-#define LIBHMAC_EXTERN_VARIABLE	extern
+#define LIBHMAC_EXTERN_VARIABLE	LIBHMAC_INTERNAL
 
 #endif /* !defined( HAVE_LOCAL_LIBHMAC ) */
 
