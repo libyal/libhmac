@@ -44,14 +44,14 @@
 
 /* The first 64-bits of the fractional parts of the square roots of the first 8 primes [ 2, 19 ]
  */
-uint64_t libhmac_sha512_context_prime_square_roots[ 8 ] = {
+static uint64_t libhmac_sha512_context_prime_square_roots[ 8 ] = {
 	0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1,
         0x510e527fade682d1, 0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179
 };
 
 /* The first 64-bits of the fractional parts of the cube roots of the first 80 primes [ 2, 409 ]
  */
-uint64_t libhmac_sha512_context_prime_cube_roots[ 80 ] = {
+static uint64_t libhmac_sha512_context_prime_cube_roots[ 80 ] = {
 	0x428a2f98d728ae22,  0x7137449123ef65cd, 0xb5c0fbcfec4d3b2f,  0xe9b5dba58189dbbc,
 	0x3956c25bf348b538,  0x59f111f1b605d019, 0x923f82a4af194f9b,  0xab1c5ed5da6d8118,
 	0xd807aa98a3030242,  0x12835b0145706fbe, 0x243185be4ee4b28c,  0x550c7dc3d5ffb4e2,

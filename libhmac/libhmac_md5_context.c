@@ -45,13 +45,13 @@
 
 /* TODO decription what these values are based on
  */
-uint32_t libhmac_md5_context_fixed_constants[ 4 ] = {
+static uint32_t libhmac_md5_context_fixed_constants[ 4 ] = {
 	0x67452301UL, 0xefcdab89UL, 0x98badcfeUL, 0x10325476UL
 };
 
 /* The first 32-bits of the sines (in radians) of the first 64 integers [ 0, 63 ]
  */
-uint32_t libhmac_md5_context_sines[ 64 ] = {
+static uint32_t libhmac_md5_context_sines[ 64 ] = {
 	0xd76aa478UL, 0xe8c7b756UL, 0x242070dbUL, 0xc1bdceeeUL,
 	0xf57c0fafUL, 0x4787c62aUL, 0xa8304613UL, 0xfd469501UL,
 	0x698098d8UL, 0x8b44f7afUL, 0xffff5bb1UL, 0x895cd7beUL,
@@ -72,12 +72,14 @@ uint32_t libhmac_md5_context_sines[ 64 ] = {
 
 /* The bit shifts
  */
-uint8_t libhmac_md5_context_bit_shifts[ 64 ] = {
+static uint8_t libhmac_md5_context_bit_shifts[ 64 ] = {
 	7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
 	5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
 	4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
 	6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21
 };
+
+#if !defined( LIBHMAC_UNFOLLED_LOOPS )
 
 /* The 32-bit values indexes
  * [  0, 15 ] => index
@@ -85,12 +87,14 @@ uint8_t libhmac_md5_context_bit_shifts[ 64 ] = {
  * [ 32, 47 ] => ( ( 3 x index ) + 5 ) mod 16
  * [ 48, 63 ] => ( 7 x index ) mod 16
  */
-uint8_t libhmac_md5_context_values_32bit_index[ 64 ] = {
+static uint8_t libhmac_md5_context_values_32bit_index[ 64 ] = {
 	0, 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
 	1, 6, 11,  0,  5, 10, 15,  4,  9, 14,  3,  8, 13,  2,  7, 12,
 	5, 8, 11, 14,  1,  4,  7, 10, 13,  0,  3,  6,  9, 12, 15,  2,
 	0, 7, 14,  5, 12,  3, 10,  1,  8, 15,  6, 13,  4, 11,  2,  9
 };
+
+#endif /* !defined( LIBHMAC_UNFOLLED_LOOPS ) */
 
 #define libhmac_md5_context_transform_unfolded_calculate_hash_value_round1( values_32bit, value_32bit_index, hash_values, hash_value_index0, hash_value_index1, hash_value_index2, hash_value_index3, block_index ) \
 	hash_values[ hash_value_index0 ] += ( hash_values[ hash_value_index1 ] & hash_values[ hash_value_index2 ] ) \

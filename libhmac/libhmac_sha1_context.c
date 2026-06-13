@@ -44,7 +44,7 @@
 
 /* TODO decription what these values are based on
  */
-uint32_t libhmac_sha1_context_fixed_constants[ 5 ] = {
+static uint32_t libhmac_sha1_context_fixed_constants[ 5 ] = {
 	0x67452301UL, 0xefcdab89UL, 0x98badcfeUL, 0x10325476UL, 0xc3d2e1f0UL
 };
 
