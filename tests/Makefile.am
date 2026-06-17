@@ -10,12 +10,10 @@ check_PYTHONdir = $(abs_top_builddir)
 
 BUILT_SOURCES = package.m4
 
-TESTS = \
-	$(check_SCRIPTS)
-
 check_AUTOTESTS = \
 	test_library \
-	test_manpages
+	test_manpages \
+	test_tools
 
 if HAVE_PYTHON_TESTS
 check_AUTOTESTS += test_python_module
@@ -31,11 +29,6 @@ input_FILES = \
 	input/public/test6 \
 	input/public/test7 \
 	input/public/test8
-
-check_SCRIPTS = \
-	test_md5sum.sh \
-	test_sha1sum.sh \
-	test_sha2sum.sh
 
 check_PYTHON_SCRIPTS = \
 	pyhmac_test_support.py
@@ -230,25 +223,41 @@ package.m4: $(top_srcdir)/configure.ac
 	  echo 'm4_define([AT_PACKAGE_BUGREPORT], [$(PACKAGE_BUGREPORT)])' ; \
 	} > $@
 
-test_library: package.m4 test_library.at test_macros.at
+test_inputs_hmacsum.at: generate_test_inputs.sh
+	$(SHELL) $(srcdir)/generate_test_inputs.sh $(PACKAGE_NAME) hmacsum
 
-test_manpages: package.m4 test_manpages.at
+test_library: \
+	package.m4 \
+	test_library.at \
+	test_macros.at
 
-test_python_module: package.m4 test_python_module.at
+test_manpages: \
+	package.m4 \
+	test_manpages.at
+
+test_python_module: \
+	package.m4 \
+	test_python_module.at
+
+test_tools: \
+	package.m4 \
+	test_inputs_hmacsum.at \
+	test_macros.at \
+	test_tools.at
 
 EXTRA_DIST = \
 	$(check_AUTOTESTS:=.at) \
-	$(check_SCRIPTS) \
 	$(check_PYTHON_SCRIPTS) \
 	$(input_FILES) \
+	generate_test_inputs.sh \
 	package.m4 \
-	test_macros.at \
-	test_runner.sh
+	test_macros.at
 
 CLEANFILES = \
 	$(check_AUTOTESTS) \
 	*.exe \
-	*.tmp
+	*.tmp \
+	test_inputs_*.at
 
 DISTCLEANFILES = \
 	*.log \

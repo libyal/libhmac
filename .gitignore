@@ -148,8 +148,9 @@ stamp-h[1-9]
 /tests/hmac_test_sha512
 /tests/hmac_test_sha512_context
 /tests/hmac_test_support
-/tests/input
+/tests/input/.hmacsum/public
 /tests/package.m4
+/tests/test_inputs_*.at
 /tests/test_library
 /tests/test_manpages
 /tests/test_python_module
