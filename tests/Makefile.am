@@ -6,8 +6,6 @@ AM_CPPFLAGS = \
 	@PTHREAD_CPPFLAGS@ \
 	@LIBHMAC_DLL_IMPORT@
 
-check_PYTHONdir = $(abs_top_builddir)
-
 BUILT_SOURCES = package.m4
 
 check_AUTOTESTS = \
@@ -30,7 +28,7 @@ input_FILES = \
 	input/public/test7 \
 	input/public/test8
 
-check_PYTHON_SCRIPTS = \
+check_SCRIPTS = \
 	pyhmac_test_support.py
 
 check_PROGRAMS = \
@@ -247,7 +245,7 @@ test_tools: \
 
 EXTRA_DIST = \
 	$(check_AUTOTESTS:=.at) \
-	$(check_PYTHON_SCRIPTS) \
+	$(check_SCRIPTS) \
 	$(input_FILES) \
 	generate_test_inputs.sh \
 	package.m4 \
