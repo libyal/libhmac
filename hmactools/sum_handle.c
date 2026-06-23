@@ -367,7 +367,7 @@ int sum_handle_open_input(
 }
 
 /* Closes the sum handle
- * Returns the 0 if succesful or -1 on error
+ * Returns the 0 if successful or -1 on error
  */
 int sum_handle_close(
      sum_handle_t *sum_handle,
