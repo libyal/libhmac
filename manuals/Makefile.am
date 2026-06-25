@@ -3,8 +3,7 @@ man_MANS = \
 	libhmac.3
 
 EXTRA_DIST = \
-	hmacsum.1 \
-	libhmac.3
+	$(man_MANS)
 
 DISTCLEANFILES = \
 	Makefile \
