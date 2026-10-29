@@ -4,17 +4,38 @@ AM_CPPFLAGS = \
 	-I../common -I$(top_srcdir)/common
 
 bin_PROGRAMS = \
+	md5_calculate_hmac_fuzzer \
 	md5_context_fuzzer \
+	sha1_calculate_hmac_fuzzer \
 	sha1_context_fuzzer \
+	sha224_calculate_hmac_fuzzer \
 	sha224_context_fuzzer \
+	sha256_calculate_hmac_fuzzer \
 	sha256_context_fuzzer \
+	sha512_calculate_hmac_fuzzer \
 	sha512_context_fuzzer
+
+md5_calculate_hmac_fuzzer_SOURCES = \
+	md5_calculate_hmac_fuzzer.cc \
+	ossfuzz_libhmac.h
+
+md5_calculate_hmac_fuzzer_LDADD = \
+	@LIB_FUZZING_ENGINE@ \
+	../libhmac/libhmac.la
 
 md5_context_fuzzer_SOURCES = \
 	md5_context_fuzzer.cc \
 	ossfuzz_libhmac.h
 
 md5_context_fuzzer_LDADD = \
+	@LIB_FUZZING_ENGINE@ \
+	../libhmac/libhmac.la
+
+sha1_calculate_hmac_fuzzer_SOURCES = \
+	sha1_calculate_hmac_fuzzer.cc \
+	ossfuzz_libhmac.h
+
+sha1_calculate_hmac_fuzzer_LDADD = \
 	@LIB_FUZZING_ENGINE@ \
 	../libhmac/libhmac.la
 
@@ -26,6 +47,14 @@ sha1_context_fuzzer_LDADD = \
 	@LIB_FUZZING_ENGINE@ \
 	../libhmac/libhmac.la
 
+sha224_calculate_hmac_fuzzer_SOURCES = \
+	sha224_calculate_hmac_fuzzer.cc \
+	ossfuzz_libhmac.h
+
+sha224_calculate_hmac_fuzzer_LDADD = \
+	@LIB_FUZZING_ENGINE@ \
+	../libhmac/libhmac.la
+
 sha224_context_fuzzer_SOURCES = \
 	sha224_context_fuzzer.cc \
 	ossfuzz_libhmac.h
@@ -34,11 +63,27 @@ sha224_context_fuzzer_LDADD = \
 	@LIB_FUZZING_ENGINE@ \
 	../libhmac/libhmac.la
 
+sha256_calculate_hmac_fuzzer_SOURCES = \
+	sha256_calculate_hmac_fuzzer.cc \
+	ossfuzz_libhmac.h
+
+sha256_calculate_hmac_fuzzer_LDADD = \
+	@LIB_FUZZING_ENGINE@ \
+	../libhmac/libhmac.la
+
 sha256_context_fuzzer_SOURCES = \
 	sha256_context_fuzzer.cc \
 	ossfuzz_libhmac.h
 
 sha256_context_fuzzer_LDADD = \
+	@LIB_FUZZING_ENGINE@ \
+	../libhmac/libhmac.la
+
+sha512_calculate_hmac_fuzzer_SOURCES = \
+	sha512_calculate_hmac_fuzzer.cc \
+	ossfuzz_libhmac.h
+
+sha512_calculate_hmac_fuzzer_LDADD = \
 	@LIB_FUZZING_ENGINE@ \
 	../libhmac/libhmac.la
 
@@ -56,14 +101,24 @@ DISTCLEANFILES = \
 	Makefile.in
 
 splint-local:
+	@echo "Running splint on md5_calculate_hmac_fuzzer ..."
+	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(md5_calculate_hmac_fuzzer_SOURCES)
 	@echo "Running splint on md5_context_fuzzer ..."
 	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(md5_context_fuzzer_SOURCES)
+	@echo "Running splint on sha1_calculate_hmac_fuzzer ..."
+	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(sha1_calculate_hmac_fuzzer_SOURCES)
 	@echo "Running splint on sha1_context_fuzzer ..."
 	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(sha1_context_fuzzer_SOURCES)
+	@echo "Running splint on sha224_calculate_hmac_fuzzer ..."
+	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(sha224_calculate_hmac_fuzzer_SOURCES)
 	@echo "Running splint on sha224_context_fuzzer ..."
 	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(sha224_context_fuzzer_SOURCES)
+	@echo "Running splint on sha256_calculate_hmac_fuzzer ..."
+	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(sha256_calculate_hmac_fuzzer_SOURCES)
 	@echo "Running splint on sha256_context_fuzzer ..."
 	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(sha256_context_fuzzer_SOURCES)
+	@echo "Running splint on sha512_calculate_hmac_fuzzer ..."
+	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(sha512_calculate_hmac_fuzzer_SOURCES)
 	@echo "Running splint on sha512_context_fuzzer ..."
 	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(sha512_context_fuzzer_SOURCES)
 

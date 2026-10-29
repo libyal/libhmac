@@ -2,7 +2,7 @@ AC_PREREQ([2.71])
 
 AC_INIT(
   [libhmac],
-  [20261009],
+  [20261029],
   [https://github.com/libyal/libhmac/issues])
 
 AC_CONFIG_SRCDIR(
